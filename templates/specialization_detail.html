@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ specialization.title }} | CarePlus Hospital</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f6f9fb;
+            color: #24323d;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        nav {
+            height: 76px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            border-bottom: 1px solid #e8eef2;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #0f766e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            font-weight: 700;
+            box-shadow: 0 5px 14px rgba(15, 118, 110, 0.20);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: #17323b;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #52636d;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #0f766e;
+        }
+
+        .login-btn {
+            padding: 10px 20px;
+            border: 1px solid #0f766e;
+            border-radius: 7px;
+            color: #0f766e !important;
+        }
+
+        .login-btn:hover {
+            background: #0f766e;
+            color: white !important;
+        }
+
+        .register-btn {
+            padding: 10px 20px;
+            border-radius: 7px;
+            background: #0f766e;
+            color: white !important;
+        }
+
+        .register-btn:hover {
+            background: #0b625c;
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .specialization-hero {
+            position: relative;
+            height: 455px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            background: #12383c;
+        }
+
+        .hero-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            animation: heroZoom 14s ease-out forwards;
+        }
+
+        @keyframes heroZoom {
+            from {
+                transform: scale(1.04);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(5, 32, 37, 0.90) 0%,
+                    rgba(5, 32, 37, 0.72) 38%,
+                    rgba(5, 32, 37, 0.34) 72%,
+                    rgba(5, 32, 37, 0.22) 100%
+                );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 86%;
+            max-width: 1180px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.72);
+            margin-bottom: 22px;
+        }
+
+        .breadcrumb a {
+            color: rgba(255, 255, 255, 0.78);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: white;
+        }
+
+        .breadcrumb span {
+            opacity: 0.6;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 13px;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            background: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(8px);
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .hero-tag-dot {
+            width: 7px;
+            height: 7px;
+            background: #55d6c8;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(85, 214, 200, 0.8);
+        }
+
+        .hero-content h1 {
+            font-size: 54px;
+            line-height: 1.08;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            margin-bottom: 17px;
+        }
+
+        .hero-content p {
+            max-width: 660px;
+            font-size: 17px;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .hero-line {
+            width: 62px;
+            height: 3px;
+            background: #52cfc1;
+            border-radius: 10px;
+            margin-top: 25px;
+        }
+
+        /* =========================================================
+           MAIN CONTENT
+        ========================================================= */
+
+        .main-content {
+            width: 86%;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 70px 0 80px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 34px;
+            gap: 30px;
+        }
+
+        .section-heading {
+            max-width: 700px;
+        }
+
+        .section-label {
+            color: #0f766e;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .section-heading h2 {
+            font-size: 31px;
+            color: #19323b;
+            letter-spacing: -0.6px;
+            margin-bottom: 8px;
+        }
+
+        .section-heading p {
+            color: #71808a;
+            font-size: 14px;
+        }
+
+        .doctor-count {
+            white-space: nowrap;
+            padding: 9px 15px;
+            background: #edf8f7;
+            color: #0f766e;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           DOCTOR GRID
+        ========================================================= */
+
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .doctor-card {
+            background: #ffffff;
+            border: 1px solid #e7edef;
+            border-radius: 14px;
+            overflow: hidden;
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            border-color: #c8e5e2;
+            box-shadow: 0 14px 35px rgba(24, 55, 65, 0.10);
+        }
+
+        .doctor-image-wrapper {
+            height: 235px;
+            background: linear-gradient(
+                135deg,
+                #e8f4f3,
+                #dcefee
+            );
+            position: relative;
+            overflow: hidden;
+        }
+
+        .doctor-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease;
+        }
+
+        .doctor-card:hover .doctor-image {
+            transform: scale(1.035);
+        }
+
+        .doctor-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0f766e;
+            font-size: 65px;
+            background:
+                radial-gradient(
+                    circle at center,
+                    #f4fbfa 0%,
+                    #dcefed 100%
+                );
+        }
+
+        .availability {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.94);
+            color: #16805f;
+            font-size: 11px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .doctor-info {
+            padding: 23px 22px 22px;
+        }
+
+        .doctor-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #19323b;
+            margin-bottom: 4px;
+        }
+
+        .doctor-specialization {
+            color: #0f766e;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 17px;
+        }
+
+        .doctor-details {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #edf1f3;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 13px;
+            color: #687982;
+        }
+
+        .detail-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: #eef8f7;
+            color: #0f766e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .doctor-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding-top: 17px;
+        }
+
+        .fee {
+            font-size: 16px;
+            font-weight: 700;
+            color: #243a43;
+        }
+
+        .fee span {
+            display: block;
+            color: #8a989f;
+            font-size: 10px;
+            font-weight: 500;
+            margin-top: 1px;
+        }
+
+        .book-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border-radius: 7px;
+            background: #0f766e;
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .book-btn:hover {
+            background: #0b625c;
+            transform: translateY(-1px);
+        }
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+        .empty-state {
+            background: white;
+            border: 1px solid #e6edef;
+            border-radius: 14px;
+            padding: 55px 25px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            color: #253b44;
+            font-size: 20px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            color: #78878e;
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+            background: #102f35;
+            color: white;
+            padding: 52px 7% 25px;
+        }
+
+        .footer-content {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 50px;
+        }
+
+        .footer-brand {
+            max-width: 330px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 17px;
+        }
+
+        .footer-logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            background: #0f766e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .footer-logo span {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .footer-brand p {
+            color: #b5c6ca;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .footer-column h4 {
+            font-size: 13px;
+            letter-spacing: 0.4px;
+            margin-bottom: 17px;
+        }
+
+        .footer-column a {
+            display: block;
+            text-decoration: none;
+            color: #b5c6ca;
+            font-size: 13px;
+            margin-bottom: 10px;
+            transition: 0.2s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1180px;
+            margin: 38px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
+            text-align: center;
+            color: #91a9ae;
+            font-size: 11px;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .doctor-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            nav {
+                padding: 0 5%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .specialization-hero {
+                height: 400px;
+            }
+
+            .hero-content {
+                width: 90%;
+            }
+
+            .hero-content h1 {
+                font-size: 39px;
+            }
+
+            .hero-content p {
+                font-size: 15px;
+            }
+
+            .main-content {
+                width: 90%;
+                padding: 50px 0 60px;
+            }
+
+            .section-header {
+                display: block;
+            }
+
+            .doctor-count {
+                display: inline-block;
+                margin-top: 15px;
+            }
+
+            .doctor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+
+    <nav>
+
+        <a href="{% url 'home' %}" class="logo">
+
+            <div class="logo-icon">
+                +
+            </div>
+
+            <div class="logo-text">
+                CarePlus Hospital
+            </div>
+
+        </a>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'about' %}">
+                About
+            </a>
+
+            <a href="{% url 'home' %}#specializations">
+                Doctors
+            </a>
+
+            <a href="{% url 'home' %}#services">
+                Services
+            </a>
+
+            <a href="{% url 'home' %}#contact">
+                Contact
+            </a>
+
+            <a href="{% url 'login' %}" class="login-btn">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}" class="register-btn">
+                Register
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================================
+         SPECIALIZATION HERO
+    ========================================================= -->
+
+    <section class="specialization-hero">
+
+        <img
+            src="{{ specialization.image }}"
+            alt="{{ specialization.title }}"
+            class="hero-image"
+        >
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <div class="breadcrumb">
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <span>›</span>
+
+                <span>
+                    Specializations
+                </span>
+
+                <span>›</span>
+
+                <span>
+                    {{ specialization.title }}
+                </span>
+
+            </div>
+
+
+            <div class="hero-tag">
+
+                <span class="hero-tag-dot"></span>
+
+                Specialist Care
+
+            </div>
+
+
+            <h1>
+                {{ specialization.title }}
+            </h1>
+
+
+            <p>
+                {{ specialization.description }}
+            </p>
+
+
+            <div class="hero-line"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================= -->
+
+    <main class="main-content">
+
+        <div class="section-header">
+
+            <div class="section-heading">
+
+                <div class="section-label">
+                    Our Specialists
+                </div>
+
+                <h2>
+                    Meet Our {{ specialization.title }} Doctors
+                </h2>
+
+                <p>
+                    Experienced medical professionals dedicated to
+                    providing personalized and quality patient care.
+                </p>
+
+            </div>
+
+
+            {% if doctors %}
+
+                <div class="doctor-count">
+                    {{ doctors|length }}
+                    Specialist{{ doctors|length|pluralize }}
+                    Available
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        {% if doctors %}
+
+            <div class="doctor-grid">
+
+                {% for doctor in doctors %}
+
+                    <div class="doctor-card">
+
+                        <!-- DOCTOR IMAGE -->
+
+                        <div class="doctor-image-wrapper">
+
+                            {% if doctor.profile_pic %}
+
+                                <img
+                                    src="{{ doctor.profile_pic.url }}"
+                                    alt="Dr. {{ doctor.user.get_full_name }}"
+                                    class="doctor-image"
+                                >
+
+                            {% else %}
+
+                                <div class="doctor-placeholder">
+                                    👨‍⚕️
+                                </div>
+
+                            {% endif %}
+
+
+                            {% if doctor.is_available %}
+
+                                <div class="availability">
+                                    ● Available
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- DOCTOR INFORMATION -->
+
+                        <div class="doctor-info">
+
+                            <div class="doctor-name">
+
+                                Dr.
+                                {{ doctor.user.get_full_name|default:doctor.user.username }}
+
+                            </div>
+
+
+                            <div class="doctor-specialization">
+
+                                {{ doctor.get_specialization_display }}
+
+                            </div>
+
+
+                            <div class="doctor-details">
+
+                                {% if doctor.qualification %}
+
+                                    <div class="detail-row">
+
+                                        <div class="detail-icon">
+                                            🎓
+                                        </div>
+
+                                        <span>
+                                            {{ doctor.qualification }}
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                <div class="detail-row">
+
+                                    <div class="detail-icon">
+                                        ✦
+                                    </div>
+
+                                    <span>
+                                        {{ doctor.experience }}
+                                        year{{ doctor.experience|pluralize }}
+                                        experience
+                                    </span>
+
+                                </div>
+
+
+                                {% if doctor.rating %}
+
+                                    <div class="detail-row">
+
+                                        <div class="detail-icon">
+                                            ★
+                                        </div>
+
+                                        <span>
+                                            {{ doctor.rating }}/5.0
+                                            patient rating
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+
+                                {% if doctor.available_days %}
+
+                                    <div class="detail-row">
+
+                                        <div class="detail-icon">
+                                            ◷
+                                        </div>
+
+                                        <span>
+                                            {{ doctor.available_days }}
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="doctor-bottom">
+
+                                <div class="fee">
+
+                                    ₹{{ doctor.consultation_fee }}
+
+                                    <span>
+                                        Consultation fee
+                                    </span>
+
+                                </div>
+
+
+                                {% url 'book_appointment' as booking_url %}
+
+{% if user.is_authenticated %}
+
+    <a
+        href="{{ booking_url }}?doctor={{ doctor.id }}"
+        class="book-btn"
+    >
+        Book Appointment
+    </a>
+
+{% else %}
+
+    <a
+        href="{% url 'login' %}?next={{ booking_url }}?doctor={{ doctor.id }}"
+        class="book-btn"
+    >
+        Book Appointment
+    </a>
+
+{% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🩺
+                </div>
+
+                <h3>
+                    No Specialists Available
+                </h3>
+
+                <p>
+                    There are currently no available doctors in
+                    {{ specialization.title }}.
+                    Please check back later.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+
+    <footer>
+
+        <div class="footer-content">
+
+
+            <div class="footer-brand">
+
+                <div class="footer-logo">
+
+                    <div class="footer-logo-icon">
+                        +
+                    </div>
+
+                    <span>
+                        CarePlus Hospital
+                    </span>
+
+                </div>
+
+                <p>
+                    Providing trusted healthcare through experienced
+                    professionals, modern facilities and
+                    patient-centered services.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Quick Links
+                </h4>
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'about' %}">
+                    About Us
+                </a>
+
+                <a href="{% url 'home' %}#specializations">
+                    Specializations
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Patient Care
+                </h4>
+
+                <a href="{% url 'login' %}">
+                    Book Appointment
+                </a>
+
+                <a href="{% url 'login' %}">
+                    Patient Login
+                </a>
+
+                <a href="{% url 'register' %}">
+                    Create Account
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Contact
+                </h4>
+
+                <a href="#">
+                    Emergency: 24/7
+                </a>
+
+                <a href="#">
+                    +91 98765 43210
+                </a>
+
+                <a href="#">
+                    care@careplus.com
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            © 2026 CarePlus Hospital. All rights reserved.
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

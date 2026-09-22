@@ -1,0 +1,2598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Book Appointment - CarePlus Hospital</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f8fb;
+            color: #263238;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+            background: #0b3d4f;
+            color: white;
+            padding: 18px 45px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .navbar-right {
+            font-size: 13px;
+            opacity: 0.82;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .container {
+            max-width: 1050px;
+            margin: 42px auto;
+            padding: 0 22px;
+        }
+
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 8px;
+            color: #0b3d4f;
+            font-size: 31px;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: #71818a;
+            font-size: 15px;
+        }
+
+
+        /* =====================================================
+           MAIN BOOKING PANEL
+        ===================================================== */
+
+        .booking-panel {
+            background: white;
+            border: 1px solid #e0eaee;
+            border-radius: 17px;
+            padding: 30px;
+
+            box-shadow:
+                0 7px 25px rgba(11, 61, 79, 0.07);
+        }
+
+
+        /* =====================================================
+           SPECIALIZATION
+        ===================================================== */
+
+        .selection-label {
+            display: block;
+            margin-bottom: 9px;
+
+            font-size: 14px;
+            font-weight: bold;
+            color: #344850;
+        }
+
+
+        .select-box {
+            width: 100%;
+            padding: 14px 15px;
+
+            border: 1px solid #ccd9de;
+            border-radius: 9px;
+
+            background: white;
+            color: #263238;
+
+            font-size: 15px;
+            cursor: pointer;
+            outline: none;
+        }
+
+
+        .select-box:focus {
+            border-color: #0b708c;
+
+            box-shadow:
+                0 0 0 3px rgba(11, 112, 140, 0.10);
+        }
+
+
+        .doctor-selection {
+            margin-top: 22px;
+        }
+
+
+        /* =====================================================
+           DOCTOR CARD
+        ===================================================== */
+
+        .doctor-card {
+            margin-top: 30px;
+
+            border-radius: 17px;
+            overflow: hidden;
+
+            border: 1px solid #dce7eb;
+
+            background: white;
+
+            box-shadow:
+                0 8px 25px rgba(11, 61, 79, 0.08);
+        }
+
+
+        .doctor-top {
+            padding: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #edf7f9,
+                    #f8fbfc
+                );
+
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+
+        .doctor-photo {
+            width: 135px;
+            height: 135px;
+
+            object-fit: cover;
+
+            border-radius: 16px;
+
+            border: 4px solid white;
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.12);
+
+            flex-shrink: 0;
+        }
+
+
+        .doctor-placeholder {
+            width: 135px;
+            height: 135px;
+
+            border-radius: 16px;
+
+            background: #dcebef;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 54px;
+
+            border: 4px solid white;
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.08);
+
+            flex-shrink: 0;
+        }
+
+
+        .doctor-introduction {
+            flex: 1;
+        }
+
+
+        .doctor-name {
+            margin: 0 0 7px;
+
+            font-size: 26px;
+            color: #0b3d4f;
+        }
+
+
+        .doctor-specialization {
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            background: #d9edf2;
+            color: #0b5d72;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            margin-bottom: 12px;
+        }
+
+
+        .doctor-rating {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            font-size: 14px;
+            color: #62747c;
+        }
+
+
+        .stars {
+            color: #e4a400;
+            font-size: 18px;
+        }
+
+
+        /* =====================================================
+           DOCTOR DETAILS
+        ===================================================== */
+
+        .doctor-details {
+            padding: 28px;
+        }
+
+
+        .details-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 15px;
+        }
+
+
+        .detail-box {
+            background: #f7fafb;
+
+            border: 1px solid #e6eef1;
+
+            border-radius: 11px;
+
+            padding: 17px;
+        }
+
+
+        .detail-title {
+            color: #84949a;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.6px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .detail-value {
+            color: #29434d;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            line-height: 1.5;
+        }
+
+
+        .fee {
+            color: #08718e;
+            font-size: 20px;
+        }
+
+
+        .available {
+            color: #218838;
+        }
+
+
+        /* =====================================================
+           CONTINUE
+        ===================================================== */
+
+        .doctor-footer {
+            margin-top: 25px;
+
+            padding-top: 22px;
+
+            border-top: 1px solid #e5edef;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .doctor-footer-text {
+            color: #71818a;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        .continue-button {
+            border: none;
+
+            background: #0b3d4f;
+
+            color: white;
+
+            padding: 13px 25px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            white-space: nowrap;
+        }
+
+
+        .continue-button:hover {
+            background: #075066;
+        }
+
+
+        /* =====================================================
+           SCHEDULE SECTION
+        ===================================================== */
+
+        .schedule-section {
+            margin-top: 30px;
+
+            padding-top: 30px;
+
+            border-top: 1px solid #e1eaed;
+        }
+
+
+        .schedule-header h2 {
+            margin: 0 0 7px;
+
+            color: #0b3d4f;
+
+            font-size: 22px;
+        }
+
+
+        .schedule-header p {
+            margin: 0;
+
+            color: #71818a;
+
+            font-size: 14px;
+        }
+
+
+        .schedule-box {
+            margin-top: 23px;
+
+            background: #f8fbfc;
+
+            border: 1px solid #e1eaed;
+
+            border-radius: 13px;
+
+            padding: 22px;
+        }
+
+
+        /* =====================================================
+           DATE
+        ===================================================== */
+
+        .date-label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #344850;
+        }
+
+
+        #appointment_date {
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #ccd9de;
+
+            border-radius: 9px;
+
+            background: white;
+
+            font-size: 15px;
+
+            color: #263238;
+
+            outline: none;
+        }
+
+
+        #appointment_date:focus {
+            border-color: #0b708c;
+        }
+
+
+        .date-message {
+            display: none;
+
+            margin-top: 12px;
+
+            padding: 12px 14px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        .date-message.error {
+            display: block;
+
+            background: #fff2f2;
+
+            border: 1px solid #f0cccc;
+
+            color: #a33a3a;
+        }
+
+
+        .date-message.success {
+            display: block;
+
+            background: #effaf2;
+
+            border: 1px solid #cce8d2;
+
+            color: #26743a;
+        }
+
+
+        /* =====================================================
+           TIME SLOTS
+        ===================================================== */
+
+        .time-section {
+            margin-top: 25px;
+        }
+
+
+        .time-section h3 {
+            margin: 0 0 5px;
+
+            color: #0b3d4f;
+
+            font-size: 17px;
+        }
+
+
+        .time-description {
+            margin: 0 0 17px;
+
+            color: #7a8b92;
+
+            font-size: 13px;
+        }
+
+
+        .time-slots {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 10px;
+        }
+
+
+        .time-slot {
+            border: 1px solid #cbdde3;
+
+            background: white;
+
+            color: #31515d;
+
+            padding: 12px 8px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: 0.15s;
+        }
+
+
+        .time-slot:hover {
+            border-color: #0b708c;
+
+            color: #0b5d72;
+
+            background: #f0f8fa;
+        }
+
+
+        .time-slot.selected {
+            background: #0b3d4f;
+
+            color: white;
+
+            border-color: #0b3d4f;
+        }
+
+
+        .no-slots {
+            grid-column: 1 / -1;
+
+            padding: 15px;
+
+            text-align: center;
+
+            color: #7a8b92;
+
+            background: white;
+
+            border: 1px dashed #ccd9de;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           BOOKING SUMMARY
+        ===================================================== */
+
+        .booking-summary {
+            display: none;
+
+            margin-top: 25px;
+
+            background: white;
+
+            border: 1px solid #dbe7eb;
+
+            border-radius: 12px;
+
+            padding: 20px;
+        }
+
+
+        .booking-summary.visible {
+            display: block;
+        }
+
+
+        .summary-title {
+            margin: 0 0 15px;
+
+            color: #0b3d4f;
+
+            font-size: 17px;
+        }
+
+
+        .summary-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 9px 0;
+
+            border-bottom: 1px solid #edf1f3;
+
+            font-size: 14px;
+        }
+
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .summary-label {
+            color: #778990;
+        }
+
+
+        .summary-value {
+            color: #29434d;
+
+            font-weight: bold;
+
+            text-align: right;
+        }
+
+
+        .confirm-button {
+            width: 100%;
+
+            margin-top: 18px;
+
+            border: none;
+
+            background: #0b3d4f;
+
+            color: white;
+
+            padding: 14px;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .confirm-button:hover {
+            background: #075066;
+        }
+
+
+        /* =====================================================
+           CONFIRMATION POPUP
+        ===================================================== */
+
+        .modal-overlay {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(11, 35, 44, 0.58);
+
+            z-index: 1000;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+
+        .confirmation-modal {
+            width: 100%;
+
+            max-width: 500px;
+
+            background: white;
+
+            border-radius: 17px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.20);
+
+            animation: modalAppear 0.18s ease-out;
+        }
+
+
+        @keyframes modalAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+        }
+
+
+        .modal-icon {
+            width: 55px;
+            height: 55px;
+
+            border-radius: 50%;
+
+            background: #e9f6ee;
+
+            color: #248044;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .confirmation-modal h2 {
+            margin: 0 0 7px;
+
+            color: #0b3d4f;
+
+            font-size: 23px;
+        }
+
+
+        .modal-description {
+            margin: 0 0 20px;
+
+            color: #71818a;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        .patient-card {
+            background: #f7fafb;
+
+            border: 1px solid #e0eaed;
+
+            border-radius: 11px;
+
+            padding: 17px;
+        }
+
+
+        .patient-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 8px 0;
+
+            font-size: 14px;
+        }
+
+
+        .patient-row span:first-child {
+            color: #7b8c93;
+        }
+
+
+        .patient-row strong {
+            color: #29434d;
+
+            text-align: right;
+        }
+
+
+        .pending-status {
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            background: #fff4d8;
+
+            color: #946600;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        .modal-actions {
+            margin-top: 22px;
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        .modal-cancel {
+            flex: 1;
+
+            border: 1px solid #ccd9de;
+
+            background: white;
+
+            color: #51656d;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        .modal-confirm {
+            flex: 1;
+
+            border: none;
+
+            background: #0b3d4f;
+
+            color: white;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           ERROR MESSAGE
+        ===================================================== */
+
+        .server-message {
+            margin-top: 20px;
+
+            padding: 13px 16px;
+
+            background: #fff2f2;
+
+            border: 1px solid #efcccc;
+
+            color: #a33a3a;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           BACK
+        ===================================================== */
+
+        .back-link {
+            display: inline-block;
+
+            margin-top: 23px;
+
+            color: #0b3d4f;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           HIDDEN
+        ===================================================== */
+
+        .hidden {
+            display: none !important;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 17px 22px;
+            }
+
+            .navbar-right {
+                display: none;
+            }
+
+            .container {
+                margin: 28px auto;
+                padding: 0 14px;
+            }
+
+            .page-heading h1 {
+                font-size: 27px;
+            }
+
+            .booking-panel {
+                padding: 20px;
+            }
+
+            .doctor-top {
+                flex-direction: column;
+
+                text-align: center;
+
+                padding: 25px 20px;
+            }
+
+            .doctor-photo,
+            .doctor-placeholder {
+                width: 120px;
+                height: 120px;
+            }
+
+            .doctor-rating {
+                justify-content: center;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .doctor-footer {
+                flex-direction: column;
+
+                align-items: stretch;
+
+                text-align: center;
+            }
+
+            .continue-button {
+                width: 100%;
+            }
+
+            .time-slots {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+
+        @media (max-width: 430px) {
+
+            .booking-panel {
+                padding: 17px;
+            }
+
+            .doctor-details {
+                padding: 18px;
+            }
+
+            .doctor-name {
+                font-size: 22px;
+            }
+
+            .time-slots {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .confirmation-modal {
+                padding: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <div class="navbar">
+
+        <h2>
+            CarePlus Hospital
+        </h2>
+
+        <div class="navbar-right">
+            Patient Appointment Portal
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <div class="container">
+
+
+        <div class="page-heading">
+
+            <h1>
+                Book an Appointment
+            </h1>
+
+            <p>
+                Choose a specialization, select your doctor,
+                and schedule your consultation.
+            </p>
+
+        </div>
+
+
+        <div class="booking-panel">
+
+
+            <!-- =================================================
+                 SPECIALIZATION
+            ================================================== -->
+
+            <form
+                method="POST"
+                id="specializationForm"
+            >
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="specialization"
+                    id="specializationHidden"
+                >
+
+
+                <label
+                    class="selection-label"
+                    for="specialization"
+                >
+                    Medical Specialization
+                </label>
+
+
+                <select 
+    class="select-box" 
+    id="specialization"
+    onchange="selectSpecialization(this)"
+>
+
+    <option value="">
+        Select a specialization
+    </option>
+
+    {% for value, label in specializations %}
+
+        <option 
+            value="{{ value }}"
+            {% if specialization == value %}
+                selected
+            {% endif %}
+        >
+            {{ label }}
+        </option>
+
+    {% endfor %}
+
+</select>
+
+            </form>
+
+
+            <!-- =================================================
+                 DOCTOR DROPDOWN
+            ================================================== -->
+
+            {% if doctors %}
+
+                <div class="doctor-selection">
+
+                    <form
+                        method="POST"
+                        id="doctorForm"
+                    >
+
+                        {% csrf_token %}
+
+
+                        <input
+                            type="hidden"
+                            name="specialization"
+                            value="{{ request.POST.specialization }}"
+                        >
+
+
+                        <label
+                            class="selection-label"
+                            for="doctor"
+                        >
+                            Select Doctor
+                        </label>
+
+
+                        <select
+                            class="select-box"
+                            name="doctor"
+                            id="doctor"
+                            onchange="selectDoctor(this)"
+                            required
+                        >
+
+                            <option value="">
+                                Select a doctor
+                            </option>
+
+
+                            {% for doctor in doctors %}
+
+                                <option
+                                    value="{{ doctor.id }}"
+                                >
+
+                                    Dr.
+                                    {{ doctor.user.get_full_name }}
+
+                                    —
+
+                                    {{ doctor.get_specialization_display }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </form>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 DOCTOR CARD
+            ================================================== -->
+
+            {% if selected_doctor %}
+
+                <div
+                    class="doctor-card"
+                    id="doctorCard"
+                >
+
+
+                    <!-- DOCTOR HEADER -->
+
+                    <div class="doctor-top">
+
+
+                        {% if selected_doctor.profile_pic %}
+
+                            <img
+                                src="{{ selected_doctor.profile_pic.url }}"
+                                class="doctor-photo"
+                                alt="Dr. {{ selected_doctor.user.get_full_name }}"
+                            >
+
+                        {% else %}
+
+                            <div class="doctor-placeholder">
+                                👨‍⚕️
+                            </div>
+
+                        {% endif %}
+
+
+                        <div class="doctor-introduction">
+
+
+                            <h2 class="doctor-name">
+
+                                Dr.
+                                {{ selected_doctor.user.get_full_name }}
+
+                            </h2>
+
+
+                            <div class="doctor-specialization">
+
+                                {{ selected_doctor.get_specialization_display }}
+
+                            </div>
+
+
+                            <div class="doctor-rating">
+
+                                <span class="stars">
+                                    ★
+                                </span>
+
+                                <strong>
+                                    {{ selected_doctor.rating }}
+                                </strong>
+
+                                <span>
+                                    Professional Rating
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DOCTOR INFORMATION -->
+
+                    <div class="doctor-details">
+
+
+                        <div class="details-grid">
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-title">
+                                    Qualification
+                                </div>
+
+                                <div class="detail-value">
+                                    {{ selected_doctor.qualification }}
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-title">
+                                    Experience
+                                </div>
+
+                                <div class="detail-value">
+
+                                    {{ selected_doctor.experience }}
+                                    year{{ selected_doctor.experience|pluralize }}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-title">
+                                    Consultation Fee
+                                </div>
+
+                                <div class="detail-value fee">
+
+                                    ₹{{ selected_doctor.consultation_fee }}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-title">
+                                    Available Days
+                                </div>
+
+                                <div
+                                    class="detail-value"
+                                    id="availableDays"
+                                    data-days="{{ selected_doctor.available_days }}"
+                                >
+
+                                    {{ selected_doctor.available_days }}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-title">
+                                    Consultation Hours
+                                </div>
+
+                                <div class="detail-value">
+
+                                    {{ selected_doctor.available_time_start|time:"h:i A" }}
+
+                                    —
+
+                                    {{ selected_doctor.available_time_end|time:"h:i A" }}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-box">
+
+                                <div class="detail-title">
+                                    Availability
+                                </div>
+
+                                <div class="detail-value available">
+
+                                    ● Available for Appointments
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- CONTINUE -->
+
+                        <div class="doctor-footer">
+
+
+                            <div class="doctor-footer-text">
+
+                                Select a date and time that works
+                                best for your consultation.
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="continue-button"
+                                onclick="showSchedule()"
+                            >
+                                Continue
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     SCHEDULE SECTION
+                     HIDDEN UNTIL CONTINUE IS CLICKED
+                ================================================== -->
+
+                <div
+                    class="schedule-section hidden"
+                    id="scheduleSection"
+                >
+
+
+                    <div class="schedule-header">
+
+                        <h2>
+                            Choose Date & Time
+                        </h2>
+
+                        <p>
+                            Select a date when Dr.
+                            {{ selected_doctor.user.get_full_name }}
+                            is available.
+                        </p>
+
+                    </div>
+
+
+                    <div class="schedule-box">
+
+
+                        <!-- DATE -->
+
+                        <label
+                            class="date-label"
+                            for="appointment_date"
+                        >
+                            Appointment Date
+                        </label>
+
+
+                        <input
+                            type="date"
+                            id="appointment_date"
+                            name="appointment_date"
+                        >
+
+
+                        <div
+                            id="dateMessage"
+                            class="date-message"
+                        ></div>
+
+
+                        <!-- TIME -->
+
+                        <div
+                            class="time-section"
+                            id="timeSection"
+                        >
+
+                            <h3>
+                                Available Time Slots
+                            </h3>
+
+                            <p class="time-description">
+                                Select a convenient consultation time.
+                            </p>
+
+
+                            <div
+                                class="time-slots"
+                                id="timeSlots"
+                            >
+
+                                <div class="no-slots">
+
+                                    Select an available date
+                                    to view time slots.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SUMMARY -->
+
+                        <div
+                            class="booking-summary"
+                            id="bookingSummary"
+                        >
+
+                            <h3 class="summary-title">
+                                Appointment Summary
+                            </h3>
+
+
+                            <div class="summary-row">
+
+                                <span class="summary-label">
+                                    Doctor
+                                </span>
+
+                                <span class="summary-value">
+                                    Dr.
+                                    {{ selected_doctor.user.get_full_name }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="summary-row">
+
+                                <span class="summary-label">
+                                    Specialization
+                                </span>
+
+                                <span class="summary-value">
+                                    {{ selected_doctor.get_specialization_display }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="summary-row">
+
+                                <span class="summary-label">
+                                    Date
+                                </span>
+
+                                <span
+                                    class="summary-value"
+                                    id="summaryDate"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+
+                            <div class="summary-row">
+
+                                <span class="summary-label">
+                                    Time
+                                </span>
+
+                                <span
+                                    class="summary-value"
+                                    id="summaryTime"
+                                >
+                                    —
+                                </span>
+
+                            </div>
+
+
+                            <div class="summary-row">
+
+                                <span class="summary-label">
+                                    Consultation Fee
+                                </span>
+
+                                <span class="summary-value">
+
+                                    ₹{{ selected_doctor.consultation_fee }}
+
+                                </span>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="confirm-button"
+                                onclick="openConfirmation()"
+                            >
+                                Review & Confirm Appointment
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 SERVER MESSAGE
+            ================================================== -->
+
+            {% if message %}
+
+                <div class="server-message">
+
+                    {{ message }}
+
+                </div>
+
+            {% endif %}
+
+
+            <a
+                href="{% url 'patient_dashboard' %}"
+                class="back-link"
+            >
+                ← Back to Dashboard
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         CONFIRMATION MODAL
+    ====================================================== -->
+
+    {% if selected_doctor %}
+
+        <div
+            class="modal-overlay"
+            id="confirmationModal"
+        >
+
+
+            <div class="confirmation-modal">
+
+
+                <div class="modal-icon">
+                    ✓
+                </div>
+
+
+                <h2>
+                    Confirm Appointment
+                </h2>
+
+
+                <p class="modal-description">
+
+                    Please review your appointment details.
+                    Your appointment will be submitted with
+                    a <strong>Pending</strong> status.
+
+                </p>
+
+
+                <div class="patient-card">
+
+
+                    <div class="patient-row">
+
+                        <span>
+                            Patient
+                        </span>
+
+                        <strong>
+                            {{ request.user.get_full_name }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="patient-row">
+
+                        <span>
+                            Doctor
+                        </span>
+
+                        <strong>
+
+                            Dr.
+                            {{ selected_doctor.user.get_full_name }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="patient-row">
+
+                        <span>
+                            Specialization
+                        </span>
+
+                        <strong>
+
+                            {{ selected_doctor.get_specialization_display }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="patient-row">
+
+                        <span>
+                            Date
+                        </span>
+
+                        <strong id="modalDate">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="patient-row">
+
+                        <span>
+                            Time
+                        </span>
+
+                        <strong id="modalTime">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="patient-row">
+
+                        <span>
+                            Consultation Fee
+                        </span>
+
+                        <strong>
+
+                            ₹{{ selected_doctor.consultation_fee }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="patient-row">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong>
+
+                            <span class="pending-status">
+                                Pending
+                            </span>
+
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- FINAL BOOKING FORM -->
+
+                <form
+                    method="POST"
+                    id="confirmationForm"
+                >
+
+                    {% csrf_token %}
+
+
+                    <input
+                        type="hidden"
+                        name="doctor"
+                        value="{{ selected_doctor.id }}"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="appointment_date"
+                        id="hiddenAppointmentDate"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="appointment_time"
+                        id="hiddenAppointmentTime"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="action"
+                        value="confirm_booking"
+                    >
+
+
+                    <div class="modal-actions">
+
+
+                        <button
+                            type="button"
+                            class="modal-cancel"
+                            onclick="closeConfirmation()"
+                        >
+                            Go Back
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="modal-confirm"
+                        >
+                            Confirm Appointment
+                        </button>
+
+
+                    </div>
+
+                </form>
+
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+    <script>
+
+        /* =====================================================
+           BASIC DATA FROM DJANGO
+        ===================================================== */
+
+        const availableDaysElement =
+            document.getElementById("availableDays");
+
+
+        let availableDays = [];
+
+
+        if (availableDaysElement) {
+
+            availableDays =
+                availableDaysElement
+                    .dataset
+                    .days
+                    .split(",")
+                    .map(day => day.trim().toUpperCase());
+
+        }
+
+
+        const dayNames = {
+
+            MON: "Monday",
+            TUE: "Tuesday",
+            WED: "Wednesday",
+            THU: "Thursday",
+            FRI: "Friday",
+            SAT: "Saturday",
+            SUN: "Sunday"
+
+        };
+
+
+        /*
+         * Short names used only for displaying
+         * the doctor's available days.
+         */
+
+        const shortDayNames = {
+
+            MON: "Mon",
+            TUE: "Tues",
+            WED: "Wed",
+            THU: "Thur",
+            FRI: "Fri",
+            SAT: "Sat",
+            SUN: "Sun"
+
+        };
+
+
+        const dayNumbers = {
+
+            0: "SUN",
+            1: "MON",
+            2: "TUE",
+            3: "WED",
+            4: "THU",
+            5: "FRI",
+            6: "SAT"
+
+        };
+
+
+        /* =====================================================
+           SPECIALIZATION
+           Automatically submit when selected
+        ===================================================== */
+
+        function selectSpecialization(select) {
+
+            const value = select.value;
+
+            if (!value) {
+                return;
+            }
+
+
+            document.getElementById(
+                "specializationHidden"
+            ).value = value;
+
+
+            document.getElementById(
+                "specializationForm"
+            ).submit();
+
+        }
+
+
+        /* =====================================================
+           DOCTOR
+           Automatically submit when selected
+        ===================================================== */
+
+        function selectDoctor(select) {
+
+            const value = select.value;
+
+            if (!value) {
+                return;
+            }
+
+
+            document.getElementById(
+                "doctorForm"
+            ).submit();
+
+        }
+
+
+        /* =====================================================
+           SHOW SCHEDULE
+           Hidden initially.
+           Appears only after Continue is clicked.
+        ===================================================== */
+
+        function showSchedule() {
+
+            const section =
+                document.getElementById(
+                    "scheduleSection"
+                );
+
+
+            if (!section) {
+                return;
+            }
+
+
+            /*
+             * Remove the hidden class so that
+             * the date and time section becomes visible.
+             */
+
+            section.classList.remove("hidden");
+
+
+            /*
+             * Scroll smoothly to the newly
+             * revealed schedule section.
+             */
+
+            setTimeout(function () {
+
+                section.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            }, 50);
+
+        }
+
+
+        /* =====================================================
+           SET MINIMUM DATE
+        ===================================================== */
+
+        const dateInput =
+            document.getElementById(
+                "appointment_date"
+            );
+
+
+        if (dateInput) {
+
+            const today = new Date();
+
+            const year =
+                today.getFullYear();
+
+            const month =
+                String(
+                    today.getMonth() + 1
+                ).padStart(2, "0");
+
+            const day =
+                String(
+                    today.getDate()
+                ).padStart(2, "0");
+
+
+            dateInput.min =
+                `${year}-${month}-${day}`;
+
+        }
+
+
+        /* =====================================================
+           DATE SELECTION
+        ===================================================== */
+
+        if (dateInput) {
+
+            dateInput.addEventListener(
+                "change",
+                function () {
+
+                    const selectedValue =
+                        this.value;
+
+
+                    if (!selectedValue) {
+                        return;
+                    }
+
+
+                    const selectedDate =
+                        new Date(
+                            selectedValue + "T00:00:00"
+                        );
+
+
+                    const weekdayCode =
+                        dayNumbers[
+                            selectedDate.getDay()
+                        ];
+
+
+                    const dateMessage =
+                        document.getElementById(
+                            "dateMessage"
+                        );
+
+
+                    const timeSlots =
+                        document.getElementById(
+                            "timeSlots"
+                        );
+
+
+                    const summary =
+                        document.getElementById(
+                            "bookingSummary"
+                        );
+
+
+                    /*
+                     * Check whether doctor works
+                     * on selected weekday.
+                     */
+
+                    if (
+                        !availableDays.includes(
+                            weekdayCode
+                        )
+                    ) {
+
+                        dateMessage.className =
+                            "date-message error";
+
+
+                        dateMessage.innerHTML =
+                            "Dr. {{ selected_doctor.user.get_full_name }} " +
+                            "is not available on " +
+                            dayNames[weekdayCode] +
+                            ". Please select another date.";
+
+
+                        timeSlots.innerHTML =
+                            '<div class="no-slots">' +
+                            'No appointment slots are available for this date.' +
+                            '</div>';
+
+
+                        summary.classList.remove(
+                            "visible"
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Valid day
+                     */
+
+                    dateMessage.className =
+                        "date-message success";
+
+
+                    dateMessage.innerHTML =
+                        "Dr. {{ selected_doctor.user.get_full_name }} " +
+                        "is available on " +
+                        dayNames[weekdayCode] +
+                        ".";
+
+
+                    generateTimeSlots();
+
+
+                    summary.classList.remove(
+                        "visible"
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           TIME SLOT GENERATION
+        ===================================================== */
+
+        function generateTimeSlots() {
+
+            const container =
+                document.getElementById(
+                    "timeSlots"
+                );
+
+
+            if (!container) {
+                return;
+            }
+
+
+            container.innerHTML = "";
+
+
+            /*
+             * These values come directly from
+             * the Doctor model.
+             */
+
+            const startTime =
+                "{{ selected_doctor.available_time_start|time:'H:i' }}";
+
+
+            const endTime =
+                "{{ selected_doctor.available_time_end|time:'H:i' }}";
+
+
+            const startParts =
+                startTime.split(":");
+
+
+            const endParts =
+                endTime.split(":");
+
+
+            let currentMinutes =
+                parseInt(startParts[0]) * 60
+                + parseInt(startParts[1]);
+
+
+            const endMinutes =
+                parseInt(endParts[0]) * 60
+                + parseInt(endParts[1]);
+
+
+            /*
+             * Generate 30-minute slots.
+             */
+
+            while (
+                currentMinutes <= endMinutes
+            ) {
+
+                const hours =
+                    Math.floor(
+                        currentMinutes / 60
+                    );
+
+
+                const minutes =
+                    currentMinutes % 60;
+
+
+                const value =
+                    String(hours).padStart(2, "0")
+                    + ":"
+                    + String(minutes).padStart(2, "0");
+
+
+                const displayHours =
+                    hours % 12 || 12;
+
+
+                const ampm =
+                    hours >= 12
+                        ? "PM"
+                        : "AM";
+
+
+                const displayTime =
+                    String(displayHours)
+                    + ":"
+                    + String(minutes).padStart(2, "0")
+                    + " "
+                    + ampm;
+
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.type = "button";
+
+                button.className =
+                    "time-slot";
+
+                button.textContent =
+                    displayTime;
+
+                button.dataset.time =
+                    value;
+
+
+                button.onclick =
+                    function () {
+
+                        document
+                            .querySelectorAll(
+                                ".time-slot"
+                            )
+                            .forEach(
+                                slot =>
+                                    slot.classList.remove(
+                                        "selected"
+                                    )
+                            );
+
+
+                        this.classList.add(
+                            "selected"
+                        );
+
+
+                        selectTime(
+                            value,
+                            displayTime
+                        );
+
+                    };
+
+
+                container.appendChild(
+                    button
+                );
+
+
+                currentMinutes += 30;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           TIME SELECTION
+        ===================================================== */
+
+        function selectTime(
+            timeValue,
+            displayTime
+        ) {
+
+            const summary =
+                document.getElementById(
+                    "bookingSummary"
+                );
+
+
+            const selectedDate =
+                document.getElementById(
+                    "appointment_date"
+                ).value;
+
+
+            if (!selectedDate) {
+                return;
+            }
+
+
+            const dateObject =
+                new Date(
+                    selectedDate + "T00:00:00"
+                );
+
+
+            const formattedDate =
+                dateObject.toLocaleDateString(
+                    "en-IN",
+                    {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                );
+
+
+            document.getElementById(
+                "summaryDate"
+            ).textContent =
+                formattedDate;
+
+
+            document.getElementById(
+                "summaryTime"
+            ).textContent =
+                displayTime;
+
+
+            document.getElementById(
+                "hiddenAppointmentDate"
+            ).value =
+                selectedDate;
+
+
+            document.getElementById(
+                "hiddenAppointmentTime"
+            ).value =
+                timeValue;
+
+
+            summary.classList.add(
+                "visible"
+            );
+
+        }
+
+
+        /* =====================================================
+           CONFIRMATION MODAL
+        ===================================================== */
+
+        function openConfirmation() {
+
+            const selectedDate =
+                document.getElementById(
+                    "appointment_date"
+                ).value;
+
+
+            const selectedTime =
+                document.getElementById(
+                    "hiddenAppointmentTime"
+                ).value;
+
+
+            if (!selectedDate) {
+
+                alert(
+                    "Please select an appointment date."
+                );
+
+                return;
+
+            }
+
+
+            if (!selectedTime) {
+
+                alert(
+                    "Please select an available time slot."
+                );
+
+                return;
+
+            }
+
+
+            const dateObject =
+                new Date(
+                    selectedDate + "T00:00:00"
+                );
+
+
+            const formattedDate =
+                dateObject.toLocaleDateString(
+                    "en-IN",
+                    {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                );
+
+
+            const timeParts =
+                selectedTime.split(":");
+
+
+            let hours =
+                parseInt(timeParts[0]);
+
+
+            const minutes =
+                timeParts[1];
+
+
+            const ampm =
+                hours >= 12
+                    ? "PM"
+                    : "AM";
+
+
+            hours =
+                hours % 12 || 12;
+
+
+            const formattedTime =
+                hours
+                + ":"
+                + minutes
+                + " "
+                + ampm;
+
+
+            document.getElementById(
+                "modalDate"
+            ).textContent =
+                formattedDate;
+
+
+            document.getElementById(
+                "modalTime"
+            ).textContent =
+                formattedTime;
+
+
+            document.getElementById(
+                "confirmationModal"
+            ).classList.add(
+                "show"
+            );
+
+        }
+
+
+        /* =====================================================
+           CLOSE MODAL
+        ===================================================== */
+
+        function closeConfirmation() {
+
+            document.getElementById(
+                "confirmationModal"
+            ).classList.remove(
+                "show"
+            );
+
+        }
+
+
+        /* =====================================================
+           CLOSE MODAL WHEN CLICKING OUTSIDE
+        ===================================================== */
+
+        const modal =
+            document.getElementById(
+                "confirmationModal"
+            );
+
+
+        if (modal) {
+
+            modal.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target === modal
+                    ) {
+
+                        closeConfirmation();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           ESCAPE KEY
+        ===================================================== */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    const modal =
+                        document.getElementById(
+                            "confirmationModal"
+                        );
+
+
+                    if (modal) {
+                        closeConfirmation();
+                    }
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           CONVERT AVAILABLE DAY CODES TO SHORT DISPLAY NAMES
+        ===================================================== */
+
+        if (availableDaysElement) {
+
+            const friendlyDays =
+                availableDays
+                    .map(
+                        day =>
+                            shortDayNames[day] || day
+                    )
+                    .join(" • ");
+
+
+            availableDaysElement.textContent =
+                friendlyDays;
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

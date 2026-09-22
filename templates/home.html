@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CarePlus Hospital</title>
+
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f9fc;
+        color: #1e293b;
+    }
+
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    nav {
+        background: white;
+        padding: 18px 7%;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #087f8c;
+    }
+
+
+    .nav-links {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+    }
+
+
+    .nav-links a {
+        position: relative;
+
+        text-decoration: none;
+
+        color: #334155;
+
+        font-size: 15px;
+
+        transition: color 0.2s ease;
+    }
+
+
+    .nav-links a:hover {
+        color: #087f8c;
+    }
+
+
+    /* ACTIVE NAVIGATION LINK */
+
+    .nav-links a.active {
+        color: #087f8c;
+        font-weight: 700;
+    }
+
+
+    .nav-links a.active::after {
+        content: "";
+
+        position: absolute;
+
+        left: 0;
+        right: 0;
+        bottom: -8px;
+
+        height: 2px;
+
+        background: #087f8c;
+
+        border-radius: 2px;
+    }
+
+
+    .login-btn,
+    .register-btn {
+        padding: 10px 18px;
+        border-radius: 6px;
+        text-decoration: none;
+    }
+
+
+    .login-btn {
+        color: #087f8c !important;
+        border: 1px solid #087f8c;
+    }
+
+
+    .register-btn {
+        background: #087f8c;
+        color: white !important;
+        border: 1px solid #087f8c;
+    }
+
+
+    /* Do not show active underline on buttons */
+
+    .login-btn::after,
+    .register-btn::after {
+        display: none !important;
+    }
+
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+        min-height: 560px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 60px 7%;
+
+        background:
+            linear-gradient(
+                rgba(4, 48, 57, 0.78),
+                rgba(4, 48, 57, 0.78)
+            ),
+            url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d')
+            center/cover;
+    }
+
+
+    .hero-content {
+        max-width: 650px;
+        color: white;
+    }
+
+
+    .hero-content h1 {
+        font-size: 52px;
+        margin-bottom: 20px;
+    }
+
+
+    .hero-content p {
+        font-size: 18px;
+        line-height: 1.7;
+        margin-bottom: 30px;
+    }
+
+
+    .hero-btn {
+        display: inline-block;
+
+        padding: 14px 28px;
+
+        background: #16a6a1;
+
+        color: white;
+
+        text-decoration: none;
+
+        border-radius: 6px;
+
+        font-weight: bold;
+    }
+
+
+    .hero-btn:hover {
+        background: #128f8b;
+    }
+
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        background: white;
+
+        margin: -40px 7% 60px;
+
+        position: relative;
+
+        border-radius: 10px;
+
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+
+    .stat {
+        text-align: center;
+        padding: 30px;
+    }
+
+
+    .stat h2 {
+        color: #087f8c;
+        font-size: 30px;
+    }
+
+
+    .stat p {
+        margin-top: 8px;
+        color: #64748b;
+    }
+
+
+    /* =========================
+       GENERAL SECTION
+    ========================= */
+
+    section {
+        padding: 60px 7%;
+    }
+
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+
+    .section-title h2 {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+
+    .section-title p {
+        color: #64748b;
+    }
+
+
+    /* =========================
+       SPECIALIZATIONS
+    ========================= */
+
+    .departments {
+        display: grid;
+
+        grid-template-columns: repeat(4, 1fr);
+
+        gap: 20px;
+    }
+
+
+    .department-card {
+
+        display: block;
+
+        background: white;
+
+        padding: 30px 20px;
+
+        text-align: center;
+
+        border-radius: 10px;
+
+        box-shadow:
+            0 3px 12px rgba(0,0,0,0.06);
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+
+        text-decoration: none;
+
+        color: inherit;
+    }
+
+
+    .department-card:hover {
+
+        transform: translateY(-3px);
+
+        box-shadow:
+            0 6px 18px rgba(0,0,0,0.09);
+    }
+
+
+    .department-card h3 {
+
+        margin-bottom: 10px;
+
+        color: #087f8c;
+    }
+
+
+    .department-card p {
+
+        color: #64748b;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+    }
+
+
+    /* =========================
+       WHY CHOOSE US
+    ========================= */
+
+    .why-us {
+        background: #eaf7f7;
+    }
+
+
+    .features {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, 1fr);
+
+        gap: 25px;
+    }
+
+
+    .feature {
+
+        text-align: center;
+
+        padding: 25px;
+    }
+
+
+    .feature .icon {
+
+        font-size: 35px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .feature h3 {
+
+        margin-bottom: 10px;
+    }
+
+
+    .feature p {
+
+        color: #64748b;
+
+        line-height: 1.6;
+
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+
+        background: #0f2933;
+
+        color: white;
+
+        padding: 45px 7%;
+    }
+
+
+    .footer-content {
+
+        display: grid;
+
+        grid-template-columns:
+            2fr 1fr 1fr;
+
+        gap: 40px;
+    }
+
+
+    footer h3 {
+
+        margin-bottom: 15px;
+
+        font-size: 16px;
+    }
+
+
+    footer p,
+    footer a {
+
+        color: #cbd5e1;
+
+        line-height: 1.8;
+
+        text-decoration: none;
+
+        font-size: 14px;
+    }
+
+
+    footer a:hover {
+        color: white;
+    }
+
+
+    .copyright {
+
+        text-align: center;
+
+        margin-top: 35px;
+
+        padding-top: 20px;
+
+        border-top:
+            1px solid #334155;
+
+        color: #94a3b8;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+        nav {
+            padding: 16px 5%;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        /* Hide only normal navigation links */
+
+        .nav-links a:not(.login-btn):not(.register-btn) {
+            display: none;
+        }
+
+
+        .login-btn,
+        .register-btn {
+
+            padding: 8px 12px;
+
+            font-size: 13px;
+        }
+
+
+        .hero-content h1 {
+            font-size: 40px;
+        }
+
+
+        .departments,
+        .features {
+
+            grid-template-columns:
+                repeat(2, 1fr);
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        nav {
+
+            min-height: 64px;
+
+            padding: 12px 4%;
+
+            gap: 10px;
+        }
+
+
+        .logo {
+
+            font-size: 19px;
+
+            white-space: nowrap;
+        }
+
+
+        .nav-links {
+
+            gap: 7px;
+
+            margin-left: auto;
+        }
+
+
+        .login-btn,
+        .register-btn {
+
+            padding: 7px 10px;
+
+            font-size: 12px;
+
+            border-radius: 5px;
+
+            white-space: nowrap;
+        }
+
+
+        .hero {
+
+            min-height: 500px;
+
+            padding: 50px 7%;
+        }
+
+
+        .hero-content h1 {
+
+            font-size: 32px;
+        }
+
+
+        .hero-content p {
+
+            font-size: 16px;
+        }
+
+
+        .stats {
+
+            grid-template-columns: 1fr;
+        }
+
+
+        .departments,
+        .features {
+
+            grid-template-columns: 1fr;
+        }
+
+
+        .footer-content {
+
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+
+    @media (max-width: 380px) {
+
+        nav {
+
+            padding: 10px 3%;
+        }
+
+
+        .logo {
+
+            font-size: 17px;
+        }
+
+
+        .nav-links {
+
+            gap: 5px;
+        }
+
+
+        .login-btn,
+        .register-btn {
+
+            padding: 6px 8px;
+
+            font-size: 11px;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================== -->
+
+<nav>
+
+    <div class="logo">
+        CarePlus Hospital
+    </div>
+
+
+    <div class="nav-links">
+
+        <!-- HOME ACTIVE -->
+
+        <a
+            href="{% url 'home' %}"
+            class="active"
+        >
+            Home
+        </a>
+
+
+        <a href="{% url 'about' %}">
+            About
+        </a>
+
+
+        <!-- DOCTORS DIRECTORY -->
+
+        <a href="{% url 'doctors_directory' %}">
+            Doctors
+        </a>
+
+
+        <a href="#">
+            Services
+        </a>
+
+
+        <a href="#">
+            Contact
+        </a>
+
+
+        <a
+            href="{% url 'login' %}"
+            class="login-btn"
+        >
+            Login
+        </a>
+
+
+        <a
+            href="{% url 'register' %}"
+            class="register-btn"
+        >
+            Register
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Your Health,
+            Our Priority
+        </h1>
+
+
+        <p>
+            Providing trusted healthcare with experienced doctors,
+            modern facilities and compassionate care for you and
+            your family.
+        </p>
+
+
+        <a
+            href="{% url 'login' %}"
+            class="hero-btn"
+        >
+            Book Appointment
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     STATS
+========================== -->
+
+<div class="stats">
+
+
+    <div class="stat">
+
+        <h2>
+            50+
+        </h2>
+
+        <p>
+            Experienced Doctors
+        </p>
+
+    </div>
+
+
+    <div class="stat">
+
+        <h2>
+            10,000+
+        </h2>
+
+        <p>
+            Patients Treated
+        </p>
+
+    </div>
+
+
+    <div class="stat">
+
+        <h2>
+            24/7
+        </h2>
+
+        <p>
+            Emergency Care
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SPECIALIZATIONS
+========================== -->
+
+<section>
+
+    <div class="section-title">
+
+        <h2>
+            Our Specializations
+        </h2>
+
+
+        <p>
+            Quality healthcare across multiple medical specialties.
+        </p>
+
+    </div>
+
+
+    <div class="departments">
+
+
+        <!-- CARDIOLOGY -->
+
+        <a
+            href="{% url 'specialization_detail' 'CARDIOLOGY' %}"
+            class="department-card"
+        >
+
+            <h3>
+                Cardiology
+            </h3>
+
+
+            <p>
+                Expert care for heart and cardiovascular conditions.
+            </p>
+
+        </a>
+
+
+        <!-- DERMATOLOGY -->
+
+        <a
+            href="{% url 'specialization_detail' 'DERMATOLOGY' %}"
+            class="department-card"
+        >
+
+            <h3>
+                Dermatology
+            </h3>
+
+
+            <p>
+                Specialized care for skin, hair and nail conditions.
+            </p>
+
+        </a>
+
+
+        <!-- PEDIATRICS -->
+
+        <a
+            href="{% url 'specialization_detail' 'PEDIATRICS' %}"
+            class="department-card"
+        >
+
+            <h3>
+                Pediatrics
+            </h3>
+
+
+            <p>
+                Dedicated healthcare for children and infants.
+            </p>
+
+        </a>
+
+
+        <!-- NEUROLOGY -->
+
+        <a
+            href="{% url 'specialization_detail' 'NEUROLOGY' %}"
+            class="department-card"
+        >
+
+            <h3>
+                Neurology
+            </h3>
+
+
+            <p>
+                Advanced diagnosis and treatment of neurological conditions.
+            </p>
+
+        </a>
+
+
+        <!-- ORTHOPEDICS -->
+
+        <a
+            href="{% url 'specialization_detail' 'ORTHOPEDICS' %}"
+            class="department-card"
+        >
+
+            <h3>
+                Orthopedics
+            </h3>
+
+
+            <p>
+                Comprehensive bone, joint and muscle care.
+            </p>
+
+        </a>
+
+
+        <!-- GYNECOLOGY -->
+
+        <a
+            href="{% url 'specialization_detail' 'GYNECOLOGY' %}"
+            class="department-card"
+        >
+
+            <h3>
+                Gynecology
+            </h3>
+
+
+            <p>
+                Specialized healthcare for women's health.
+            </p>
+
+        </a>
+
+
+        <!-- GENERAL MEDICINE -->
+
+        <a
+            href="{% url 'specialization_detail' 'GENERAL_MEDICINE' %}"
+            class="department-card"
+        >
+
+            <h3>
+                General Medicine
+            </h3>
+
+
+            <p>
+                Complete primary healthcare for everyday medical needs.
+            </p>
+
+        </a>
+
+
+        <!-- ENT -->
+
+        <a
+            href="{% url 'specialization_detail' 'ENT' %}"
+            class="department-card"
+        >
+
+            <h3>
+                ENT
+            </h3>
+
+
+            <p>
+                Diagnosis and treatment of ear, nose and throat conditions.
+            </p>
+
+        </a>
+
+
+        <!-- OPHTHALMOLOGY -->
+
+        <a
+            href="{% url 'specialization_detail' 'OPHTHALMOLOGY' %}"
+            class="department-card"
+        >
+
+            <h3>
+                Ophthalmology
+            </h3>
+
+
+            <p>
+                Comprehensive care for eye health and vision.
+            </p>
+
+        </a>
+
+
+        <!-- DENTISTRY -->
+
+        <a
+            href="{% url 'specialization_detail' 'DENTISTRY' %}"
+            class="department-card"
+        >
+
+            <h3>
+                Dentistry
+            </h3>
+
+
+            <p>
+                Professional oral healthcare and dental treatment.
+            </p>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     WHY CHOOSE US
+========================== -->
+
+<section class="why-us">
+
+
+    <div class="section-title">
+
+        <h2>
+            Why Choose Us?
+        </h2>
+
+
+        <p>
+            Healthcare designed around your needs.
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+
+        <div class="feature">
+
+            <div class="icon">
+                👨‍⚕️
+            </div>
+
+
+            <h3>
+                Experienced Doctors
+            </h3>
+
+
+            <p>
+                Qualified and experienced medical professionals
+                dedicated to your care.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon">
+                🏥
+            </div>
+
+
+            <h3>
+                Modern Facilities
+            </h3>
+
+
+            <p>
+                Modern equipment and facilities for reliable
+                diagnosis and treatment.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon">
+                🛡️
+            </div>
+
+
+            <h3>
+                Insurance Support
+            </h3>
+
+
+            <p>
+                Assistance with insurance and billing services
+                for a smoother experience.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="icon">
+                🚑
+            </div>
+
+
+            <h3>
+                24/7 Emergency
+            </h3>
+
+
+            <p>
+                Emergency healthcare support whenever you need it.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================== -->
+
+<footer>
+
+
+    <div class="footer-content">
+
+
+        <div>
+
+            <h3>
+                CarePlus Hospital
+            </h3>
+
+
+            <p>
+                Providing trusted healthcare with compassion,
+                technology and experienced medical professionals.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Quick Links
+            </h3>
+
+
+            <p>
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+            </p>
+
+
+            <p>
+
+                <a href="{% url 'about' %}">
+                    About
+                </a>
+
+            </p>
+
+
+            <!-- DOCTORS DIRECTORY -->
+
+            <p>
+
+                <a href="{% url 'doctors_directory' %}">
+                    Doctors
+                </a>
+
+            </p>
+
+
+            <p>
+
+                <a href="#">
+                    Services
+                </a>
+
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Contact
+            </h3>
+
+
+            <p>
+                📍 Trivandrum, Kerala
+            </p>
+
+
+            <p>
+                📞 +91 98765 43210
+            </p>
+
+
+            <p>
+                ✉️ info@careplus.com
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 CarePlus Hospital. All rights reserved.
+
+    </div>
+
+
+</footer>
+
+
+</body>
+
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Payment Declined | CarePlus Hospital</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+            padding: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 30px;
+        }
+
+        .logo span {
+            color: #22c55e;
+        }
+
+        .declined-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #fee2e2;
+            color: #dc2626;
+            font-size: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 22px;
+        }
+
+        h1 {
+            color: #b91c1c;
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .details {
+            text-align: left;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .label {
+            color: #64748b;
+        }
+
+        .value {
+            color: #0f172a;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .amount {
+            color: #dc2626;
+        }
+
+        .try-button {
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            background: #16a34a;
+            color: white;
+            padding: 14px;
+            border-radius: 9px;
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .try-button:hover {
+            background: #15803d;
+        }
+
+        .dashboard-button {
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 14px;
+            border-radius: 9px;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .dashboard-button:hover {
+            background: #e2e8f0;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="logo">
+                Care<span>Plus</span>
+            </div>
+
+            <div class="declined-icon">
+                ✕
+            </div>
+
+            <h1>
+                Payment Declined
+            </h1>
+
+            <p class="message">
+
+                Unfortunately, your payment could not be
+                completed.
+
+                <br>
+
+                Your appointment has not been confirmed yet.
+
+            </p>
+
+
+            <div class="details">
+
+                <div class="row">
+
+                    <span class="label">
+                        Doctor
+                    </span>
+
+                    <span class="value">
+                        Dr. {{ payment_failed.doctor_name }}
+                    </span>
+
+                </div>
+
+
+                <div class="row">
+
+                    <span class="label">
+                        Date
+                    </span>
+
+                    <span class="value">
+                        {{ payment_failed.appointment_date }}
+                    </span>
+
+                </div>
+
+
+                <div class="row">
+
+                    <span class="label">
+                        Time
+                    </span>
+
+                    <span class="value">
+                        {{ payment_failed.appointment_time }}
+                    </span>
+
+                </div>
+
+
+                <div class="row">
+
+                    <span class="label">
+                        Payment Method
+                    </span>
+
+                    <span class="value">
+                        {{ payment_failed.payment_method }}
+                    </span>
+
+                </div>
+
+
+                <div class="row">
+
+                    <span class="label">
+                        Amount
+                    </span>
+
+                    <span class="value amount">
+                        ₹{{ payment_failed.consultation_fee }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- TRY AGAIN -->
+
+            <a
+                href="{% url 'pay_bills' %}"
+                class="try-button"
+            >
+                Try Again
+            </a>
+
+
+            <!-- DASHBOARD -->
+
+            <a
+                href="{% url 'patient_dashboard' %}"
+                class="dashboard-button"
+            >
+                Go to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

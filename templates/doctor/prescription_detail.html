@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Prescription | CarePlus Hospital</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    :root {
+        --primary: #1769aa;
+        --primary-dark: #125486;
+        --primary-light: #eef7fd;
+        --text: #172033;
+        --muted: #6b7280;
+        --border: #e5e9ef;
+        --background: #f4f7fa;
+        --white: #ffffff;
+        --success-bg: #ecfdf3;
+        --success-text: #15803d;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--background);
+        color: var(--text);
+        min-height: 100vh;
+    }
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+
+    .navbar {
+        height: 72px;
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 42px;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .brand-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .brand-name {
+        font-size: 20px;
+        font-weight: 700;
+        color: #132238;
+    }
+
+    .brand-subtitle {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 2px;
+    }
+
+    .doctor-profile {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .doctor-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .doctor-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+    }
+
+    .doctor-role {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 3px;
+    }
+
+    /* =====================================================
+       PAGE
+    ===================================================== */
+
+    .page {
+        max-width: 1120px;
+        margin: 34px auto 50px;
+        padding: 0 24px;
+    }
+
+    .page-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 22px;
+    }
+
+    .eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--primary);
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        margin-bottom: 7px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .page-description {
+        margin-top: 6px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        text-decoration: none;
+        color: #374151;
+        background: white;
+        border: 1px solid var(--border);
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .back-link:hover {
+        background: #f9fafb;
+    }
+
+    /* =====================================================
+       MAIN PRESCRIPTION
+    ===================================================== */
+
+    .prescription {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    /* =====================================================
+       PRESCRIPTION HEADER
+    ===================================================== */
+
+    .prescription-header {
+        padding: 27px 32px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .hospital-title {
+        font-size: 21px;
+        font-weight: 700;
+        color: #132238;
+    }
+
+    .hospital-subtitle {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 5px;
+    }
+
+    .document-title {
+        margin-top: 19px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--primary);
+    }
+
+    .document-number {
+        margin-top: 4px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .issued-box {
+        text-align: right;
+    }
+
+    .issued-label {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+    }
+
+    .issued-date {
+        margin-top: 5px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .status {
+        display: inline-flex;
+        margin-top: 10px;
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: var(--success-bg);
+        color: var(--success-text);
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    /* =====================================================
+       CONTENT
+    ===================================================== */
+
+    .content {
+        padding: 30px 32px 32px;
+    }
+
+    .section {
+        margin-bottom: 30px;
+    }
+
+    .section:last-child {
+        margin-bottom: 0;
+    }
+
+    .section-heading {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 14px;
+    }
+
+    .section-marker {
+        width: 4px;
+        height: 19px;
+        border-radius: 4px;
+        background: var(--primary);
+    }
+
+    .section-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #172033;
+    }
+
+    /* =====================================================
+       PATIENT / DOCTOR INFORMATION
+    ===================================================== */
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .info-item {
+        border: 1px solid var(--border);
+        background: #fafbfd;
+        border-radius: 9px;
+        padding: 14px 15px;
+    }
+
+    .info-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        color: var(--muted);
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .info-value {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1f2937;
+        line-height: 1.4;
+    }
+
+    /* =====================================================
+       DIAGNOSIS / NOTES
+    ===================================================== */
+
+    .clinical-box {
+        background: #fafbfd;
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        padding: 16px 17px;
+        color: #374151;
+        font-size: 13px;
+        line-height: 1.65;
+        white-space: pre-line;
+    }
+
+    .empty-text {
+        color: #9ca3af;
+        font-style: italic;
+    }
+
+    /* =====================================================
+       MEDICINES TABLE
+    ===================================================== */
+
+    .medicine-wrapper {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .medicine-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .medicine-table thead {
+        background: #f7f9fb;
+    }
+
+    .medicine-table th {
+        padding: 12px 13px;
+        text-align: left;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.55px;
+        color: #667085;
+        font-weight: 700;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .medicine-table td {
+        padding: 14px 13px;
+        font-size: 12px;
+        color: #374151;
+        border-bottom: 1px solid #edf0f3;
+        vertical-align: top;
+    }
+
+    .medicine-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .medicine-table tbody tr:hover {
+        background: #fcfdff;
+    }
+
+    .medicine-name {
+        font-weight: 700;
+        color: #172033;
+    }
+
+    .medicine-value {
+        color: #4b5563;
+    }
+
+    .no-medicine {
+        padding: 17px;
+        background: #fafbfd;
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+    /* =====================================================
+       DOCTOR SIGNATURE
+    ===================================================== */
+
+    .signature-area {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 34px;
+    }
+
+    .signature {
+        min-width: 220px;
+        text-align: center;
+    }
+
+    .signature-line {
+        height: 1px;
+        background: #d1d5db;
+        margin-bottom: 9px;
+    }
+
+    .signature-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: #172033;
+    }
+
+    .signature-specialization {
+        margin-top: 3px;
+        font-size: 11px;
+        color: var(--muted);
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .document-footer {
+        margin-top: 30px;
+        padding-top: 17px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        font-size: 10px;
+        color: #9ca3af;
+    }
+
+    /* =====================================================
+       ACTIONS
+    ===================================================== */
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 18px;
+    }
+
+    .action-left {
+        display: flex;
+        gap: 10px;
+    }
+
+    .action-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        text-decoration: none;
+        padding: 10px 17px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        border: 1px solid transparent;
+    }
+
+    .dashboard-button {
+        background: white;
+        border-color: var(--border);
+        color: #374151;
+    }
+
+    .dashboard-button:hover {
+        background: #f9fafb;
+    }
+
+    .download-button {
+        background: var(--primary);
+        color: white;
+        padding-left: 19px;
+        padding-right: 19px;
+    }
+
+    .download-button:hover {
+        background: var(--primary-dark);
+    }
+
+    .download-icon {
+        font-size: 15px;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 850px) {
+
+        .info-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .prescription-header {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .issued-box {
+            text-align: left;
+        }
+    }
+
+    @media (max-width: 650px) {
+
+        .navbar {
+            padding: 0 18px;
+        }
+
+        .brand-subtitle,
+        .doctor-role {
+            display: none;
+        }
+
+        .page {
+            margin-top: 24px;
+            padding: 0 14px;
+        }
+
+        .page-header {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .page-title {
+            font-size: 24px;
+        }
+
+        .prescription-header,
+        .content {
+            padding: 22px 18px;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .medicine-wrapper {
+            overflow-x: auto;
+        }
+
+        .medicine-table {
+            min-width: 700px;
+        }
+
+        .actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .action-left {
+            width: 100%;
+        }
+
+        .action-button {
+            flex: 1;
+        }
+
+        .download-button {
+            width: 100%;
+        }
+
+        .document-footer {
+            flex-direction: column;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            +
+        </div>
+
+        <div>
+            <div class="brand-name">
+                CarePlus Hospital
+            </div>
+
+            <div class="brand-subtitle">
+                Healthcare Management System
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="doctor-profile">
+
+        <div class="doctor-avatar">
+            {% if doctor.user.first_name %}
+                {{ doctor.user.first_name|first|upper }}
+            {% else %}
+                D
+            {% endif %}
+        </div>
+
+        <div>
+
+            <div class="doctor-name">
+                Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}
+            </div>
+
+            <div class="doctor-role">
+                Doctor
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     PAGE
+====================================================== -->
+
+<main class="page">
+
+    <div class="page-header">
+
+        <div>
+
+            <div class="eyebrow">
+                Clinical Records
+            </div>
+
+            <h1 class="page-title">
+                Prescription
+            </h1>
+
+            <p class="page-description">
+                Review the prescription issued for this patient.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'doctor_prescriptions' %}"
+            class="back-link"
+        >
+            ← Back to Prescriptions
+        </a>
+
+    </div>
+
+
+    <!-- =================================================
+         PRESCRIPTION DOCUMENT
+    ================================================== -->
+
+    <section class="prescription">
+
+
+        <!-- HEADER -->
+
+        <div class="prescription-header">
+
+            <div>
+
+                <div class="hospital-title">
+                    CarePlus Hospital
+                </div>
+
+                <div class="hospital-subtitle">
+                    Trusted healthcare and patient management
+                </div>
+
+                <div class="document-title">
+                    Medical Prescription
+                </div>
+
+                <div class="document-number">
+                    Prescription #{{ prescription.id }}
+                </div>
+
+            </div>
+
+
+            <div class="issued-box">
+
+                <div class="issued-label">
+                    Issued On
+                </div>
+
+                <div class="issued-date">
+                    {{ prescription.created_at|date:"d M Y, h:i A" }}
+                </div>
+
+                <div class="status">
+                    Issued
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="content">
+
+
+            <!-- =================================================
+                 PATIENT & APPOINTMENT
+            ================================================== -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <div class="section-marker"></div>
+
+                    <h2 class="section-title">
+                        Patient & Appointment
+                    </h2>
+
+                </div>
+
+
+                <div class="info-grid">
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Patient
+                        </div>
+
+                        <div class="info-value">
+                            {{ prescription.appointment.patient.user.get_full_name|default:prescription.appointment.patient.user.username }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Doctor
+                        </div>
+
+                        <div class="info-value">
+                            Dr. {{ prescription.appointment.doctor.user.get_full_name|default:prescription.appointment.doctor.user.username }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Specialization
+                        </div>
+
+                        <div class="info-value">
+                            {{ prescription.appointment.doctor.get_specialization_display }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Appointment Date
+                        </div>
+
+                        <div class="info-value">
+                            {{ prescription.appointment.appointment_date|date:"d M Y" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Appointment Time
+                        </div>
+
+                        <div class="info-value">
+                            {{ prescription.appointment.appointment_time|time:"h:i A" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+                            Prescription Date
+                        </div>
+
+                        <div class="info-value">
+                            {{ prescription.created_at|date:"d M Y" }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 DIAGNOSIS
+            ================================================== -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <div class="section-marker"></div>
+
+                    <h2 class="section-title">
+                        Diagnosis
+                    </h2>
+
+                </div>
+
+
+                <div class="clinical-box">
+
+                    {% if prescription.diagnosis %}
+                        {{ prescription.diagnosis }}
+                    {% else %}
+                        <span class="empty-text">
+                            No diagnosis provided.
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 MEDICINES
+            ================================================== -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <div class="section-marker"></div>
+
+                    <h2 class="section-title">
+                        Prescribed Medicines
+                    </h2>
+
+                </div>
+
+
+                {% if prescription.medicines.all %}
+
+                    <div class="medicine-wrapper">
+
+                        <table class="medicine-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Medicine</th>
+                                    <th>Dosage</th>
+                                    <th>Frequency</th>
+                                    <th>Duration</th>
+                                    <th>Instructions</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for medicine in prescription.medicines.all %}
+
+                                    <tr>
+
+                                        <td class="medicine-name">
+                                            {{ medicine.medicine_name }}
+                                        </td>
+
+                                        <td class="medicine-value">
+                                            {{ medicine.dosage|default:"—" }}
+                                        </td>
+
+                                        <td class="medicine-value">
+                                            {{ medicine.frequency|default:"—" }}
+                                        </td>
+
+                                        <td class="medicine-value">
+                                            {{ medicine.duration|default:"—" }}
+                                        </td>
+
+                                        <td class="medicine-value">
+                                            {{ medicine.instructions|default:"—" }}
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="no-medicine">
+                        No medicines were prescribed for this visit.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =================================================
+                 DOCTOR INSTRUCTIONS
+            ================================================== -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <div class="section-marker"></div>
+
+                    <h2 class="section-title">
+                        Doctor's Instructions
+                    </h2>
+
+                </div>
+
+
+                <div class="clinical-box">
+
+                    {% if prescription.notes %}
+                        {{ prescription.notes }}
+                    {% else %}
+                        <span class="empty-text">
+                            No additional instructions provided.
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SIGNATURE
+            ================================================== -->
+
+            <div class="signature-area">
+
+                <div class="signature">
+
+                    <div class="signature-line"></div>
+
+                    <div class="signature-name">
+                        Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}
+                    </div>
+
+                    <div class="signature-specialization">
+                        {{ doctor.get_specialization_display }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <div class="document-footer">
+
+                <span>
+                    CarePlus Hospital • Prescription Record
+                </span>
+
+                <span>
+                    Prescription #{{ prescription.id }}
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ACTIONS
+    ====================================================== -->
+
+    <div class="actions">
+
+        <div class="action-left">
+
+            <a
+                href="{% url 'doctor_dashboard' %}"
+                class="action-button dashboard-button"
+            >
+                ← Dashboard
+            </a>
+
+            <a
+                href="{% url 'doctor_prescriptions' %}"
+                class="action-button dashboard-button"
+            >
+                All Prescriptions
+            </a>
+
+        </div>
+
+
+        <!-- PDF URL WILL BE ADDED NEXT -->
+
+        <a
+    href="{% url 'download_prescription_pdf' prescription.id %}"
+    class="action-button download-button"
+>
+    <span class="download-icon">↓</span>
+    Download PDF
+</a>
+
+    </div>
+
+</main>
+
+
+</body>
+</html>

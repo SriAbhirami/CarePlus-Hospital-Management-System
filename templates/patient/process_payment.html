@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Payment | CarePlus Hospital</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1f2937;
+        }
+
+        .payment-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 25px;
+        }
+
+        .payment-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 30px;
+        }
+
+        .logo span {
+            color: #22c55e;
+        }
+
+        .icon {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: #dcfce7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        h1 {
+            font-size: 25px;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .amount {
+            font-size: 30px;
+            font-weight: bold;
+            color: #16a34a;
+            margin-bottom: 10px;
+        }
+
+        .method {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .payment-actions {
+            display: grid;
+            gap: 12px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .success-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .success-btn:hover {
+            background: #15803d;
+        }
+
+        .decline-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .decline-btn:hover {
+            background: #fecaca;
+        }
+
+        .demo-note {
+            margin-top: 25px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="payment-container">
+
+        <div class="payment-card">
+
+            <div class="logo">
+                Care<span>Plus</span>
+            </div>
+
+            <div class="icon">
+                💳
+            </div>
+
+            <h1>
+                Complete Payment
+            </h1>
+
+            <p class="description">
+
+                You are securely completing the payment
+                for your CarePlus appointment.
+
+            </p>
+
+            <div class="amount">
+
+                ₹{{ pending_booking.consultation_fee }}
+
+            </div>
+
+            <div class="method">
+
+                Payment Method:
+                <strong>
+                    {{ payment_method }}
+                </strong>
+
+            </div>
+
+
+            <div class="payment-actions">
+
+                <!-- SUCCESS -->
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="payment_result"
+                        value="success"
+                    >
+
+                    <button
+                        type="submit"
+                        class="success-btn"
+                    >
+                        ✓ Simulate Successful Payment
+                    </button>
+
+                </form>
+
+
+                <!-- DECLINED -->
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="payment_result"
+                        value="declined"
+                    >
+
+                    <button
+                        type="submit"
+                        class="decline-btn"
+                    >
+                        ✕ Simulate Payment Declined
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <div class="demo-note">
+
+                <strong>Demo Payment Gateway</strong>
+
+                <br>
+
+                This page simulates a real payment gateway.
+                No real money or banking information is processed.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

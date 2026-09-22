@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | CarePlus Hospital</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            background: #123c69;
+            color: white;
+            padding: 25px 18px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        .brand {
+            padding: 0 12px 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            margin-bottom: 25px;
+        }
+
+        .brand h2 {
+            font-size: 23px;
+            margin-bottom: 5px;
+        }
+
+        .brand p {
+            font-size: 12px;
+            color: #b9d7f0;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #9fc3df;
+            padding: 0 12px;
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            display: block;
+            text-decoration: none;
+            color: #dbeafe;
+            padding: 12px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #1e5a91;
+            color: white;
+        }
+
+        .logout {
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            bottom: 25px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #123c69;
+        }
+
+        .topbar p {
+            margin-top: 5px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .admin-badge {
+            background: #e8f1fa;
+            color: #123c69;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* ================= STAT CARDS ================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 30px;
+            font-weight: bold;
+            color: #123c69;
+        }
+
+        .stat-description {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        /* ================= SECONDARY STATS ================= */
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .status-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .status-card h3 {
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .status-number {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: #d97706;
+        }
+
+        .completed {
+            color: #059669;
+        }
+
+        .cancelled {
+            color: #dc2626;
+        }
+
+        /* ================= RECENT APPOINTMENTS ================= */
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            color: #123c69;
+        }
+
+        .section-header span {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            font-size: 12px;
+            color: #6b7280;
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 14px 12px;
+            font-size: 13px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        /* ================= STATUS BADGES ================= */
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status-confirmed {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .status-completed {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .status-cancelled {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        /* ================= PATIENT / DOCTOR ================= */
+
+        .patient-name,
+        .doctor-name {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .appointment-date {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .appointment-time {
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* ================= EMPTY STATE ================= */
+
+        .empty-state {
+            text-align: center;
+            color: #6b7280;
+            padding: 30px !important;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <h2>CarePlus</h2>
+            <p>Hospital Management System</p>
+        </div>
+
+        <div class="menu-title">
+            Administration
+        </div>
+
+        <a href="{% url 'admin_panel:dashboard' %}"
+           class="nav-item active">
+            Dashboard
+        </a>
+
+        <a href="#" class="nav-item">
+            Users
+        </a>
+
+        <a href="#" class="nav-item">
+            Doctors
+        </a>
+
+        <a href="#" class="nav-item">
+            Patients
+        </a>
+
+        <a href="#" class="nav-item">
+            Appointments
+        </a>
+
+        <a href="#" class="nav-item">
+            Payments
+        </a>
+
+        <a href="#" class="nav-item">
+            Reports
+        </a>
+
+        <div class="logout">
+
+            <a href="{% url 'logout' %}" class="nav-item">
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <h1>Admin Dashboard</h1>
+
+                <p>
+                    Overview of CarePlus Hospital
+                    management activities
+                </p>
+            </div>
+
+            <div class="admin-badge">
+                Administrator
+            </div>
+
+        </div>
+
+
+        <!-- ================= MAIN STATISTICS ================= -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Total Users
+                </div>
+
+                <div class="stat-value">
+                    {{ total_users }}
+                </div>
+
+                <div class="stat-description">
+                    Registered system users
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Total Patients
+                </div>
+
+                <div class="stat-value">
+                    {{ total_patients }}
+                </div>
+
+                <div class="stat-description">
+                    Registered patients
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Total Doctors
+                </div>
+
+                <div class="stat-value">
+                    {{ total_doctors }}
+                </div>
+
+                <div class="stat-description">
+                    Registered doctors
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Total Appointments
+                </div>
+
+                <div class="stat-value">
+                    {{ total_appointments }}
+                </div>
+
+                <div class="stat-description">
+                    All appointments
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= APPOINTMENT STATUS ================= -->
+
+        <div class="status-grid">
+
+            <div class="status-card">
+
+                <h3>
+                    Pending Appointments
+                </h3>
+
+                <div class="status-number pending">
+                    {{ pending_appointments }}
+                </div>
+
+            </div>
+
+
+            <div class="status-card">
+
+                <h3>
+                    Completed Appointments
+                </h3>
+
+                <div class="status-number completed">
+                    {{ completed_appointments }}
+                </div>
+
+            </div>
+
+
+            <div class="status-card">
+
+                <h3>
+                    Cancelled Appointments
+                </h3>
+
+                <div class="status-number cancelled">
+                    {{ cancelled_appointments }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= RECENT APPOINTMENTS ================= -->
+
+        <div class="section">
+
+            <div class="section-header">
+
+                <h2>
+                    Recent Appointments
+                </h2>
+
+                <span>
+                    Latest 8 appointments
+                </span>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for appointment in recent_appointments %}
+
+                        <tr>
+
+                            <!-- PATIENT -->
+
+                            <td>
+                                <div class="patient-name">
+
+                                    {% if appointment.patient.user.get_full_name %}
+                                        {{ appointment.patient.user.get_full_name }}
+                                    {% else %}
+                                        {{ appointment.patient.user.username }}
+                                    {% endif %}
+
+                                </div>
+                            </td>
+
+
+                            <!-- DOCTOR -->
+
+                            <td>
+                                <div class="doctor-name">
+
+                                    Dr.
+                                    {% if appointment.doctor.user.get_full_name %}
+                                        {{ appointment.doctor.user.get_full_name }}
+                                    {% else %}
+                                        {{ appointment.doctor.user.username }}
+                                    {% endif %}
+
+                                </div>
+                            </td>
+
+
+                            <!-- EXACT APPOINTMENT DATE -->
+
+                            <td>
+                                <div class="appointment-date">
+
+                                    {{ appointment.appointment_date|date:"d M Y" }}
+
+                                </div>
+                            </td>
+
+
+                            <!-- EXACT APPOINTMENT TIME -->
+
+                            <td>
+                                <div class="appointment-time">
+
+                                    {{ appointment.appointment_time|time:"h:i A" }}
+
+                                </div>
+                            </td>
+
+
+                            <!-- APPOINTMENT STATUS -->
+
+                            <td>
+
+                                {% if appointment.status == "PENDING" %}
+
+                                    <span class="status status-pending">
+                                        Pending
+                                    </span>
+
+                                {% elif appointment.status == "CONFIRMED" %}
+
+                                    <span class="status status-confirmed">
+                                        Confirmed
+                                    </span>
+
+                                {% elif appointment.status == "COMPLETED" %}
+
+                                    <span class="status status-completed">
+                                        Completed
+                                    </span>
+
+                                {% elif appointment.status == "CANCELLED" %}
+
+                                    <span class="status status-cancelled">
+                                        Cancelled
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status">
+                                        {{ appointment.get_status_display }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="5" class="empty-state">
+
+                                No appointments available.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

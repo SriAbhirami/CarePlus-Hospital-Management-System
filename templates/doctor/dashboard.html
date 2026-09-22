@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Doctor Dashboard | CarePlus</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f7fb;
+        color: #1f2937;
+    }
+
+
+    /* =====================================================
+       NAVBAR
+    ====================================================== */
+
+    .navbar {
+        height: 72px;
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+    }
+
+    .brand {
+        font-size: 22px;
+        font-weight: 700;
+        color: #172554;
+        letter-spacing: -0.3px;
+    }
+
+    .brand span {
+        color: #2563eb;
+    }
+
+    .doctor-info {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+
+    /* =====================================================
+       DOCTOR PROFILE PHOTO
+    ====================================================== */
+
+    .doctor-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #dbeafe;
+        color: #1d4ed8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 16px;
+        overflow: hidden;
+        border: 2px solid #dbeafe;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .doctor-avatar:hover {
+        border-color: #2563eb;
+        transform: scale(1.03);
+    }
+
+    .doctor-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .doctor-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .doctor-role {
+        font-size: 12px;
+        color: #6b7280;
+        margin-top: 3px;
+    }
+
+
+    /* =====================================================
+       PROFILE MENU
+    ====================================================== */
+
+    .profile-menu {
+        position: fixed;
+        top: 63px;
+        right: 38px;
+        width: 205px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
+        padding: 7px;
+        z-index: 1000;
+        display: none;
+    }
+
+    .profile-menu.show {
+        display: block;
+    }
+
+    .profile-menu button {
+        width: 100%;
+        border: none;
+        background: transparent;
+        text-align: left;
+        padding: 11px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        color: #374151;
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .profile-menu button:hover {
+        background: #f3f6fb;
+        color: #1d4ed8;
+    }
+
+    .profile-menu .cancel-option {
+        color: #dc2626;
+    }
+
+    .profile-menu .cancel-option:hover {
+        background: #fef2f2;
+        color: #b91c1c;
+    }
+
+
+    /* =====================================================
+       PROFILE PHOTO VIEW MODAL
+    ====================================================== */
+
+    .photo-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.72);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 20px;
+    }
+
+    .photo-modal.show {
+        display: flex;
+    }
+
+    .photo-modal-content {
+        position: relative;
+        background: #ffffff;
+        padding: 12px;
+        border-radius: 14px;
+        max-width: 430px;
+        max-height: 85vh;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+    }
+
+    .photo-modal-content img {
+        display: block;
+        max-width: 100%;
+        max-height: 70vh;
+        border-radius: 10px;
+        object-fit: contain;
+    }
+
+    .close-photo {
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 50%;
+        background: #ffffff;
+        color: #374151;
+        font-size: 18px;
+        cursor: pointer;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+    }
+
+    .close-photo:hover {
+        color: #dc2626;
+    }
+
+
+    /* =====================================================
+       MAIN CONTAINER
+    ====================================================== */
+
+    .container {
+        max-width: 1250px;
+        margin: 0 auto;
+        padding: 35px 30px 50px;
+    }
+
+
+    /* =====================================================
+       WELCOME
+    ====================================================== */
+
+    .welcome-section {
+        margin-bottom: 30px;
+    }
+
+    .welcome-section h1 {
+        margin: 0;
+        font-size: 30px;
+        color: #111827;
+    }
+
+    .welcome-section p {
+        margin: 9px 0 0;
+        color: #6b7280;
+        font-size: 15px;
+    }
+
+
+    /* =====================================================
+       STATISTICS
+    ====================================================== */
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-bottom: 35px;
+    }
+
+    .stat-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .stat-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .stat-title {
+        font-size: 13px;
+        color: #6b7280;
+        font-weight: 600;
+    }
+
+    .stat-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: #eff6ff;
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .stat-number {
+        font-size: 28px;
+        font-weight: 700;
+        color: #111827;
+        margin-top: 18px;
+    }
+
+
+    /* =====================================================
+       SECTION HEADER
+    ====================================================== */
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+    .section-header-left h2 {
+        margin: 0;
+        font-size: 20px;
+        color: #111827;
+    }
+
+    .section-header-left p {
+        margin: 5px 0 0;
+        font-size: 13px;
+        color: #6b7280;
+    }
+
+
+    /* =====================================================
+       APPOINTMENT CONTAINER
+    ====================================================== */
+
+    .appointment-container {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .appointment-row {
+        display: grid;
+        grid-template-columns:
+            1.45fr
+            0.8fr
+            1fr
+            1.5fr
+            1fr;
+        align-items: center;
+        padding: 17px 22px;
+        border-bottom: 1px solid #f0f2f5;
+        gap: 15px;
+    }
+
+    .appointment-row:last-child {
+        border-bottom: none;
+    }
+
+    .appointment-header {
+        background: #f8fafc;
+        font-size: 11px;
+        font-weight: 700;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .patient-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .appointment-date,
+    .appointment-time,
+    .appointment-reason {
+        font-size: 13px;
+        color: #6b7280;
+    }
+
+
+    /* =====================================================
+       STATUS
+    ====================================================== */
+
+    .status {
+        display: inline-block;
+        width: fit-content;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .status-pending {
+        background: #fff7ed;
+        color: #c2410c;
+    }
+
+    .status-confirmed {
+        background: #eff6ff;
+        color: #1d4ed8;
+    }
+
+    .status-completed {
+        background: #ecfdf5;
+        color: #047857;
+    }
+
+    .status-cancelled {
+        background: #fef2f2;
+        color: #b91c1c;
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+    ====================================================== */
+
+    .empty-state {
+        padding: 55px 20px;
+        text-align: center;
+    }
+
+    .empty-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: #eff6ff;
+        color: #2563eb;
+        margin: 0 auto 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    .empty-state h3 {
+        margin: 0;
+        font-size: 16px;
+        color: #374151;
+    }
+
+    .empty-state p {
+        margin: 7px 0 0;
+        font-size: 13px;
+        color: #9ca3af;
+    }
+
+
+    /* =====================================================
+       QUICK ACTIONS
+    ====================================================== */
+
+    .quick-section {
+        margin-top: 35px;
+    }
+
+    .quick-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    .quick-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 22px;
+        text-decoration: none;
+        transition: 0.2s ease;
+        box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .quick-card:hover {
+        transform: translateY(-2px);
+        border-color: #bfdbfe;
+        box-shadow: 0 7px 20px rgba(15, 23, 42, 0.08);
+    }
+
+    .quick-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: #eff6ff;
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .quick-card h3 {
+        margin: 0;
+        font-size: 15px;
+        color: #111827;
+    }
+
+    .quick-card p {
+        margin: 6px 0 0;
+        font-size: 12px;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       LOGOUT
+    ====================================================== */
+
+    .logout-container {
+        margin-top: 35px;
+        text-align: right;
+    }
+
+    .logout {
+        color: #dc2626;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .logout:hover {
+        text-decoration: underline;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ====================================================== */
+
+    @media (max-width: 1100px) {
+
+        .appointment-container {
+            overflow-x: auto;
+        }
+
+        .appointment-row {
+            min-width: 850px;
+        }
+
+    }
+
+
+    @media (max-width: 900px) {
+
+        .stats-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .quick-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .navbar {
+            padding: 0 18px;
+        }
+
+        .doctor-name,
+        .doctor-role {
+            display: none;
+        }
+
+        .container {
+            padding: 25px 16px 40px;
+        }
+
+        .welcome-section h1 {
+            font-size: 25px;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .stat-card {
+            padding: 17px;
+        }
+
+        .stat-number {
+            font-size: 23px;
+        }
+
+        .section-header {
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .profile-menu {
+            right: 16px;
+        }
+
+    }
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav class="navbar">
+
+
+    <div class="brand">
+
+        Care<span>Plus</span>
+
+    </div>
+
+
+    <div class="doctor-info">
+
+
+        <!-- Doctor Profile Photo -->
+
+        <div
+            class="doctor-avatar"
+            id="doctorAvatar"
+            title="Profile options"
+        >
+
+            {% if doctor.profile_pic %}
+
+                <img
+                    src="{{ doctor.profile_pic.url }}"
+                    alt="Doctor Profile"
+                >
+
+            {% else %}
+
+                {% if doctor.user.first_name %}
+
+                    {{ doctor.user.first_name|first|upper }}
+
+                {% else %}
+
+                    {{ doctor.user.username|first|upper }}
+
+                {% endif %}
+
+            {% endif %}
+
+        </div>
+
+
+        <div>
+
+            <div class="doctor-name">
+
+                Dr.
+
+                {% if doctor.user.get_full_name %}
+
+                    {{ doctor.user.get_full_name }}
+
+                {% else %}
+
+                    {{ doctor.user.username }}
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="doctor-role">
+
+                {{ doctor.get_specialization_display }}
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</nav>
+
+
+<!-- =====================================================
+     PROFILE OPTIONS POPUP
+====================================================== -->
+
+<div
+    class="profile-menu"
+    id="profileMenu"
+>
+
+
+    {% if doctor.profile_pic %}
+
+        <button
+            type="button"
+            id="viewPhotoButton"
+        >
+
+            👁 &nbsp; View Profile Photo
+
+        </button>
+
+    {% endif %}
+
+
+    <button
+        type="button"
+        id="replacePhotoButton"
+    >
+
+        📷 &nbsp; Replace Profile Photo
+
+    </button>
+
+
+    <button
+        type="button"
+        class="cancel-option"
+        id="cancelProfileMenu"
+    >
+
+        ✕ &nbsp; Cancel
+
+    </button>
+
+
+</div>
+
+
+<!-- =====================================================
+     HIDDEN PROFILE PHOTO UPLOAD FORM
+====================================================== -->
+
+<form
+    method="POST"
+    enctype="multipart/form-data"
+    id="profilePhotoForm"
+    style="display: none;"
+>
+
+    {% csrf_token %}
+
+    <input
+        type="file"
+        name="profile_pic"
+        id="profilePicInput"
+        accept="image/*"
+    >
+
+</form>
+
+
+<!-- =====================================================
+     VIEW PROFILE PHOTO MODAL
+====================================================== -->
+
+{% if doctor.profile_pic %}
+
+<div
+    class="photo-modal"
+    id="photoModal"
+>
+
+    <div class="photo-modal-content">
+
+
+        <button
+            type="button"
+            class="close-photo"
+            id="closePhotoModal"
+        >
+
+            ×
+
+        </button>
+
+
+        <img
+            src="{{ doctor.profile_pic.url }}"
+            alt="Doctor Profile Photo"
+        >
+
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<!-- =====================================================
+     MAIN CONTENT
+====================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         WELCOME
+    ================================================== -->
+
+    <section class="welcome-section">
+
+
+        <h1>
+
+            Good morning,
+
+            {% if doctor.user.first_name %}
+
+                Dr. {{ doctor.user.first_name }}
+
+            {% else %}
+
+                Doctor
+
+            {% endif %}
+
+            👋
+
+        </h1>
+
+
+        <p>
+
+            Here's an overview of your appointments and practice.
+
+        </p>
+
+
+    </section>
+
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <section class="stats-grid">
+
+
+        <!-- Today's appointments -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-title">
+
+                    Today's Appointments
+
+                </div>
+
+                <div class="stat-icon">
+
+                    📅
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ today_appointments.count }}
+
+            </div>
+
+        </div>
+
+
+        <!-- Completed -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-title">
+
+                    Completed
+
+                </div>
+
+                <div class="stat-icon">
+
+                    ✓
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ completed_appointments.count }}
+
+            </div>
+
+        </div>
+
+
+        <!-- Patients -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-title">
+
+                    Total Patients
+
+                </div>
+
+                <div class="stat-icon">
+
+                    👥
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ total_patients }}
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =================================================
+         APPOINTMENTS
+    ================================================== -->
+
+    <section>
+
+
+        <div class="section-header">
+
+            <div class="section-header-left">
+
+                <h2>
+
+                    Today's Appointments
+
+                </h2>
+
+                <p>
+
+                    View your scheduled appointments for today.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="appointment-container">
+
+
+            <!-- Table Header -->
+
+            <div class="appointment-row appointment-header">
+
+                <div>
+                    Patient
+                </div>
+
+                <div>
+                    Time
+                </div>
+
+                <div>
+                    Date
+                </div>
+
+                <div>
+                    Reason
+                </div>
+
+                <div>
+                    Status
+                </div>
+
+            </div>
+
+
+            <!-- Today's Appointments -->
+
+            {% if today_appointments %}
+
+
+                {% for appointment in today_appointments %}
+
+
+                    <div class="appointment-row">
+
+
+                        <!-- Patient -->
+
+                        <div class="patient-name">
+
+                            {% if appointment.patient.user.get_full_name %}
+
+                                {{ appointment.patient.user.get_full_name }}
+
+                            {% else %}
+
+                                {{ appointment.patient.user.username }}
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Time -->
+
+                        <div class="appointment-time">
+
+                            {{ appointment.appointment_time|time:"h:i A" }}
+
+                        </div>
+
+
+                        <!-- Date -->
+
+                        <div class="appointment-date">
+
+                            {{ appointment.appointment_date|date:"d M Y" }}
+
+                        </div>
+
+
+                        <!-- Reason -->
+
+                        <div class="appointment-reason">
+
+                            {% if appointment.reason %}
+
+                                {{ appointment.reason|truncatechars:35 }}
+
+                            {% else %}
+
+                                General consultation
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Status -->
+
+                        <div>
+
+                            {% if appointment.status == 'PENDING' %}
+
+                                <span class="status status-pending">
+
+                                    Pending
+
+                                </span>
+
+                            {% elif appointment.status == 'CONFIRMED' %}
+
+                                <span class="status status-confirmed">
+
+                                    Confirmed
+
+                                </span>
+
+                            {% elif appointment.status == 'COMPLETED' %}
+
+                                <span class="status status-completed">
+
+                                    Completed
+
+                                </span>
+
+                            {% elif appointment.status == 'CANCELLED' %}
+
+                                <span class="status status-cancelled">
+
+                                    Cancelled
+
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        📅
+
+                    </div>
+
+
+                    <h3>
+
+                        No appointments today
+
+                    </h3>
+
+
+                    <p>
+
+                        You don't have any appointments scheduled for today.
+
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =================================================
+         QUICK ACTIONS
+    ================================================== -->
+
+    <section class="quick-section">
+
+
+        <div class="section-header">
+
+            <div class="section-header-left">
+
+                <h2>
+
+                    Quick Actions
+
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="quick-grid">
+
+
+            <!-- My Appointments -->
+
+            <a
+                href="{% url 'doctor_appointments' %}"
+                class="quick-card"
+            >
+
+                <div class="quick-icon">
+
+                    📅
+
+                </div>
+
+
+                <h3>
+
+                    My Appointments
+
+                </h3>
+
+
+                <p>
+
+                    View all your appointments and manage appointment history.
+
+                </p>
+
+            </a>
+
+
+            <!-- My Patients -->
+
+            <a
+                href="#"
+                class="quick-card"
+            >
+
+                <div class="quick-icon">
+
+                    👥
+
+                </div>
+
+
+                <h3>
+
+                    My Patients
+
+                </h3>
+
+
+                <p>
+
+                    View patient information and consultation history.
+
+                </p>
+
+            </a>
+
+
+            
+<!-- Prescriptions -->
+
+<a
+    href="{% url 'doctor_prescriptions' %}"
+    class="quick-card"
+>
+
+    <div class="quick-icon">
+
+        💊
+
+    </div>
+
+
+    <h3>
+
+        Prescriptions
+
+    </h3>
+
+
+    <p>
+
+        Create and review patient prescriptions.
+
+    </p>
+
+</a>
+
+
+
+    </section>
+
+
+    <!-- =================================================
+         LOGOUT
+    ================================================== -->
+
+    <div class="logout-container">
+
+        <a
+            href="{% url 'logout' %}"
+            class="logout"
+        >
+
+            Logout
+
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+    const doctorAvatar = document.getElementById("doctorAvatar");
+    const profileMenu = document.getElementById("profileMenu");
+
+    const viewPhotoButton =
+        document.getElementById("viewPhotoButton");
+
+    const replacePhotoButton =
+        document.getElementById("replacePhotoButton");
+
+    const cancelProfileMenu =
+        document.getElementById("cancelProfileMenu");
+
+    const profilePicInput =
+        document.getElementById("profilePicInput");
+
+    const profilePhotoForm =
+        document.getElementById("profilePhotoForm");
+
+    const photoModal =
+        document.getElementById("photoModal");
+
+    const closePhotoModal =
+        document.getElementById("closePhotoModal");
+
+
+    /* =====================================================
+       OPEN / CLOSE PROFILE MENU
+    ====================================================== */
+
+    doctorAvatar.addEventListener("click", function(event) {
+
+        event.stopPropagation();
+
+        profileMenu.classList.toggle("show");
+
+    });
+
+
+    /* =====================================================
+       VIEW PROFILE PHOTO
+    ====================================================== */
+
+    if (viewPhotoButton) {
+
+        viewPhotoButton.addEventListener("click", function() {
+
+            profileMenu.classList.remove("show");
+
+            if (photoModal) {
+
+                photoModal.classList.add("show");
+
+            }
+
+        });
+
+    }
+
+
+    /* =====================================================
+       CLOSE PHOTO MODAL
+    ====================================================== */
+
+    if (closePhotoModal) {
+
+        closePhotoModal.addEventListener("click", function() {
+
+            photoModal.classList.remove("show");
+
+        });
+
+    }
+
+
+    /* =====================================================
+       CLICK OUTSIDE PHOTO MODAL
+    ====================================================== */
+
+    if (photoModal) {
+
+        photoModal.addEventListener("click", function(event) {
+
+            if (event.target === photoModal) {
+
+                photoModal.classList.remove("show");
+
+            }
+
+        });
+
+    }
+
+
+    /* =====================================================
+       REPLACE PROFILE PHOTO
+    ====================================================== */
+
+    replacePhotoButton.addEventListener("click", function() {
+
+        profileMenu.classList.remove("show");
+
+        profilePicInput.click();
+
+    });
+
+
+    /* =====================================================
+       UPLOAD SELECTED PHOTO
+    ====================================================== */
+
+    profilePicInput.addEventListener("change", function() {
+
+        if (profilePicInput.files.length > 0) {
+
+            profilePhotoForm.submit();
+
+        }
+
+    });
+
+
+    /* =====================================================
+       CANCEL
+    ====================================================== */
+
+    cancelProfileMenu.addEventListener("click", function() {
+
+        profileMenu.classList.remove("show");
+
+    });
+
+
+    /* =====================================================
+       CLICK OUTSIDE PROFILE MENU
+    ====================================================== */
+
+    document.addEventListener("click", function(event) {
+
+        if (
+            !profileMenu.contains(event.target) &&
+            !doctorAvatar.contains(event.target)
+        ) {
+
+            profileMenu.classList.remove("show");
+
+        }
+
+    });
+
+
+    /* =====================================================
+       ESC KEY
+    ====================================================== */
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Escape") {
+
+            profileMenu.classList.remove("show");
+
+            if (photoModal) {
+
+                photoModal.classList.remove("show");
+
+            }
+
+        }
+
+    });
+
+</script>
+
+
+</body>
+
+</html>
+

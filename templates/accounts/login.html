@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login - CarePlus Hospital</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            background: #eef5f9;
+
+            padding: 20px;
+        }
+
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+
+        .hospital-name {
+            text-align: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .hospital-name h1 {
+            color: #123b5d;
+
+            font-size: 30px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .hospital-name p {
+            color: #6b7c89;
+
+            font-size: 14px;
+        }
+
+
+        .login-card {
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 10px 30px rgba(18, 59, 93, 0.12);
+
+            border: 1px solid #e2ebf0;
+        }
+
+
+        .login-card h2 {
+            text-align: center;
+
+            color: #1d3445;
+
+            margin-bottom: 8px;
+
+            font-size: 24px;
+        }
+
+
+        .subtitle {
+            text-align: center;
+
+            color: #7b8b96;
+
+            font-size: 14px;
+
+            margin-bottom: 28px;
+        }
+
+
+        form p {
+            margin-bottom: 18px;
+        }
+
+
+        label {
+            display: block;
+
+            color: #344b5c;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+
+        input {
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border: 1px solid #d4e0e7;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+
+        input:focus {
+            border-color: #168aad;
+
+            box-shadow:
+                0 0 0 3px rgba(22, 138, 173, 0.10);
+        }
+
+
+        .login-button {
+            width: 100%;
+
+            border: none;
+
+            padding: 13px;
+
+            margin-top: 5px;
+
+            border-radius: 8px;
+
+            background: #168aad;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .login-button:hover {
+            background: #126f8c;
+        }
+
+
+        .register-text {
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #71818c;
+
+            font-size: 14px;
+        }
+
+
+        .register-text a {
+            color: #168aad;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+
+        .footer {
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #9aa8b0;
+
+            font-size: 12px;
+        }
+
+
+        @media (max-width: 480px) {
+
+            .login-card {
+                padding: 28px 22px;
+            }
+
+
+            .hospital-name h1 {
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-container">
+
+
+    <div class="hospital-name">
+
+        <h1>
+            CarePlus Hospital
+        </h1>
+
+        <p>
+            Healthcare Management System
+        </p>
+
+    </div>
+
+
+    <div class="login-card">
+
+
+        <h2>
+            Welcome Back
+        </h2>
+
+
+        <p class="subtitle">
+            Sign in to access your account
+        </p>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!--
+                Preserve the destination requested before login.
+
+                Example:
+                /book-appointment/?doctor=12
+
+                This allows the user to return to the
+                exact doctor's booking page after login.
+            -->
+
+            {% if next %}
+
+                <input
+                    type="hidden"
+                    name="next"
+                    value="{{ next }}"
+                >
+
+            {% endif %}
+
+
+            {{ form.as_p }}
+
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <p class="register-text">
+
+            Don't have an account?
+
+            <a href="{% url 'register' %}">
+                Register
+            </a>
+
+        </p>
+
+
+    </div>
+
+
+    <div class="footer">
+        © 2026 CarePlus Hospital
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

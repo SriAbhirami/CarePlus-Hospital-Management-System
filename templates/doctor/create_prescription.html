@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Prescription | CarePlus Hospital</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8fc;
+            color: #1e293b;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1769aa;
+        }
+
+        .logo span {
+            color: #20a4f3;
+        }
+
+        .doctor-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .doctor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+
+            background: #e0f2fe;
+            color: #0369a1;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .page-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+            color: #0f172a;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #64748b;
+        }
+
+
+        /* =====================================================
+           CARD
+        ===================================================== */
+
+        .card {
+            background: #ffffff;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+
+            padding: 28px;
+
+            box-shadow:
+                0 4px 12px rgba(15, 23, 42, 0.05);
+
+            margin-bottom: 22px;
+        }
+
+
+        .section-title {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+
+
+        /* =====================================================
+           APPOINTMENT INFORMATION
+        ===================================================== */
+
+        .appointment-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+
+            padding: 16px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            color: #334155;
+        }
+
+        textarea,
+        input {
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-family: inherit;
+
+            outline: none;
+
+            transition: border-color 0.2s;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        textarea:focus,
+        input:focus {
+            border-color: #2196f3;
+        }
+
+
+        /* =====================================================
+           MEDICINES
+        ===================================================== */
+
+        .medicine-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+
+            padding: 20px;
+            margin-bottom: 15px;
+
+            background: #fafcff;
+        }
+
+        .medicine-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+        .medicine-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .remove-btn {
+            border: none;
+            background: transparent;
+            color: #dc2626;
+
+            cursor: pointer;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .remove-btn:hover {
+            text-decoration: underline;
+        }
+
+
+        .medicine-grid {
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1.5fr 1fr;
+
+            gap: 14px;
+        }
+
+
+        .add-medicine-btn {
+            border: 1px dashed #2196f3;
+            background: #eff6ff;
+
+            color: #1769aa;
+
+            padding: 12px 18px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            width: 100%;
+        }
+
+        .add-medicine-btn:hover {
+            background: #dbeafe;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+
+            gap: 12px;
+
+            margin-top: 28px;
+        }
+
+        .btn {
+            padding: 12px 22px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            border: none;
+        }
+
+        .cancel-btn {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .cancel-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .save-btn {
+            background: #1769aa;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #12588f;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .appointment-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .medicine-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        Care<span>Plus</span>
+    </div>
+
+    <div class="doctor-info">
+
+        <div class="doctor-avatar">
+
+            {% if doctor.user.first_name %}
+                {{ doctor.user.first_name|first|upper }}
+            {% else %}
+                D
+            {% endif %}
+
+        </div>
+
+        <div>
+
+            <strong>
+                Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}
+            </strong>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     PAGE
+========================================================= -->
+
+<main class="page-container">
+
+
+    <div class="page-header">
+
+        <h1>
+            Create Prescription
+        </h1>
+
+        <p>
+            Create a prescription for the selected patient.
+        </p>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         APPOINTMENT INFORMATION
+    ====================================================== -->
+
+    <div class="card">
+
+        <div class="section-title">
+            Appointment Information
+        </div>
+
+
+        <div class="appointment-grid">
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Patient
+                </div>
+
+                <div class="info-value">
+
+                    {{ appointment.patient.user.get_full_name|default:appointment.patient.user.username }}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Appointment Date
+                </div>
+
+                <div class="info-value">
+
+                    {{ appointment.appointment_date|date:"d M Y" }}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Appointment Time
+                </div>
+
+                <div class="info-value">
+
+                    {{ appointment.appointment_time|time:"h:i A" }}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PRESCRIPTION FORM
+    ====================================================== -->
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+
+        <!-- =================================================
+             DIAGNOSIS
+        ================================================== -->
+
+        <div class="card">
+
+            <div class="section-title">
+                Clinical Details
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="diagnosis">
+                    Diagnosis
+                </label>
+
+                <textarea
+                    id="diagnosis"
+                    name="diagnosis"
+                    placeholder="Enter the patient's diagnosis..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="notes">
+                    Additional Instructions
+                </label>
+
+                <textarea
+                    id="notes"
+                    name="notes"
+                    placeholder="Enter general instructions for the patient..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MEDICINES
+        ================================================== -->
+
+        <div class="card">
+
+            <div class="section-title">
+                Medicines
+            </div>
+
+
+            <div id="medicineContainer">
+
+
+                <!-- =========================================
+                     FIRST MEDICINE
+                ========================================== -->
+
+                <div class="medicine-card">
+
+                    <div class="medicine-header">
+
+                        <div class="medicine-title">
+                            Medicine 1
+                        </div>
+
+                    </div>
+
+
+                    <div class="medicine-grid">
+
+
+                        <div>
+
+                            <label>
+                                Medicine Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="medicine_name"
+                                placeholder="e.g. Paracetamol"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Dosage
+                            </label>
+
+                            <input
+                                type="text"
+                                name="dosage"
+                                placeholder="500 mg"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Frequency
+                            </label>
+
+                            <input
+                                type="text"
+                                name="frequency"
+                                placeholder="2 times daily"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                Duration
+                            </label>
+
+                            <input
+                                type="text"
+                                name="duration"
+                                placeholder="5 days"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div style="margin-top: 15px;">
+
+                        <label>
+                            Medicine Instructions
+                        </label>
+
+                        <input
+                            type="text"
+                            name="medicine_instructions"
+                            placeholder="e.g. Take after food"
+                        >
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                type="button"
+                class="add-medicine-btn"
+                onclick="addMedicine()"
+            >
+                + Add Medicine
+            </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             ACTIONS
+        ================================================== -->
+
+        <div class="actions">
+
+            <a
+                href="{% url 'doctor_dashboard' %}"
+                class="btn cancel-btn"
+            >
+                Cancel
+            </a>
+
+
+            <button
+                type="submit"
+                class="btn save-btn"
+            >
+                Save Prescription
+            </button>
+
+        </div>
+
+
+    </form>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    let medicineCount = 1;
+
+
+    function addMedicine() {
+
+        medicineCount++;
+
+
+        const container =
+            document.getElementById(
+                "medicineContainer"
+            );
+
+
+        const medicineCard =
+            document.createElement("div");
+
+
+        medicineCard.className =
+            "medicine-card";
+
+
+        medicineCard.innerHTML = `
+
+            <div class="medicine-header">
+
+                <div class="medicine-title">
+                    Medicine ${medicineCount}
+                </div>
+
+                <button
+                    type="button"
+                    class="remove-btn"
+                    onclick="removeMedicine(this)"
+                >
+                    Remove
+                </button>
+
+            </div>
+
+
+            <div class="medicine-grid">
+
+                <div>
+
+                    <label>
+                        Medicine Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="medicine_name"
+                        placeholder="e.g. Paracetamol"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Dosage
+                    </label>
+
+                    <input
+                        type="text"
+                        name="dosage"
+                        placeholder="500 mg"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Frequency
+                    </label>
+
+                    <input
+                        type="text"
+                        name="frequency"
+                        placeholder="2 times daily"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Duration
+                    </label>
+
+                    <input
+                        type="text"
+                        name="duration"
+                        placeholder="5 days"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div style="margin-top: 15px;">
+
+                <label>
+                    Medicine Instructions
+                </label>
+
+                <input
+                    type="text"
+                    name="medicine_instructions"
+                    placeholder="e.g. Take after food"
+                >
+
+            </div>
+
+        `;
+
+
+        container.appendChild(
+            medicineCard
+        );
+
+    }
+
+
+
+    function removeMedicine(button) {
+
+        const medicineCard =
+            button.closest(
+                ".medicine-card"
+            );
+
+
+        medicineCard.remove();
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
+

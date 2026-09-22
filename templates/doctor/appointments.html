@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Appointments | CarePlus</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: #0b1220;
+            color: white;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .brand span {
+            color: #84cc16;
+        }
+
+        .doctor-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .doctor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #84cc16;
+            color: #0b1220;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .doctor-name {
+            font-size: 14px;
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 1250px;
+            margin: 35px auto;
+            padding: 0 25px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 30px;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #0b1220;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: #172033;
+        }
+
+        /* FILTERS */
+
+        .filters {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            text-decoration: none;
+            padding: 9px 17px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            color: #4b5563;
+            background: white;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: #84cc16;
+            color: #65a30d;
+        }
+
+        .filter-btn.active {
+            background: #84cc16;
+            border-color: #84cc16;
+            color: #0b1220;
+            font-weight: bold;
+        }
+
+        /* TABLE */
+
+        .table-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #0b1220;
+            color: white;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #eef0f4;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .patient-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* STATUS */
+
+        .status {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .confirmed {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .completed {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .cancelled {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* VIEW BUTTON */
+
+        .view-btn {
+            border: none;
+            background: none;
+            padding: 0;
+            color: #65a30d;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .view-btn:hover {
+            color: #4d7c0f;
+        }
+
+        /* DETAILS CARD */
+
+        .details-row {
+            display: none;
+            background: #f8fafc;
+        }
+
+        .details-row.active {
+            display: table-row;
+        }
+
+        .details-container {
+            padding: 25px;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .details-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .details-header h2 {
+            font-size: 21px;
+            color: #111827;
+        }
+
+        .close-btn {
+            border: none;
+            background: #f3f4f6;
+            color: #374151;
+            padding: 8px 14px;
+            border-radius: 7px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            background: #e5e7eb;
+        }
+
+        /* PATIENT SECTION */
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 14px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px 25px;
+            margin-bottom: 25px;
+        }
+
+        .detail-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 13px 15px;
+        }
+
+        .detail-label {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: #111827;
+            font-weight: 600;
+        }
+
+        /* APPOINTMENT SECTION */
+
+        .appointment-details {
+            margin-top: 5px;
+        }
+
+        /* HISTORY */
+
+        .history-section {
+            margin-top: 25px;
+        }
+
+        .history-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .history-table th {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 12px;
+            font-size: 12px;
+        }
+
+        .history-table td {
+            padding: 12px;
+            font-size: 13px;
+            border-bottom: 1px solid #eef0f4;
+        }
+
+        .no-history {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 8px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* EMPTY STATE */
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .empty h3 {
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .empty p {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .table-card {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 800px;
+            }
+
+            .page-header {
+                gap: 15px;
+            }
+
+            .details-row {
+                display: none !important;
+            }
+
+            .details-row.active {
+                display: table-row !important;
+            }
+
+            .details-container {
+                min-width: 760px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 0 20px;
+            }
+
+            .doctor-name {
+                display: none;
+            }
+
+            .container {
+                margin: 25px auto;
+                padding: 0 15px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .details-header {
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="brand">
+            Care<span>Plus</span>
+        </div>
+
+        <div class="doctor-info">
+
+            <div class="doctor-avatar">
+                {{ doctor.user.first_name|first|upper }}
+            </div>
+
+            <div class="doctor-name">
+                Dr. {{ doctor.user.get_full_name }}
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="container">
+
+        <div class="page-header">
+
+            <div>
+                <h1>My Appointments</h1>
+
+                <p>
+                    View and manage all your patient appointments.
+                </p>
+            </div>
+
+            <a href="{% url 'doctor_dashboard' %}" class="back-btn">
+                ← Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- FILTERS -->
+
+        <div class="filters">
+
+            <a
+                href="{% url 'doctor_appointments' %}"
+                class="filter-btn {% if status_filter == 'ALL' %}active{% endif %}"
+            >
+                All
+            </a>
+
+            <a
+                href="?status=PENDING"
+                class="filter-btn {% if status_filter == 'PENDING' %}active{% endif %}"
+            >
+                Pending
+            </a>
+
+            <a
+                href="?status=CONFIRMED"
+                class="filter-btn {% if status_filter == 'CONFIRMED' %}active{% endif %}"
+            >
+                Confirmed
+            </a>
+
+            <a
+                href="?status=COMPLETED"
+                class="filter-btn {% if status_filter == 'COMPLETED' %}active{% endif %}"
+            >
+                Completed
+            </a>
+
+            <a
+                href="?status=CANCELLED"
+                class="filter-btn {% if status_filter == 'CANCELLED' %}active{% endif %}"
+            >
+                Cancelled
+            </a>
+
+        </div>
+
+
+        <!-- APPOINTMENTS -->
+
+        <div class="table-card">
+
+            {% if appointments %}
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Patient</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Fee</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for appointment in appointments %}
+
+                            <!-- APPOINTMENT ROW -->
+
+                            <tr>
+
+                                <td>
+                                    <div class="patient-name">
+                                        {{ appointment.patient.user.get_full_name }}
+                                    </div>
+                                </td>
+
+                                <td>
+                                    {{ appointment.appointment_date|date:"d M Y" }}
+                                </td>
+
+                                <td>
+                                    {{ appointment.appointment_time|time:"h:i A" }}
+                                </td>
+
+                                <td>
+                                    ₹{{ appointment.consultation_fee }}
+                                </td>
+
+                                <td>
+
+                                    {% if appointment.status == 'PENDING' %}
+
+                                        <span class="status pending">
+                                            Pending
+                                        </span>
+
+                                    {% elif appointment.status == 'CONFIRMED' %}
+
+                                        <span class="status confirmed">
+                                            Confirmed
+                                        </span>
+
+                                    {% elif appointment.status == 'COMPLETED' %}
+
+                                        <span class="status completed">
+                                            Completed
+                                        </span>
+
+                                    {% elif appointment.status == 'CANCELLED' %}
+
+                                        <span class="status cancelled">
+                                            Cancelled
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    <button
+                                        type="button"
+                                        class="view-btn"
+                                        onclick="toggleDetails('details-{{ appointment.id }}', this)"
+                                    >
+                                        View Details
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- DETAILS ROW -->
+
+                            <tr
+                                id="details-{{ appointment.id }}"
+                                class="details-row"
+                            >
+
+                                <td colspan="6">
+
+                                    <div class="details-container">
+
+                                        <div class="details-card">
+
+                                            <!-- DETAILS HEADER -->
+
+                                            <div class="details-header">
+
+                                                <h2>
+                                                    Patient & Appointment Details
+                                                </h2>
+
+                                                <button
+                                                    type="button"
+                                                    class="close-btn"
+                                                    onclick="closeDetails('details-{{ appointment.id }}')"
+                                                >
+                                                    Close
+                                                </button>
+
+                                            </div>
+
+
+                                            <!-- PATIENT INFORMATION -->
+
+                                            <div class="section-title">
+                                                Patient Information
+                                            </div>
+
+                                            <div class="details-grid">
+
+                                                <div class="detail-item">
+
+                                                    <span class="detail-label">
+                                                        Patient Name
+                                                    </span>
+
+                                                    <span class="detail-value">
+                                                        {{ appointment.patient.user.get_full_name }}
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div class="detail-item">
+
+                                                    <span class="detail-label">
+                                                        Date of Birth
+                                                    </span>
+
+                                                    <span class="detail-value">
+
+                                                        {% if appointment.patient.date_of_birth %}
+                                                            {{ appointment.patient.date_of_birth|date:"d M Y" }}
+                                                        {% else %}
+                                                            Not provided
+                                                        {% endif %}
+
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div class="detail-item">
+
+                                                    <span class="detail-label">
+                                                        Blood Group
+                                                    </span>
+
+                                                    <span class="detail-value">
+
+                                                        {% if appointment.patient.blood_group %}
+                                                            {{ appointment.patient.blood_group }}
+                                                        {% else %}
+                                                            Not provided
+                                                        {% endif %}
+
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div class="detail-item">
+
+                                                    <span class="detail-label">
+                                                        Allergies
+                                                    </span>
+
+                                                    <span class="detail-value">
+
+                                                        {% if appointment.patient.allergies %}
+                                                            {{ appointment.patient.allergies }}
+                                                        {% else %}
+                                                            No allergies listed
+                                                        {% endif %}
+
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div class="detail-item">
+
+                                                    <span class="detail-label">
+                                                        Address
+                                                    </span>
+
+                                                    <span class="detail-value">
+
+                                                        {% if appointment.patient.address %}
+                                                            {{ appointment.patient.address }}
+                                                        {% else %}
+                                                            Not provided
+                                                        {% endif %}
+
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <!-- APPOINTMENT INFORMATION -->
+
+                                            <div class="section-title appointment-details">
+                                                Appointment Information
+                                            </div>
+
+                                            <div class="details-grid">
+
+                                                <div class="detail-item">
+
+                                                    <span class="detail-label">
+                                                        Appointment Date
+                                                    </span>
+
+                                                    <span class="detail-value">
+                                                        {{ appointment.appointment_date|date:"d M Y" }}
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div class="detail-item">
+
+                                                    <span class="detail-label">
+                                                        Appointment Time
+                                                    </span>
+
+                                                    <span class="detail-value">
+                                                        {{ appointment.appointment_time|time:"h:i A" }}
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div class="detail-item">
+
+                                                    <span class="detail-label">
+                                                        Consultation Fee
+                                                    </span>
+
+                                                    <span class="detail-value">
+                                                        ₹{{ appointment.consultation_fee }}
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div class="detail-item">
+
+                                                    <span class="detail-label">
+                                                        Current Status
+                                                    </span>
+
+                                                    <span class="detail-value">
+
+                                                        {% if appointment.status == 'PENDING' %}
+                                                            Pending
+
+                                                        {% elif appointment.status == 'CONFIRMED' %}
+                                                            Confirmed
+
+                                                        {% elif appointment.status == 'COMPLETED' %}
+                                                            Completed
+
+                                                        {% elif appointment.status == 'CANCELLED' %}
+                                                            Cancelled
+
+                                                        {% endif %}
+
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <!-- PREVIOUS APPOINTMENTS -->
+
+                                            <div class="history-section">
+
+                                                <div class="section-title">
+                                                    Previous Appointments
+                                                </div>
+
+                                                {% with previous_appointments=appointment.patient.appointments.all %}
+
+                                                    {% if previous_appointments %}
+
+                                                        <div class="history-table-wrapper">
+
+                                                            <table class="history-table">
+
+                                                                <thead>
+
+                                                                    <tr>
+                                                                        <th>Date</th>
+                                                                        <th>Doctor</th>
+                                                                        <th>Time</th>
+                                                                        <th>Status</th>
+                                                                    </tr>
+
+                                                                </thead>
+
+                                                                <tbody>
+
+                                                                    {% for previous in previous_appointments %}
+
+                                                                        {% if previous.id != appointment.id %}
+
+                                                                            <tr>
+
+                                                                                <td>
+                                                                                    {{ previous.appointment_date|date:"d M Y" }}
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    Dr. {{ previous.doctor.user.get_full_name }}
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    {{ previous.appointment_time|time:"h:i A" }}
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    {% if previous.status == 'PENDING' %}
+                                                                                        <span class="status pending">
+                                                                                            Pending
+                                                                                        </span>
+
+                                                                                    {% elif previous.status == 'CONFIRMED' %}
+                                                                                        <span class="status confirmed">
+                                                                                            Confirmed
+                                                                                        </span>
+
+                                                                                    {% elif previous.status == 'COMPLETED' %}
+                                                                                        <span class="status completed">
+                                                                                            Completed
+                                                                                        </span>
+
+                                                                                    {% elif previous.status == 'CANCELLED' %}
+                                                                                        <span class="status cancelled">
+                                                                                            Cancelled
+                                                                                        </span>
+
+                                                                                    {% endif %}
+
+                                                                                </td>
+
+                                                                            </tr>
+
+                                                                        {% endif %}
+
+                                                                    {% endfor %}
+
+                                                                </tbody>
+
+                                                            </table>
+
+                                                        </div>
+
+                                                    {% else %}
+
+                                                        <div class="no-history">
+                                                            No previous appointments found.
+                                                        </div>
+
+                                                    {% endif %}
+
+                                                {% endwith %}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            {% else %}
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        📅
+                    </div>
+
+                    <h3>No Appointments Found</h3>
+
+                    <p>
+                        There are no appointments in this category.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        function toggleDetails(detailsId, button) {
+
+            const detailsRow = document.getElementById(detailsId);
+
+            const allDetails = document.querySelectorAll('.details-row');
+
+            const allButtons = document.querySelectorAll('.view-btn');
+
+
+            /* Close other open cards */
+
+            allDetails.forEach(function(row) {
+
+                if (row.id !== detailsId) {
+                    row.classList.remove('active');
+                }
+
+            });
+
+
+            allButtons.forEach(function(btn) {
+
+                if (btn !== button) {
+                    btn.textContent = 'View Details';
+                }
+
+            });
+
+
+            /* Toggle selected card */
+
+            if (detailsRow.classList.contains('active')) {
+
+                detailsRow.classList.remove('active');
+
+                button.textContent = 'View Details';
+
+            } else {
+
+                detailsRow.classList.add('active');
+
+                button.textContent = 'Hide Details';
+
+            }
+
+        }
+
+
+        function closeDetails(detailsId) {
+
+            const detailsRow = document.getElementById(detailsId);
+
+            detailsRow.classList.remove('active');
+
+
+            const button = detailsRow
+                .previousElementSibling
+                .querySelector('.view-btn');
+
+
+            if (button) {
+                button.textContent = 'View Details';
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>

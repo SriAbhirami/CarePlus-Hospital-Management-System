@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Pay Bills | CarePlus Hospital</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+            height: 72px;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+        }
+
+        .logo span {
+            color: #22c55e;
+        }
+
+        .secure {
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .container {
+            max-width: 1100px;
+            margin: 45px auto;
+            padding: 0 25px;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 30px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        /* =====================================================
+           LAYOUT
+        ===================================================== */
+
+        .payment-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        /* =====================================================
+           PAYMENT METHODS
+        ===================================================== */
+
+        .payment-card {
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 22px;
+        }
+
+        .method {
+            display: block;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .method input {
+            display: none;
+        }
+
+        .method-box {
+            border: 1px solid #dbe3ec;
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.2s ease;
+        }
+
+        .method-box:hover {
+            border-color: #22c55e;
+            background: #f8fff9;
+        }
+
+        .method input:checked + .method-box {
+            border: 2px solid #22c55e;
+            background: #f0fdf4;
+        }
+
+        .method-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: #ecfdf5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .method-content {
+            flex: 1;
+        }
+
+        .method-title {
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .method-description {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .radio {
+            width: 19px;
+            height: 19px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+        }
+
+        .method input:checked + .method-box .radio {
+            border: 5px solid #22c55e;
+        }
+
+        /* =====================================================
+           ERROR
+        ===================================================== */
+
+        .error-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           PAY BUTTON
+        ===================================================== */
+
+        .pay-button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #16a34a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .pay-button:hover {
+            background: #15803d;
+        }
+
+        /* =====================================================
+           SUMMARY
+        ===================================================== */
+
+        .summary-card {
+            padding: 28px;
+        }
+
+        .summary-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 22px;
+        }
+
+        .doctor-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .doctor-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e2e8f0;
+        }
+
+        .doctor-placeholder {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #15803d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .doctor-name {
+            font-size: 17px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .doctor-specialization {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 0;
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #64748b;
+        }
+
+        .detail-value {
+            color: #0f172a;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .total-row {
+            border-top: 1px solid #e2e8f0;
+            margin-top: 10px;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .total-value {
+            font-size: 25px;
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        .secure-note {
+            margin-top: 22px;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           BACK BUTTON
+        ===================================================== */
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: #16a34a;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .payment-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 0 25px;
+            }
+
+            .secure {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .container {
+                margin: 25px auto;
+                padding: 0 15px;
+            }
+
+            .payment-card,
+            .summary-card {
+                padding: 20px;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="header">
+
+        <div class="logo">
+            Care<span>Plus</span>
+        </div>
+
+        <div class="secure">
+            🔒 Secure Payment
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="container">
+
+        <div class="page-title">
+
+            <h1>
+                Pay Bills
+            </h1>
+
+            <p>
+                Complete your payment to confirm your appointment.
+            </p>
+
+        </div>
+
+
+        <div class="payment-layout">
+
+
+            <!-- =================================================
+                 PAYMENT METHODS
+            ================================================== -->
+
+            <div class="card payment-card">
+
+                <div class="section-title">
+                    Select Payment Method
+                </div>
+
+
+                {% if error %}
+
+                    <div class="error-box">
+                        {{ error }}
+                    </div>
+
+                {% endif %}
+
+
+                <form
+                    method="POST"
+                    id="paymentForm"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- UPI -->
+
+                    <label class="method">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="UPI"
+                        >
+
+                        <div class="method-box">
+
+                            <div class="method-icon">
+                                📱
+                            </div>
+
+                            <div class="method-content">
+
+                                <div class="method-title">
+                                    UPI
+                                </div>
+
+                                <div class="method-description">
+                                    Google Pay, PhonePe, Paytm and other UPI apps
+                                </div>
+
+                            </div>
+
+                            <div class="radio"></div>
+
+                        </div>
+
+                    </label>
+
+
+                    <!-- CARD -->
+
+                    <label class="method">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="CARD"
+                        >
+
+                        <div class="method-box">
+
+                            <div class="method-icon">
+                                💳
+                            </div>
+
+                            <div class="method-content">
+
+                                <div class="method-title">
+                                    Credit / Debit Card
+                                </div>
+
+                                <div class="method-description">
+                                    Visa, Mastercard, RuPay and other cards
+                                </div>
+
+                            </div>
+
+                            <div class="radio"></div>
+
+                        </div>
+
+                    </label>
+
+
+                    <!-- NET BANKING -->
+
+                    <label class="method">
+
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            value="NET_BANKING"
+                        >
+
+                        <div class="method-box">
+
+                            <div class="method-icon">
+                                🏦
+                            </div>
+
+                            <div class="method-content">
+
+                                <div class="method-title">
+                                    Net Banking
+                                </div>
+
+                                <div class="method-description">
+                                    Pay securely using your bank account
+                                </div>
+
+                            </div>
+
+                            <div class="radio"></div>
+
+                        </div>
+
+                    </label>
+
+
+                    <button
+                        type="submit"
+                        class="pay-button"
+                    >
+                        Continue to Payment
+                    </button>
+
+                </form>
+
+
+                <a
+                    href="{% url 'book_appointment' %}"
+                    class="back-link"
+                >
+                    ← Back to appointment
+                </a>
+
+            </div>
+
+
+            <!-- =================================================
+                 APPOINTMENT SUMMARY
+            ================================================== -->
+
+            <div class="card summary-card">
+
+                <div class="summary-title">
+                    Appointment Summary
+                </div>
+
+
+                <!-- DOCTOR -->
+
+                <div class="doctor-box">
+
+                    {% if doctor.profile_pic %}
+
+                        <img
+                            src="{{ doctor.profile_pic.url }}"
+                            class="doctor-avatar"
+                            alt="Doctor"
+                        >
+
+                    {% else %}
+
+                        <div class="doctor-placeholder">
+                            Dr
+                        </div>
+
+                    {% endif %}
+
+
+                    <div>
+
+                        <div class="doctor-name">
+
+                            Dr.
+                            {{ doctor.user.get_full_name|default:doctor.user.username }}
+
+                        </div>
+
+                        <div class="doctor-specialization">
+
+                            {{ doctor.get_specialization_display }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Appointment Date
+                    </span>
+
+                    <span class="detail-value">
+
+                        {{ pending_booking.appointment_date }}
+
+                    </span>
+
+                </div>
+
+
+                <!-- TIME -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Appointment Time
+                    </span>
+
+                    <span class="detail-value">
+
+                        {{ pending_booking.appointment_time }}
+
+                    </span>
+
+                </div>
+
+
+                <!-- SPECIALIZATION -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Specialization
+                    </span>
+
+                    <span class="detail-value">
+
+                        {{ doctor.get_specialization_display }}
+
+                    </span>
+
+                </div>
+
+
+                <!-- FEE -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Consultation Fee
+                    </span>
+
+                    <span class="detail-value">
+
+                        ₹{{ pending_booking.consultation_fee }}
+
+                    </span>
+
+                </div>
+
+
+                <!-- TOTAL -->
+
+                <div class="total-row">
+
+                    <span class="total-label">
+                        Total Amount
+                    </span>
+
+                    <span class="total-value">
+
+                        ₹{{ pending_booking.consultation_fee }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="secure-note">
+
+                    🔒 Your payment information is securely
+                    processed through the CarePlus payment gateway.
+
+                    <br><br>
+
+                    This is a simulated payment environment
+                    for demonstration purposes.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
