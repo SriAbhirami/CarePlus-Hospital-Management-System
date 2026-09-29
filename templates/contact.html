@@ -1,0 +1,2162 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact | CarePlus Hospital</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #f6fbfa;
+            color: #102a2a;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        /* =====================================================
+           NAVBAR — SAME AS HOMEPAGE
+        ===================================================== */
+
+        .site-navbar {
+            width: 100%;
+            min-height: 76px;
+
+            padding: 0 7%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: rgba(255, 255, 255, 0.97);
+
+            border-bottom: 1px solid #e5eeee;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 9999;
+            isolation: isolate;
+
+            box-shadow: 0 2px 12px rgba(15, 72, 72, 0.04);
+        }
+
+        .site-logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            color: #17343a;
+
+            font-size: 21px;
+            font-weight: 800;
+
+            letter-spacing: -0.5px;
+
+            white-space: nowrap;
+        }
+
+        .site-logo-dot {
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: #14b8a6;
+
+            display: inline-block;
+        }
+
+        .site-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .site-nav-links > a {
+            position: relative;
+
+            color: #52646b;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 28px 0;
+
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .site-nav-links > a:hover {
+            color: #0f9f91;
+        }
+
+        /* Active page */
+
+        .site-nav-links > a.active {
+            color: #0f9f91;
+        }
+
+        .site-nav-links > a.active::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            right: 0;
+            bottom: 19px;
+
+            height: 2px;
+
+            border-radius: 10px;
+
+            background: #14b8a6;
+        }
+
+        /* Login */
+
+        .site-login-btn {
+            padding: 10px 20px !important;
+
+            border: 1px solid #cfe4e2;
+            border-radius: 8px;
+
+            color: #147d74 !important;
+
+            background: #ffffff;
+
+            transition: all 0.25s ease;
+        }
+
+        .site-login-btn:hover {
+            background: #f0faf9;
+            border-color: #9bd8d3;
+
+            transform: translateY(-1px);
+        }
+
+        .site-login-btn::after {
+            display: none !important;
+        }
+
+        /* Register */
+
+        .site-register-btn {
+            padding: 10px 20px !important;
+
+            border-radius: 8px;
+
+            color: #ffffff !important;
+
+            background: #129f92;
+
+            box-shadow:
+                0 5px 14px rgba(18, 159, 146, 0.16);
+
+            transition: all 0.25s ease;
+        }
+
+        .site-register-btn:hover {
+            background: #0d8e82;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 18px rgba(18, 159, 146, 0.22);
+        }
+
+        .site-register-btn::after {
+            display: none !important;
+        }
+
+        /* Mobile menu */
+
+        .site-menu-toggle {
+            display: none;
+
+            width: 42px;
+            height: 42px;
+
+            border: 1px solid #dce9e8;
+            border-radius: 8px;
+
+            background: #ffffff;
+
+            cursor: pointer;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-direction: column;
+            gap: 5px;
+
+            z-index: 10001;
+        }
+
+        .site-menu-toggle span {
+            width: 20px;
+            height: 2px;
+
+            border-radius: 5px;
+
+            background: #17343a;
+
+            transition: all 0.25s ease;
+        }
+
+        .site-menu-toggle.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .site-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .site-menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+            background:
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(13, 148, 136, 0.13),
+                    transparent 30%
+                ),
+                linear-gradient(135deg, #eefaf8, #f8fcfc);
+
+            padding: 72px 28px 68px;
+
+            border-bottom: 1px solid #e5eeee;
+        }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns: 1.15fr 0.85fr;
+
+            align-items: center;
+
+            gap: 70px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            color: #0d9488;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+
+            margin-bottom: 17px;
+        }
+
+        .eyebrow::before {
+            content: "";
+
+            width: 28px;
+            height: 2px;
+
+            background: #0d9488;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 5vw, 58px);
+
+            line-height: 1.08;
+
+            letter-spacing: -2px;
+
+            color: #123535;
+
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #0d9488;
+        }
+
+        .hero p {
+            max-width: 600px;
+
+            font-size: 17px;
+
+            color: #607272;
+
+            line-height: 1.8;
+        }
+
+        .hero-visual {
+            min-height: 280px;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0d9488,
+                    #075e59
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 24px 55px rgba(13, 148, 136, 0.18);
+        }
+
+        .hero-visual::before,
+        .hero-visual::after {
+            content: "";
+
+            position: absolute;
+
+            border: 1px solid rgba(255,255,255,0.16);
+
+            border-radius: 50%;
+        }
+
+        .hero-visual::before {
+            width: 270px;
+            height: 270px;
+        }
+
+        .hero-visual::after {
+            width: 190px;
+            height: 190px;
+        }
+
+        .medical-symbol {
+            width: 105px;
+            height: 105px;
+
+            border-radius: 28px;
+
+            background: rgba(255,255,255,0.13);
+
+            border: 1px solid rgba(255,255,255,0.22);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+
+            font-size: 52px;
+            font-weight: 700;
+
+            z-index: 1;
+
+            backdrop-filter: blur(5px);
+        }
+
+
+        /* =====================================================
+           CONTACT CARDS
+        ===================================================== */
+
+        .contact-section {
+            max-width: 1200px;
+            margin: auto;
+
+            padding: 72px 28px;
+        }
+
+        .section-heading {
+            text-align: center;
+
+            margin-bottom: 42px;
+        }
+
+        .section-heading .small-title {
+            color: #0d9488;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+
+            margin-bottom: 9px;
+        }
+
+        .section-heading h2 {
+            font-size: 32px;
+
+            color: #123535;
+
+            letter-spacing: -0.8px;
+
+            margin-bottom: 9px;
+        }
+
+        .section-heading p {
+            color: #708080;
+
+            font-size: 15px;
+        }
+
+        .contact-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+        }
+
+        .contact-card {
+            background: #ffffff;
+
+            border: 1px solid #e4eeee;
+
+            border-radius: 16px;
+
+            padding: 25px 22px;
+
+            transition: 0.25s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-4px);
+
+            border-color: #b8dfdb;
+
+            box-shadow:
+                0 15px 35px rgba(24, 67, 65, 0.08);
+        }
+
+        .card-icon {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 12px;
+
+            background: #e9f8f6;
+
+            color: #0d9488;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+
+            margin-bottom: 17px;
+        }
+
+        .contact-card h3 {
+            font-size: 16px;
+
+            color: #173b3a;
+
+            margin-bottom: 8px;
+        }
+
+        .contact-card p {
+            font-size: 13px;
+
+            color: #718181;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           ENQUIRY AREA
+        ===================================================== */
+
+        .enquiry-wrapper {
+            max-width: 1200px;
+
+            margin: 0 auto 75px;
+
+            padding: 0 28px;
+        }
+
+        .enquiry-container {
+            background: #ffffff;
+
+            border: 1px solid #e2eeee;
+
+            border-radius: 22px;
+
+            display: grid;
+
+            grid-template-columns:
+                0.8fr 1.2fr;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 18px 45px rgba(20, 62, 60, 0.06);
+        }
+
+        .enquiry-info {
+            background: #103c3a;
+
+            color: white;
+
+            padding: 48px 42px;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .enquiry-info::after {
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            border-radius: 50%;
+
+            right: -100px;
+            bottom: -100px;
+        }
+
+        .enquiry-info h2 {
+            font-size: 29px;
+
+            line-height: 1.25;
+
+            margin-bottom: 15px;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        .enquiry-info > p {
+            color: rgba(255,255,255,0.72);
+
+            font-size: 14px;
+
+            line-height: 1.8;
+
+            margin-bottom: 32px;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-item {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 13px;
+
+            margin-bottom: 22px;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+        .info-icon {
+            width: 35px;
+            height: 35px;
+
+            min-width: 35px;
+
+            border-radius: 9px;
+
+            background: rgba(255,255,255,0.10);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-item strong {
+            display: block;
+
+            font-size: 13px;
+
+            margin-bottom: 3px;
+        }
+
+        .info-item span {
+            color: rgba(255,255,255,0.65);
+
+            font-size: 12px;
+        }
+
+        .enquiry-form {
+            padding: 48px 45px;
+        }
+
+        .enquiry-form h3 {
+            font-size: 23px;
+
+            color: #163a39;
+
+            margin-bottom: 7px;
+        }
+
+        .enquiry-form .form-subtitle {
+            color: #7a8888;
+
+            font-size: 13px;
+
+            margin-bottom: 26px;
+        }
+
+        .form-row {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 17px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #405858;
+
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+
+            border: 1px solid #dce8e8;
+
+            border-radius: 9px;
+
+            padding: 12px 13px;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            color: #183938;
+
+            background: #fbfdfd;
+
+            outline: none;
+
+            transition: 0.2s ease;
+        }
+
+        .form-group input {
+            height: 43px;
+        }
+
+        .form-group textarea {
+            min-height: 105px;
+
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #0d9488;
+
+            box-shadow:
+                0 0 0 3px rgba(13, 148, 136, 0.08);
+
+            background: white;
+        }
+
+        .submit-btn {
+            border: none;
+
+            background: #0d9488;
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            padding: 12px 22px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            transition: 0.25s ease;
+        }
+
+        .submit-btn:hover {
+            background: #087f75;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           EMERGENCY
+        ===================================================== */
+
+        .emergency-section {
+            max-width: 1200px;
+
+            margin: 0 auto 75px;
+
+            padding: 0 28px;
+        }
+
+        .emergency-box {
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff7f6,
+                    #fffdfc
+                );
+
+            border: 1px solid #f1dddd;
+
+            border-radius: 18px;
+
+            padding: 28px 32px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+        .emergency-content {
+            display: flex;
+
+            align-items: center;
+
+            gap: 17px;
+        }
+
+        .emergency-icon {
+            width: 52px;
+            height: 52px;
+
+            min-width: 52px;
+
+            border-radius: 14px;
+
+            background: #fff0ef;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+        .emergency-content h3 {
+            color: #5d2929;
+
+            font-size: 18px;
+
+            margin-bottom: 4px;
+        }
+
+        .emergency-content p {
+            color: #856b6b;
+
+            font-size: 13px;
+        }
+
+        .emergency-btn {
+            background: #8f3838;
+
+            color: white;
+
+            padding: 11px 19px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            transition: 0.25s ease;
+        }
+
+        .emergency-btn:hover {
+            background: #742d2d;
+        }
+
+
+        /* =====================================================
+           LOCATION
+        ===================================================== */
+
+        .location-section {
+            max-width: 1200px;
+
+            margin: 0 auto 75px;
+
+            padding: 0 28px;
+        }
+
+        .location-container {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 22px;
+
+            align-items: stretch;
+        }
+
+        .location-card {
+            background: #ffffff;
+
+            border: 1px solid #e2eeee;
+
+            border-radius: 18px;
+
+            padding: 35px;
+        }
+
+        .location-card .small-title {
+            color: #0d9488;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+
+            margin-bottom: 9px;
+        }
+
+        .location-card h2 {
+            font-size: 26px;
+
+            color: #153938;
+
+            margin-bottom: 12px;
+        }
+
+        .location-card p {
+            color: #708080;
+
+            font-size: 14px;
+
+            line-height: 1.8;
+
+            margin-bottom: 20px;
+        }
+
+        .location-link {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #0d9488;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+        .map-placeholder {
+            min-height: 280px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e9f5f3,
+                    #dceeea
+                );
+
+            border: 1px solid #d5e9e6;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .map-placeholder::before {
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            border: 1px dashed rgba(13,148,136,0.22);
+
+            border-radius: 50%;
+        }
+
+        .map-content {
+            text-align: center;
+
+            z-index: 1;
+        }
+
+        .map-pin {
+            font-size: 37px;
+
+            margin-bottom: 7px;
+        }
+
+        .map-content strong {
+            display: block;
+
+            color: #194442;
+
+            font-size: 16px;
+
+            margin-bottom: 3px;
+        }
+
+        .map-content span {
+            color: #6b8180;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           CTA
+        ===================================================== */
+
+        .cta-section {
+            max-width: 1200px;
+
+            margin: 0 auto 75px;
+
+            padding: 0 28px;
+        }
+
+        .cta-box {
+            background: #0d9488;
+
+            border-radius: 20px;
+
+            padding: 38px 45px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+            color: white;
+        }
+
+        .cta-box h2 {
+            font-size: 25px;
+
+            margin-bottom: 5px;
+        }
+
+        .cta-box p {
+            color: rgba(255,255,255,0.75);
+
+            font-size: 13px;
+        }
+
+        .cta-buttons {
+            display: flex;
+
+            gap: 10px;
+        }
+
+        .cta-btn {
+            background: white;
+
+            color: #087d74;
+
+            padding: 11px 18px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+
+            color: white;
+
+            border: 1px solid rgba(255,255,255,0.35);
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            background: #0d2928;
+
+            color: white;
+
+            padding: 55px 28px 25px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+
+            margin: auto;
+        }
+
+        .footer-top {
+            display: grid;
+
+            grid-template-columns:
+                1.5fr 1fr 1fr;
+
+            gap: 60px;
+
+            padding-bottom: 40px;
+        }
+
+        .footer-brand {
+            max-width: 360px;
+        }
+
+        .footer-brand .brand {
+            margin-bottom: 15px;
+        }
+
+        .footer-brand .brand-text {
+            color: white;
+        }
+
+        .footer-brand p {
+            color: rgba(255,255,255,0.57);
+
+            font-size: 13px;
+
+            line-height: 1.8;
+        }
+
+        .footer-column h4 {
+            font-size: 13px;
+
+            margin-bottom: 17px;
+
+            color: white;
+        }
+
+        .footer-column a {
+            display: block;
+
+            color: rgba(255,255,255,0.57);
+
+            font-size: 12px;
+
+            margin-bottom: 10px;
+
+            transition: 0.2s ease;
+        }
+
+        .footer-column a:hover {
+            color: #6edbd1;
+        }
+
+        .footer-bottom {
+            border-top:
+                1px solid rgba(255,255,255,0.09);
+
+            padding-top: 22px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            color: rgba(255,255,255,0.4);
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .site-navbar {
+                padding: 0 5%;
+            }
+
+            .site-nav-links {
+                gap: 20px;
+            }
+
+            .site-nav-links > a {
+                font-size: 13px;
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                max-width: 520px;
+            }
+
+            .contact-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .enquiry-container {
+                grid-template-columns: 1fr;
+            }
+
+            .location-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns:
+                    1.5fr 1fr 1fr;
+
+                gap: 30px;
+            }
+        }
+
+
+        @media (max-width: 850px) {
+
+            .site-navbar {
+                min-height: 70px;
+
+                padding: 0 5%;
+            }
+
+            .site-menu-toggle {
+                display: flex;
+            }
+
+            .site-nav-links {
+                position: absolute;
+
+                top: 70px;
+
+                left: 5%;
+                right: 5%;
+
+                display: flex;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 0;
+
+                padding: 12px;
+
+                background: #ffffff;
+
+                border: 1px solid #e1eeee;
+
+                border-radius: 12px;
+
+                box-shadow:
+                    0 18px 40px rgba(20, 70, 70, 0.12);
+
+                opacity: 0;
+
+                visibility: hidden;
+
+                transform: translateY(-10px);
+
+                transition:
+                    opacity 0.25s ease,
+                    transform 0.25s ease,
+                    visibility 0.25s ease;
+            }
+
+            .site-nav-links.show {
+                opacity: 1;
+
+                visibility: visible;
+
+                transform: translateY(0);
+            }
+
+            .site-nav-links > a {
+                width: 100%;
+
+                padding: 13px 14px;
+
+                border-radius: 7px;
+
+                font-size: 14px;
+            }
+
+            .site-nav-links > a:hover {
+                background: #f1faf9;
+            }
+
+            .site-nav-links > a.active {
+                background: #edf9f7;
+            }
+
+            .site-nav-links > a.active::after {
+                display: none;
+            }
+
+            .site-login-btn,
+            .site-register-btn {
+                text-align: center;
+
+                margin-top: 5px;
+            }
+
+            .hero {
+                padding:
+                    55px 20px;
+            }
+
+            .hero h1 {
+                font-size: 39px;
+            }
+
+            .contact-section,
+            .enquiry-wrapper,
+            .emergency-section,
+            .location-section,
+            .cta-section {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+
+                gap: 0;
+            }
+
+            .enquiry-info,
+            .enquiry-form {
+                padding: 35px 25px;
+            }
+
+            .emergency-box {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .cta-box {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                padding: 32px 25px;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+
+                gap: 30px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .site-logo {
+                font-size: 18px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .cta-buttons {
+                width: 100%;
+
+                flex-direction: column;
+            }
+
+            .cta-btn {
+                text-align: center;
+
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR — SAME AS HOMEPAGE
+========================================================= -->
+
+<nav class="site-navbar">
+
+    <a href="{% url 'home' %}" class="site-logo">
+
+        <span class="site-logo-dot"></span>
+
+        CarePlus Hospital
+
+    </a>
+
+
+    <button
+        class="site-menu-toggle"
+        id="menuToggle"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        type="button"
+    >
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+
+    <div class="site-nav-links" id="navLinks">
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        <a href="{% url 'about' %}">
+            About
+        </a>
+
+        <a href="{% url 'doctors_directory' %}">
+            Doctors
+        </a>
+
+        <a href="{% url 'services' %}">
+            Services
+        </a>
+
+        <a href="{% url 'contact' %}" class="active">
+            Contact
+        </a>
+
+        <a href="{% url 'login' %}" class="site-login-btn">
+            Login
+        </a>
+
+        <a href="{% url 'register' %}" class="site-register-btn">
+            Register
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+    <div class="hero-inner">
+
+        <div>
+
+            <div class="eyebrow">
+                Contact CarePlus
+            </div>
+
+            <h1>
+                We're here<br>
+                <span>when you need us.</span>
+            </h1>
+
+            <p>
+                Have a question, need assistance, or want to connect
+                with our hospital team? Reach out to CarePlus and
+                we'll help you find the right care.
+            </p>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="medical-symbol">
+                +
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CONTACT INFORMATION
+========================================================= -->
+
+<section class="contact-section">
+
+    <div class="section-heading">
+
+        <div class="small-title">
+            Get in touch
+        </div>
+
+        <h2>
+            Contact Information
+        </h2>
+
+        <p>
+            Reach the CarePlus team through the channel that works best for you.
+        </p>
+
+    </div>
+
+
+    <div class="contact-grid">
+
+        <div class="contact-card">
+
+            <div class="card-icon">
+                📍
+            </div>
+
+            <h3>
+                Visit Us
+            </h3>
+
+            <p>
+                CarePlus Hospital<br>
+                Near Railway station,<br>
+                Thiruvananthapuram, Kerala
+            </p>
+
+        </div>
+
+
+        <div class="contact-card">
+
+            <div class="card-icon">
+                ☎
+            </div>
+
+            <h3>
+                Call Us
+            </h3>
+
+            <p>
+                +91 471 400 5000<br>
+                Monday – Sunday<br>
+                8:00 AM – 8:00 PM
+            </p>
+
+        </div>
+
+
+        <div class="contact-card">
+
+            <div class="card-icon">
+                ✉
+            </div>
+
+            <h3>
+                Email Us
+            </h3>
+
+            <p>
+                info@careplus-hospital.com<br>
+                support@careplus-hospital.com<br>
+                We respond during working hours.
+            </p>
+
+        </div>
+
+
+        <div class="contact-card">
+
+            <div class="card-icon">
+                🕐
+            </div>
+
+            <h3>
+                Working Hours
+            </h3>
+
+            <p>
+                Outpatient: 8:00 AM – 8:00 PM<br>
+                Monday – Saturday<br>
+                Emergency: 24 / 7
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ENQUIRY AREA
+========================================================= -->
+
+<section class="enquiry-wrapper">
+
+    <div class="enquiry-container">
+
+
+        <div class="enquiry-info">
+
+            <h2>
+                Let's start a conversation.
+            </h2>
+
+            <p>
+                Whether you have a general enquiry or need help
+                navigating our services, our team is here to assist you.
+            </p>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">
+                    ☎
+                </div>
+
+                <div>
+
+                    <strong>
+                        Hospital Reception
+                    </strong>
+
+                    <span>
+                        +91 471 400 5000
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">
+                    ✉
+                </div>
+
+                <div>
+
+                    <strong>
+                        General Enquiries
+                    </strong>
+
+                    <span>
+                        info@careplus-hospital.com
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">
+                    🕐
+                </div>
+
+                <div>
+
+                    <strong>
+                        Response Hours
+                    </strong>
+
+                    <span>
+                        Monday – Saturday, 8 AM – 8 PM
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="enquiry-form">
+
+            <h3>
+                Send an Enquiry
+            </h3>
+
+            <p class="form-subtitle">
+                Fill in the details below and our team will get back to you.
+            </p>
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="Enter your phone number"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="subject">
+                            Subject
+                        </label>
+
+                        <input
+                            type="text"
+                            id="subject"
+                            name="subject"
+                            placeholder="What can we help with?"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="message">
+                        Message
+                    </label>
+
+                    <textarea
+                        id="message"
+                        name="message"
+                        placeholder="Write your message here..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button type="submit" class="submit-btn">
+                    Send Message
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     EMERGENCY
+========================================================= -->
+
+<section class="emergency-section">
+
+    <div class="emergency-box">
+
+        <div class="emergency-content">
+
+            <div class="emergency-icon">
+                🚑
+            </div>
+
+            <div>
+
+                <h3>
+                    Medical Emergency?
+                </h3>
+
+                <p>
+                    For urgent medical assistance, contact our
+                    emergency department immediately.
+                </p>
+
+            </div>
+
+        </div>
+
+        <a
+            href="tel:+914714005000"
+            class="emergency-btn"
+        >
+            Call Emergency
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LOCATION
+========================================================= -->
+
+<section class="location-section">
+
+    <div class="location-container">
+
+        <div class="location-card">
+
+            <div class="small-title">
+                Find us
+            </div>
+
+            <h2>
+                Visit CarePlus Hospital
+            </h2>
+
+            <p>
+                Conveniently located in Thiruvananthapuram,
+                CarePlus Hospital provides accessible healthcare
+                services for patients and families.
+            </p>
+
+            <p>
+
+                <strong>
+                    CarePlus Hospital
+                </strong>
+
+                <br>
+
+                Technopark Road
+
+                <br>
+
+                Thiruvananthapuram, Kerala
+
+            </p>
+
+            <a href="#" class="location-link">
+                Get Directions →
+            </a>
+
+        </div>
+
+
+        <div class="map-placeholder">
+
+            <div class="map-content">
+
+                <div class="map-pin">
+                    📍
+                </div>
+
+                <strong>
+                    CarePlus Hospital
+                </strong>
+
+                <span>
+                    Thiruvananthapuram, Kerala
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="cta-section">
+
+    <div class="cta-box">
+
+        <div>
+
+            <h2>
+                Looking for the right doctor?
+            </h2>
+
+            <p>
+                Explore our specialists and find the care you need.
+            </p>
+
+        </div>
+
+
+        <div class="cta-buttons">
+
+            <a
+                href="{% url 'doctors_directory' %}"
+                class="cta-btn"
+            >
+                Find a Doctor
+            </a>
+
+            <a
+                href="{% url 'services' %}"
+                class="cta-btn secondary"
+            >
+                Explore Services
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <div class="footer-container">
+
+        <div class="footer-top">
+
+
+            <div class="footer-brand">
+
+                <a
+                    href="{% url 'home' %}"
+                    class="brand"
+                >
+
+                    <div class="brand-icon">
+                        +
+                    </div>
+
+                    <div class="brand-text">
+                        CarePlus
+                    </div>
+
+                </a>
+
+                <p>
+                    Accessible, reliable, and patient-focused healthcare
+                    designed around the needs of every individual.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Quick Links
+                </h4>
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'about' %}">
+                    About
+                </a>
+
+                <a href="{% url 'services' %}">
+                    Services
+                </a>
+
+                <a href="{% url 'contact' %}">
+                    Contact
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Explore
+                </h4>
+
+                <a href="{% url 'doctors_directory' %}">
+                    Find a Doctor
+                </a>
+
+                <a href="{% url 'specialization_detail' 'CARDIOLOGY' %}">
+                    Specializations
+                </a>
+
+                <a href="{% url 'login' %}">
+                    Patient Login
+                </a>
+
+                <a href="{% url 'register' %}">
+                    Create Account
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 CarePlus Hospital. All rights reserved.
+            </span>
+
+            <span>
+                Healthcare • Technology • Care
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     MOBILE NAVIGATION
+========================================================= -->
+
+<script>
+
+    const menuToggle =
+        document.getElementById("menuToggle");
+
+    const navLinks =
+        document.getElementById("navLinks");
+
+
+    menuToggle.addEventListener("click", function () {
+
+        navLinks.classList.toggle("show");
+
+        menuToggle.classList.toggle("active");
+
+        const isOpen =
+            navLinks.classList.contains("show");
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
+
+    });
+
+
+    document
+        .querySelectorAll(".site-nav-links a")
+        .forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                navLinks.classList.remove("show");
+
+                menuToggle.classList.remove("active");
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            });
+
+        });
+
+
+    /* Close menu when clicking outside */
+
+    document.addEventListener("click", function (event) {
+
+        if (
+            !navLinks.contains(event.target) &&
+            !menuToggle.contains(event.target)
+        ) {
+
+            navLinks.classList.remove("show");
+
+            menuToggle.classList.remove("active");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    });
+
+
+    /* Reset menu after switching back to desktop */
+
+    window.addEventListener("resize", function () {
+
+        if (window.innerWidth > 850) {
+
+            navLinks.classList.remove("show");
+
+            menuToggle.classList.remove("active");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    });
+
+</script>
+
+
+</body>
+</html>

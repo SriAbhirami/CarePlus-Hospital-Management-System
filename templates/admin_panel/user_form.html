@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% if is_edit %}
+            Edit User
+        {% else %}
+            Add User
+        {% endif %}
+        | CarePlus Hospital
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #F5FAFC;
+            color: #172033;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        .page {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 40px 22px;
+        }
+
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #008D9B;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+
+        .back-link:hover {
+            color: #006F7B;
+        }
+
+
+        .card {
+            background: white;
+            border: 1px solid #CDECEF;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow:
+                0 4px 18px rgba(0,184,200,0.13),
+                0 0 10px rgba(0,209,217,0.09);
+        }
+
+
+        .header {
+            margin-bottom: 28px;
+        }
+
+
+        .header h1 {
+            font-size: 26px;
+            margin-bottom: 7px;
+        }
+
+
+        .header p {
+            color: #607086;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 7px;
+            margin-bottom: 8px;
+            background: #FFF0F0;
+            color: #B42318;
+            border: 1px solid #F5C2C0;
+            font-size: 13px;
+        }
+
+
+        .section {
+            margin-top: 28px;
+            padding-top: 25px;
+            border-top: 1px solid #E5F3F5;
+        }
+
+
+        .section-header {
+            margin-bottom: 20px;
+        }
+
+
+        .section-header h2 {
+            font-size: 17px;
+            color: #172033;
+            margin-bottom: 5px;
+        }
+
+
+        .section-header p {
+            color: #718096;
+            font-size: 12px;
+        }
+
+
+        .doctor-section {
+            display: none;
+        }
+
+
+        .doctor-section.visible {
+            display: block;
+        }
+
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+
+        label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #344054;
+            margin-bottom: 7px;
+        }
+
+
+        .required {
+            color: #00A8B7;
+        }
+
+
+        input,
+        select {
+            width: 100%;
+            height: 44px;
+            border: 1px solid #CDECEF;
+            border-radius: 7px;
+            padding: 0 12px;
+            outline: none;
+            color: #172033;
+            background: white;
+        }
+
+
+        input:focus,
+        select:focus {
+            border-color: #00B8C8;
+            box-shadow:
+                0 0 0 3px rgba(0,184,200,0.10);
+        }
+
+
+        input[type="file"] {
+            height: auto;
+            padding: 10px 12px;
+        }
+
+
+        input[type="checkbox"] {
+            width: 17px;
+            height: 17px;
+            accent-color: #00B8C8;
+        }
+
+
+        .help {
+            margin-top: 5px;
+            font-size: 11px;
+            color: #8794A6;
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           DAYS
+        ===================================================== */
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+
+        .day-option {
+            position: relative;
+        }
+
+
+        .day-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+
+        .day-label {
+            height: 42px;
+            border: 1px solid #CDECEF;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #607086;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+            background: white;
+        }
+
+
+        .day-label:hover {
+            border-color: #00B8C8;
+            color: #008D9B;
+        }
+
+
+        .day-option input:checked + .day-label {
+            background: #E3FBFD;
+            border-color: #00B8C8;
+            color: #008D9B;
+            box-shadow:
+                0 0 10px rgba(0,184,200,0.12);
+        }
+
+
+        /* =====================================================
+           AVAILABILITY
+        ===================================================== */
+
+        .availability-box {
+            border: 1px solid #CDECEF;
+            border-radius: 8px;
+            padding: 15px;
+            background: #F9FEFF;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+
+        .availability-box label {
+            margin: 0;
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           FORM ACTIONS
+        ===================================================== */
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 22px;
+            border-top: 1px solid #E5F3F5;
+        }
+
+
+        .btn {
+            min-height: 42px;
+            padding: 0 20px;
+            border-radius: 7px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+
+        .btn-cancel {
+            border: 1px solid #D7E3E8;
+            background: white;
+            color: #607086;
+        }
+
+
+        .btn-save {
+            border: 1px solid #00B8C8;
+            background: #00B8C8;
+            color: white;
+        }
+
+
+        .btn-save:hover {
+            background: #0097A7;
+        }
+
+
+        @media (max-width: 700px) {
+
+            .page {
+                padding: 25px 15px;
+            }
+
+            .card {
+                padding: 22px 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .days-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+        }
+
+
+        @media (max-width: 430px) {
+
+            .days-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <a
+        href="{% url 'admin_panel:users' %}"
+        class="back-link"
+    >
+        ← Back to Users
+    </a>
+
+
+    <div class="card">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <div class="header">
+
+            <h1>
+
+                {% if is_edit %}
+                    Edit User
+                {% else %}
+                    Add New User
+                {% endif %}
+
+            </h1>
+
+            <p>
+
+                {% if is_edit %}
+
+                    Update the user's account information.
+                    Doctor accounts also include their professional
+                    and appointment availability details.
+
+                {% else %}
+
+                    Create a new CarePlus Hospital user account.
+                    Selecting Doctor will automatically show the
+                    required professional information.
+
+                {% endif %}
+
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             MESSAGES
+        ================================================== -->
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <form
+            method="post"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- =================================================
+                 BASIC INFORMATION
+            ================================================== -->
+
+            <div class="section" style="margin-top:0; padding-top:0; border-top:0;">
+
+                <div class="section-header">
+
+                    <h2>
+                        Account Information
+                    </h2>
+
+                    <p>
+                        Basic information used for the CarePlus account.
+                    </p>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- Username -->
+
+                    <div class="field">
+
+                        <label>
+                            Username <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="username"
+                            value="{{ user_obj.username|default:'' }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Role -->
+
+                    <div class="field">
+
+                        <label>
+                            Role <span class="required">*</span>
+                        </label>
+
+                        <select
+                            name="role"
+                            id="role"
+                            required
+                        >
+
+                            <option value="">
+                                Select Role
+                            </option>
+
+                            {% for value, label in role_choices %}
+
+                                <option
+                                    value="{{ value }}"
+                                    {% if user_obj.role == value %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ label }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                        <div class="help">
+                            Doctor selection will show additional professional fields.
+                        </div>
+
+                    </div>
+
+
+                    <!-- First Name -->
+
+                    <div class="field">
+
+                        <label>
+                            First Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="first_name"
+                            value="{{ user_obj.first_name|default:'' }}"
+                        >
+
+                    </div>
+
+
+                    <!-- Last Name -->
+
+                    <div class="field">
+
+                        <label>
+                            Last Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="last_name"
+                            value="{{ user_obj.last_name|default:'' }}"
+                        >
+
+                    </div>
+
+
+                    <!-- Email -->
+
+                    <div class="field">
+
+                        <label>
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            value="{{ user_obj.email|default:'' }}"
+                        >
+
+                    </div>
+
+
+                    <!-- Phone -->
+
+                    <div class="field">
+
+                        <label>
+                            Phone
+                        </label>
+
+                        <input
+                            type="text"
+                            name="phone"
+                            value="{{ user_obj.phone|default:'' }}"
+                            maxlength="15"
+                        >
+
+                    </div>
+
+
+                    {% if not is_edit %}
+
+                        <!-- Password -->
+
+                        <div class="field">
+
+                            <label>
+                                Password <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- Confirm Password -->
+
+                        <div class="field">
+
+                            <label>
+                                Confirm Password <span class="required">*</span>
+                            </label>
+
+                            <input
+                                type="password"
+                                name="confirm_password"
+                                required
+                            >
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 DOCTOR INFORMATION
+            ================================================== -->
+
+            <div
+                class="section doctor-section"
+                id="doctorSection"
+            >
+
+                <div class="section-header">
+
+                    <h2>
+                        Doctor Information
+                    </h2>
+
+                    <p>
+                        Professional details and appointment availability
+                        for this doctor.
+                    </p>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- Specialization -->
+
+                    <div class="field">
+
+                        <label>
+                            Specialization <span class="required">*</span>
+                        </label>
+
+                        <select
+                            name="specialization"
+                            id="specialization"
+                        >
+
+                            <option value="">
+                                Select Specialization
+                            </option>
+
+                            {% for value, label in specialization_choices %}
+
+                                <option
+                                    value="{{ value }}"
+                                    {% if doctor_profile.specialization == value %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ label }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Qualification -->
+
+                    <div class="field">
+
+                        <label>
+                            Qualification <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="qualification"
+                            value="{{ doctor_profile.qualification|default:'' }}"
+                            placeholder="e.g. MBBS, MD"
+                        >
+
+                    </div>
+
+
+                    <!-- Experience -->
+
+                    <div class="field">
+
+                        <label>
+                            Experience <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            name="experience"
+                            min="0"
+                            value="{{ doctor_profile.experience|default:'' }}"
+                            placeholder="Years"
+                        >
+
+                    </div>
+
+
+                    <!-- Consultation Fee -->
+
+                    <div class="field">
+
+                        <label>
+                            Consultation Fee <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            name="consultation_fee"
+                            min="0"
+                            step="0.01"
+                            value="{{ doctor_profile.consultation_fee|default:'' }}"
+                            placeholder="₹"
+                        >
+
+                    </div>
+
+
+                    <!-- Start Time -->
+
+                    <div class="field">
+
+                        <label>
+                            Available From <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="time"
+                            name="available_time_start"
+                            value="{{ doctor_profile.available_time_start|time:'H:i' }}"
+                        >
+
+                    </div>
+
+
+                    <!-- End Time -->
+
+                    <div class="field">
+
+                        <label>
+                            Available Until <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="time"
+                            name="available_time_end"
+                            value="{{ doctor_profile.available_time_end|time:'H:i' }}"
+                        >
+
+                    </div>
+
+
+                    <!-- Rating -->
+
+                    <div class="field">
+
+                        <label>
+                            Initial Rating
+                        </label>
+
+                        <input
+                            type="number"
+                            name="rating"
+                            min="0"
+                            max="5"
+                            step="0.1"
+                            value="{{ doctor_profile.rating|default:'0.0' }}"
+                        >
+
+                        <div class="help">
+                            New doctors normally start at 0.0 until patient reviews are available.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Profile Picture -->
+
+                    <div class="field">
+
+                        <label>
+                            Doctor Profile Picture
+                        </label>
+
+                        <input
+                            type="file"
+                            name="profile_pic"
+                            accept="image/*"
+                        >
+
+                        <div class="help">
+                            Upload a professional doctor photo.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Available Days -->
+
+                    <div class="field full">
+
+                        <label>
+                            Available Days <span class="required">*</span>
+                        </label>
+
+
+                        <div class="days-grid">
+
+                            {% for value, label in days_choices %}
+
+                                <div class="day-option">
+
+                                    <input
+                                        type="checkbox"
+                                        name="available_days"
+                                        value="{{ value }}"
+                                        id="day_{{ value }}"
+                                        {% if value in selected_days %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <label
+                                        class="day-label"
+                                        for="day_{{ value }}"
+                                    >
+                                        {{ label|slice:":3" }}
+                                    </label>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <div class="help">
+                            Select all days on which the doctor accepts appointments.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Availability -->
+
+                    <div class="field full">
+
+                        <div class="availability-box">
+
+                            <input
+                                type="checkbox"
+                                name="is_available"
+                                id="is_available"
+                                {% if not is_edit or doctor_profile.is_available %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <label for="is_available">
+                                Doctor is currently available for appointments
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTIONS
+            ================================================== -->
+
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'admin_panel:users' %}"
+                    class="btn btn-cancel"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-save"
+                >
+
+                    {% if is_edit %}
+                        Save Changes
+                    {% else %}
+                        Create User
+                    {% endif %}
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const roleSelect = document.getElementById("role");
+    const doctorSection = document.getElementById("doctorSection");
+
+    function updateDoctorSection() {
+
+        if (roleSelect.value === "DOCTOR") {
+
+            doctorSection.classList.add("visible");
+
+        } else {
+
+            doctorSection.classList.remove("visible");
+
+        }
+
+    }
+
+
+    roleSelect.addEventListener(
+        "change",
+        updateDoctorSection
+    );
+
+
+    // Important for edit mode:
+    // If the existing user is already a doctor,
+    // display the doctor section immediately.
+
+    updateDoctorSection();
+
+</script>
+
+
+</body>
+
+</html>

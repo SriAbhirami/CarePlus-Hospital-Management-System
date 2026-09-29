@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ user_obj.username }} | CarePlus Hospital
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #F5FAFC;
+            color: #172033;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        .page {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 22px;
+        }
+
+
+        .back {
+            display: inline-block;
+            color: #008D9B;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+
+        .card {
+            background: white;
+            border: 1px solid #CDECEF;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow:
+                0 4px 18px rgba(0,184,200,0.13),
+                0 0 10px rgba(0,209,217,0.09);
+        }
+
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #E5F3F5;
+        }
+
+
+        .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: #E3FBFD;
+            color: #008D9B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+
+        .profile-header h1 {
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+
+        .username {
+            color: #718096;
+            font-size: 13px;
+        }
+
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: #E5F3F5;
+            margin-top: 25px;
+            border: 1px solid #E5F3F5;
+        }
+
+
+        .info {
+            background: white;
+            padding: 18px;
+        }
+
+
+        .label {
+            color: #8794A6;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+
+        .value {
+            color: #172033;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        .badge {
+            display: inline-flex;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        .active {
+            background: #E9FBF3;
+            color: #13835B;
+        }
+
+
+        .inactive {
+            background: #FFF0F0;
+            color: #C03939;
+        }
+
+
+        .role {
+            background: #E3FBFD;
+            color: #008D9B;
+        }
+
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+
+        .btn {
+            padding: 10px 17px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+
+        .edit {
+            background: #00B8C8;
+            color: white;
+        }
+
+
+        .edit:hover {
+            background: #0097A7;
+        }
+
+
+        .back-btn {
+            border: 1px solid #CDECEF;
+            color: #607086;
+            background: white;
+        }
+
+
+        .status-form {
+            display: inline;
+        }
+
+
+        .status-btn {
+            border: 1px solid #CDECEF;
+            color: #008D9B;
+            background: white;
+            cursor: pointer;
+        }
+
+
+        @media (max-width: 600px) {
+
+            .page {
+                padding: 25px 15px;
+            }
+
+            .card {
+                padding: 22px 18px;
+            }
+
+            .profile-header {
+                align-items: flex-start;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+    <a
+        href="{% url 'admin_panel:users' %}"
+        class="back"
+    >
+        ← Back to Users
+    </a>
+
+
+    <div class="card">
+
+
+        <div class="profile-header">
+
+            <div class="avatar">
+
+                {% if user_obj.first_name %}
+
+                    {{ user_obj.first_name|first|upper }}
+
+                {% else %}
+
+                    {{ user_obj.username|first|upper }}
+
+                {% endif %}
+
+            </div>
+
+
+            <div>
+
+                <h1>
+
+                    {% if user_obj.get_full_name %}
+                        {{ user_obj.get_full_name }}
+                    {% else %}
+                        {{ user_obj.username }}
+                    {% endif %}
+
+                </h1>
+
+                <div class="username">
+                    @{{ user_obj.username }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-grid">
+
+
+            <div class="info">
+
+                <div class="label">
+                    Email
+                </div>
+
+                <div class="value">
+                    {{ user_obj.email|default:"Not provided" }}
+                </div>
+
+            </div>
+
+
+            <div class="info">
+
+                <div class="label">
+                    Phone
+                </div>
+
+                <div class="value">
+                    {{ user_obj.phone|default:"Not provided" }}
+                </div>
+
+            </div>
+
+
+            <div class="info">
+
+                <div class="label">
+                    Role
+                </div>
+
+                <div class="value">
+
+                    <span class="badge role">
+                        {{ user_obj.get_role_display }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="info">
+
+                <div class="label">
+                    Account Status
+                </div>
+
+                <div class="value">
+
+                    {% if user_obj.is_active %}
+
+                        <span class="badge active">
+                            Active
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge inactive">
+                            Inactive
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="info">
+
+                <div class="label">
+                    Date Joined
+                </div>
+
+                <div class="value">
+                    {{ user_obj.date_joined|date:"d M Y, h:i A" }}
+                </div>
+
+            </div>
+
+
+            <div class="info">
+
+                <div class="label">
+                    Last Login
+                </div>
+
+                <div class="value">
+
+                    {% if user_obj.last_login %}
+                        {{ user_obj.last_login|date:"d M Y, h:i A" }}
+                    {% else %}
+                        Never
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="actions">
+
+            <a
+                href="{% url 'admin_panel:user_edit' user_obj.id %}"
+                class="btn edit"
+            >
+                Edit User
+            </a>
+
+
+            {% if user_obj.id != request.user.id %}
+
+                <form
+                    method="post"
+                    action="{% url 'admin_panel:user_toggle_status' user_obj.id %}"
+                    class="status-form"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn status-btn"
+                    >
+
+                        {% if user_obj.is_active %}
+                            Deactivate User
+                        {% else %}
+                            Activate User
+                        {% endif %}
+
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+
+            <a
+                href="{% url 'admin_panel:users' %}"
+                class="btn back-btn"
+            >
+                Back
+            </a>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Services | CarePlus Hospital</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f7fbfb;
+            color: #17252f;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================================================
+           NAVBAR — SAME STYLE AS HOMEPAGE
+        ========================================================= */
+
+        .site-navbar {
+            width: 100%;
+            min-height: 76px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid #e5eeee;
+
+            position: relative;
+            z-index: 9999;
+            isolation: isolate;
+
+            box-shadow: 0 2px 12px rgba(15, 72, 72, 0.04);
+        }
+
+        .site-logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            color: #17343a;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+        }
+
+        .site-logo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #14b8a6;
+            display: inline-block;
+        }
+
+        .site-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .site-nav-links > a {
+            position: relative;
+
+            color: #52646b;
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 28px 0;
+
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .site-nav-links > a:hover {
+            color: #0f9f91;
+        }
+
+        /* Active page highlight */
+
+        .site-nav-links > a.active {
+            color: #0f9f91;
+        }
+
+        .site-nav-links > a.active::after {
+            content: "";
+
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 19px;
+
+            height: 2px;
+            border-radius: 10px;
+
+            background: #14b8a6;
+        }
+
+
+        /* Login button */
+
+        .site-login-btn {
+            padding: 10px 20px !important;
+
+            border: 1px solid #cfe4e2;
+            border-radius: 8px;
+
+            color: #147d74 !important;
+            background: #ffffff;
+
+            transition: all 0.25s ease;
+        }
+
+        .site-login-btn:hover {
+            background: #f0faf9;
+            border-color: #9bd8d3;
+            transform: translateY(-1px);
+        }
+
+        .site-login-btn::after {
+            display: none !important;
+        }
+
+
+        /* Register button */
+
+        .site-register-btn {
+            padding: 10px 20px !important;
+
+            border-radius: 8px;
+
+            color: #ffffff !important;
+            background: #129f92;
+
+            box-shadow: 0 5px 14px rgba(18, 159, 146, 0.16);
+
+            transition: all 0.25s ease;
+        }
+
+        .site-register-btn:hover {
+            background: #0d8e82;
+            transform: translateY(-1px);
+            box-shadow: 0 7px 18px rgba(18, 159, 146, 0.22);
+        }
+
+        .site-register-btn::after {
+            display: none !important;
+        }
+
+
+        /* Mobile menu button */
+
+        .site-menu-toggle {
+            display: none;
+
+            width: 42px;
+            height: 42px;
+
+            border: 1px solid #dce9e8;
+            border-radius: 8px;
+
+            background: #ffffff;
+
+            cursor: pointer;
+
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+
+            z-index: 10001;
+        }
+
+        .site-menu-toggle span {
+            width: 20px;
+            height: 2px;
+            border-radius: 5px;
+            background: #17343a;
+
+            transition: all 0.25s ease;
+        }
+
+        .site-menu-toggle.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .site-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .site-menu-toggle.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .services-hero {
+            max-width: 1180px;
+            margin: 0 auto;
+
+            padding: 90px 30px 80px;
+
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            align-items: center;
+            gap: 70px;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 20px;
+
+            color: #0f9f91;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .hero-eyebrow span {
+            width: 28px;
+            height: 2px;
+            background: #14b8a6;
+            border-radius: 10px;
+        }
+
+        .services-hero h1 {
+            max-width: 620px;
+
+            color: #18343b;
+            font-size: clamp(42px, 5vw, 66px);
+            line-height: 1.08;
+            letter-spacing: -2.5px;
+
+            margin-bottom: 22px;
+        }
+
+        .services-hero h1 span {
+            color: #119f91;
+        }
+
+        .services-hero-text {
+            max-width: 590px;
+
+            color: #63757b;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+
+        /* Hero visual */
+
+        .hero-visual {
+            min-height: 390px;
+
+            position: relative;
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #dff7f4 0%,
+                    #f5fbfa 55%,
+                    #d9f3ef 100%
+                );
+
+            border: 1px solid #d7ece9;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+        }
+
+        .hero-visual::before {
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            border-radius: 50%;
+
+            background: rgba(20, 184, 166, 0.10);
+
+            top: -80px;
+            right: -60px;
+        }
+
+        .hero-plus {
+            width: 150px;
+            height: 150px;
+
+            border-radius: 35px;
+
+            background: #ffffff;
+
+            color: #14a999;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 90px;
+            font-weight: 300;
+            line-height: 1;
+
+            box-shadow:
+                0 25px 60px rgba(22, 100, 95, 0.14);
+
+            position: relative;
+            z-index: 2;
+        }
+
+        .floating-card {
+            position: absolute;
+
+            padding: 15px 18px;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            border: 1px solid #e0eeee;
+
+            border-radius: 12px;
+
+            color: #315057;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            box-shadow:
+                0 12px 35px rgba(22, 80, 80, 0.10);
+        }
+
+        .floating-card.one {
+            top: 65px;
+            left: 28px;
+        }
+
+        .floating-card.two {
+            right: 25px;
+            bottom: 80px;
+        }
+
+        .floating-card.three {
+            left: 42px;
+            bottom: 45px;
+        }
+
+
+        /* =========================================================
+           SERVICES SECTION
+        ========================================================= */
+
+        .services-section {
+            max-width: 1180px;
+            margin: 0 auto;
+
+            padding: 20px 30px 100px;
+        }
+
+        .section-heading {
+            margin-bottom: 45px;
+        }
+
+        .section-label {
+            display: block;
+
+            margin-bottom: 10px;
+
+            color: #119f91;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .section-heading h2 {
+            color: #18343b;
+
+            font-size: clamp(30px, 4vw, 44px);
+            line-height: 1.15;
+            letter-spacing: -1.4px;
+
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            max-width: 650px;
+
+            color: #6a7b81;
+            font-size: 15px;
+            line-height: 1.75;
+        }
+
+
+        /* Service cards */
+
+        .services-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+        .service-card {
+            min-height: 225px;
+
+            padding: 28px 25px;
+
+            background: #ffffff;
+
+            border: 1px solid #e1eeee;
+            border-radius: 16px;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+
+            border-color: #b9dfdb;
+
+            box-shadow:
+                0 18px 40px rgba(21, 82, 80, 0.09);
+        }
+
+        .service-icon {
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 20px;
+
+            border-radius: 12px;
+
+            background: #eaf8f6;
+
+            font-size: 21px;
+        }
+
+        .service-card h3 {
+            color: #1c3940;
+
+            font-size: 17px;
+            font-weight: 700;
+
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            color: #708187;
+
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+
+        /* =========================================================
+           CTA
+        ========================================================= */
+
+        .services-cta {
+            max-width: 1120px;
+            margin: 10px auto 90px;
+
+            padding: 45px 50px;
+
+            background: #153b40;
+
+            border-radius: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 30px;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .services-cta::after {
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            border-radius: 50%;
+
+            background: rgba(20, 184, 166, 0.10);
+
+            right: -70px;
+            top: -100px;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-content h2 {
+            color: #ffffff;
+
+            font-size: 28px;
+            letter-spacing: -0.6px;
+
+            margin-bottom: 8px;
+        }
+
+        .cta-content p {
+            color: #b9d0d0;
+
+            font-size: 14px;
+        }
+
+        .cta-button {
+            position: relative;
+            z-index: 2;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 23px;
+
+            border-radius: 8px;
+
+            background: #19b7a5;
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            transition: all 0.25s ease;
+        }
+
+        .cta-button:hover {
+            background: #13a394;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+            background: #102f34;
+            color: #ffffff;
+
+            padding: 65px 7% 25px;
+        }
+
+        .footer-main {
+            max-width: 1180px;
+            margin: 0 auto;
+
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr;
+
+            gap: 60px;
+        }
+
+        .footer-brand h3 {
+            font-size: 21px;
+            font-weight: 800;
+
+            margin-bottom: 15px;
+        }
+
+        .footer-brand h3 span {
+            color: #19b7a5;
+        }
+
+        .footer-brand p {
+            max-width: 360px;
+
+            color: #a9c0c2;
+
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .footer-column h4 {
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            margin-bottom: 18px;
+        }
+
+        .footer-column a {
+            display: block;
+
+            color: #a9c0c2;
+
+            font-size: 13px;
+
+            margin-bottom: 11px;
+
+            transition: color 0.2s ease;
+        }
+
+        .footer-column a:hover {
+            color: #23c4b2;
+        }
+
+        .footer-bottom {
+            max-width: 1180px;
+
+            margin: 45px auto 0;
+            padding-top: 22px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            color: #849da0;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .site-navbar {
+                padding: 0 5%;
+            }
+
+            .site-nav-links {
+                gap: 20px;
+            }
+
+            .site-nav-links > a {
+                font-size: 13px;
+            }
+
+            .services-hero {
+                gap: 40px;
+            }
+
+            .services-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+        }
+
+
+        @media (max-width: 850px) {
+
+            .site-navbar {
+                min-height: 70px;
+                padding: 0 5%;
+            }
+
+            .site-menu-toggle {
+                display: flex;
+            }
+
+            .site-nav-links {
+                position: absolute;
+
+                top: 70px;
+                left: 5%;
+                right: 5%;
+
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+
+                gap: 0;
+
+                padding: 12px;
+
+                background: #ffffff;
+
+                border: 1px solid #e1eeee;
+                border-radius: 12px;
+
+                box-shadow:
+                    0 18px 40px rgba(20, 70, 70, 0.12);
+
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px);
+
+                transition:
+                    opacity 0.25s ease,
+                    transform 0.25s ease,
+                    visibility 0.25s ease;
+            }
+
+            .site-nav-links.show {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .site-nav-links > a {
+                width: 100%;
+
+                padding: 13px 14px;
+
+                border-radius: 7px;
+
+                font-size: 14px;
+            }
+
+            .site-nav-links > a:hover {
+                background: #f1faf9;
+            }
+
+            .site-nav-links > a.active {
+                background: #edf9f7;
+            }
+
+            .site-nav-links > a.active::after {
+                display: none;
+            }
+
+            .site-login-btn,
+            .site-register-btn {
+                text-align: center;
+                margin-top: 5px;
+            }
+
+            .services-hero {
+                grid-template-columns: 1fr;
+
+                padding-top: 65px;
+            }
+
+            .hero-visual {
+                min-height: 330px;
+            }
+
+            .services-cta {
+                margin-left: 30px;
+                margin-right: 30px;
+
+                padding: 35px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .site-logo {
+                font-size: 18px;
+            }
+
+            .services-hero {
+                padding:
+                    55px 20px 60px;
+            }
+
+            .services-hero h1 {
+                font-size: 42px;
+                letter-spacing: -1.8px;
+            }
+
+            .services-hero-text {
+                font-size: 14px;
+            }
+
+            .hero-visual {
+                min-height: 280px;
+            }
+
+            .hero-plus {
+                width: 110px;
+                height: 110px;
+
+                border-radius: 26px;
+
+                font-size: 65px;
+            }
+
+            .floating-card {
+                padding: 11px 13px;
+                font-size: 10px;
+            }
+
+            .floating-card.one {
+                top: 30px;
+                left: 15px;
+            }
+
+            .floating-card.two {
+                right: 15px;
+                bottom: 55px;
+            }
+
+            .floating-card.three {
+                left: 20px;
+                bottom: 25px;
+            }
+
+            .services-section {
+                padding:
+                    10px 20px 70px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-card {
+                min-height: auto;
+            }
+
+            .services-cta {
+                margin:
+                    0 20px 65px;
+
+                padding: 30px 25px;
+
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cta-content h2 {
+                font-size: 24px;
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            footer {
+                padding:
+                    50px 7% 25px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+
+    <nav class="site-navbar">
+
+        <a href="{% url 'home' %}" class="site-logo">
+            <span class="site-logo-dot"></span>
+            CarePlus Hospital
+        </a>
+
+
+        <button
+            class="site-menu-toggle"
+            id="menuToggle"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            type="button"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+
+        <div class="site-nav-links" id="navLinks">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'about' %}">
+                About
+            </a>
+
+            <a href="{% url 'doctors_directory' %}">
+                Doctors
+            </a>
+
+            <a href="{% url 'services' %}" class="active">
+                Services
+            </a>
+
+            <a href="{% url 'contact' %}">
+                Contact
+            </a>
+
+            <a href="{% url 'login' %}" class="site-login-btn">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}" class="site-register-btn">
+                Register
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================================================
+         HERO
+    ========================================================= -->
+
+    <section class="services-hero">
+
+        <div class="hero-content">
+
+            <div class="hero-eyebrow">
+                <span></span>
+                OUR SERVICES
+            </div>
+
+            <h1>
+                Care that goes
+                <span>beyond treatment.</span>
+            </h1>
+
+            <p class="services-hero-text">
+                CarePlus Hospital brings together medical expertise,
+                modern healthcare services, and patient-focused support
+                to provide dependable care at every stage of your
+                healthcare journey.
+            </p>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="hero-plus">
+                +
+            </div>
+
+            <div class="floating-card one">
+                Expert Medical Care
+            </div>
+
+            <div class="floating-card two">
+                Patient Focused
+            </div>
+
+            <div class="floating-card three">
+                Trusted Healthcare
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         SERVICES
+    ========================================================= -->
+
+    <section class="services-section">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                WHAT WE OFFER
+            </span>
+
+            <h2>
+                Healthcare services designed around you.
+            </h2>
+
+            <p>
+                From everyday consultations to specialized care,
+                our services are designed to make healthcare
+                accessible, coordinated, and patient-focused.
+            </p>
+
+        </div>
+
+
+        <div class="services-grid">
+
+            {% for service in services %}
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+                        {{ service.icon }}
+                    </div>
+
+                    <h3>
+                        {{ service.title }}
+                    </h3>
+
+                    <p>
+                        {{ service.description }}
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         CTA
+    ========================================================= -->
+
+    <section class="services-cta">
+
+        <div class="cta-content">
+
+            <h2>
+                Looking for the right doctor?
+            </h2>
+
+            <p>
+                Explore our specialists and find the right
+                healthcare professional for your needs.
+            </p>
+
+        </div>
+
+        <a href="{% url 'doctors_directory' %}" class="cta-button">
+            Explore Doctors
+        </a>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+
+    <footer>
+
+        <div class="footer-main">
+
+
+            <div class="footer-brand">
+
+                <h3>
+                    CarePlus<span> Hospital</span>
+                </h3>
+
+                <p>
+                    A patient-focused healthcare platform designed
+                    to make appointments, specialist discovery,
+                    and healthcare services easier to access.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Quick Links
+                </h4>
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'about' %}">
+                    About
+                </a>
+
+                <a href="{% url 'doctors_directory' %}">
+                    Doctors
+                </a>
+
+                <a href="{% url 'services' %}">
+                    Services
+                </a>
+
+                <a href="{% url 'contact' %}">
+                    Contact
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h4>
+                    Explore
+                </h4>
+
+                <a href="{% url 'doctors_directory' %}">
+                    Find a Doctor
+                </a>
+
+                <a href="{% url 'services' %}">
+                    Medical Services
+                </a>
+
+                <a href="{% url 'login' %}">
+                    Patient Login
+                </a>
+
+                <a href="{% url 'register' %}">
+                    Create Account
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 CarePlus Hospital. All rights reserved.
+            </span>
+
+            <span>
+                Patient-focused healthcare management
+            </span>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =========================================================
+         MOBILE NAVIGATION
+    ========================================================= -->
+
+    <script>
+
+        const menuToggle =
+            document.getElementById("menuToggle");
+
+        const navLinks =
+            document.getElementById("navLinks");
+
+
+        menuToggle.addEventListener("click", function () {
+
+            navLinks.classList.toggle("show");
+
+            menuToggle.classList.toggle("active");
+
+            const isOpen =
+                navLinks.classList.contains("show");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                isOpen
+            );
+
+        });
+
+
+        document
+            .querySelectorAll(".site-nav-links a")
+            .forEach(function (link) {
+
+                link.addEventListener("click", function () {
+
+                    navLinks.classList.remove("show");
+
+                    menuToggle.classList.remove("active");
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                });
+
+            });
+
+
+        /* Close menu when clicking outside */
+
+        document.addEventListener("click", function (event) {
+
+            if (
+                !navLinks.contains(event.target) &&
+                !menuToggle.contains(event.target)
+            ) {
+
+                navLinks.classList.remove("show");
+
+                menuToggle.classList.remove("active");
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+        });
+
+
+        /* Reset mobile menu on desktop */
+
+        window.addEventListener("resize", function () {
+
+            if (window.innerWidth > 850) {
+
+                navLinks.classList.remove("show");
+
+                menuToggle.classList.remove("active");
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+        });
+
+    </script>
+
+
+</body>
+</html>

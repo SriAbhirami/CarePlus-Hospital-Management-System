@@ -1,0 +1,1877 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Patients | CarePlus Admin</title>
+
+    <style>
+        :root {
+            --teal: #00B8C8;
+            --teal-bright: #00D1D9;
+            --teal-deep: #0097A7;
+            --teal-dark: #007F8C;
+            --teal-light: #E3FBFD;
+            --teal-soft: #EFFDFE;
+
+            --bg: #F5FAFC;
+            --white: #FFFFFF;
+
+            --text: #172033;
+            --muted: #607086;
+
+            --border: #CDECEF;
+            --border-bright: #9DDEE5;
+
+            --green: #16A66A;
+            --green-light: #E8F9F1;
+
+            --orange: #E79A22;
+            --orange-light: #FFF5E2;
+
+            --red: #E55353;
+            --red-light: #FFF0F0;
+
+            --shadow: 0 8px 28px rgba(0, 151, 167, 0.08);
+            --shadow-hover: 0 12px 32px rgba(0, 151, 167, 0.14);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 255px;
+            height: 100vh;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            z-index: 1000;
+
+            display: flex;
+            flex-direction: column;
+
+            transition: transform 0.3s ease;
+        }
+
+        .brand {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(
+                135deg,
+                var(--teal),
+                var(--teal-deep)
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+            font-size: 21px;
+            font-weight: bold;
+
+            box-shadow: 0 6px 16px rgba(0, 184, 200, 0.22);
+        }
+
+        .brand-text {
+            margin-left: 11px;
+        }
+
+        .brand-text h2 {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--teal-dark);
+            letter-spacing: -0.3px;
+        }
+
+        .brand-text span {
+            display: block;
+            margin-top: 2px;
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-section {
+            padding: 22px 13px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-label {
+            padding: 0 13px 10px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #8A98A8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-item {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            height: 46px;
+            margin-bottom: 4px;
+            padding: 0 14px;
+
+            border-radius: 9px;
+
+            color: #556477;
+            font-size: 14px;
+            font-weight: 700;
+
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--teal-dark);
+            background: var(--teal-soft);
+        }
+
+        .nav-item.active {
+            color: var(--teal-dark);
+            background: var(--teal-light);
+
+            box-shadow:
+                inset 3px 0 0 var(--teal),
+                0 4px 12px rgba(0, 184, 200, 0.08);
+        }
+
+        .nav-icon {
+            width: 27px;
+            font-size: 18px;
+            margin-right: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-bottom {
+            padding: 16px 13px;
+            border-top: 1px solid var(--border);
+        }
+
+        .logout-item {
+            color: #667587;
+        }
+
+        .logout-item:hover {
+            color: var(--red);
+            background: var(--red-light);
+        }
+
+        /* =====================================================
+           MOBILE OVERLAY
+        ===================================================== */
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 30, 45, 0.35);
+            z-index: 900;
+        }
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main {
+            margin-left: 255px;
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+            height: 76px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-btn {
+            display: none;
+
+            width: 40px;
+            height: 40px;
+
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 8px;
+
+            color: var(--teal-dark);
+            font-size: 21px;
+
+            cursor: pointer;
+        }
+
+        .page-heading h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+        }
+
+        .page-heading p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--teal-light);
+            color: var(--teal-dark);
+
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .admin-info {
+            line-height: 1.2;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .admin-info span {
+            display: block;
+            margin-top: 3px;
+
+            font-size: 10px;
+            color: var(--teal-dark);
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content {
+            padding: 30px;
+        }
+
+        /* =====================================================
+           STAT CARDS
+        ===================================================== */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            position: relative;
+
+            background: var(--white);
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+            padding: 20px;
+
+            box-shadow: var(--shadow);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--teal-light);
+            color: var(--teal-dark);
+
+            font-size: 17px;
+        }
+
+        .stat-number {
+            margin-top: 12px;
+
+            font-size: 28px;
+            font-weight: 800;
+
+            letter-spacing: -0.7px;
+        }
+
+        .stat-description {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* =====================================================
+           FILTER PANEL
+        ===================================================== */
+
+        .panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            box-shadow: var(--shadow);
+        }
+
+        .filter-panel {
+            padding: 19px;
+            margin-bottom: 22px;
+        }
+
+        .filter-title {
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: minmax(240px, 1.8fr) 1fr 1fr auto;
+            gap: 11px;
+            align-items: end;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #68788A;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            height: 42px;
+
+            border: 1px solid var(--border);
+            border-radius: 8px;
+
+            background: #FBFEFF;
+            color: var(--text);
+
+            padding: 0 12px;
+            font-size: 13px;
+
+            outline: none;
+
+            transition: all 0.2s ease;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(0, 184, 200, 0.09);
+            background: white;
+        }
+
+        .search-wrap {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            color: #8292A3;
+            font-size: 15px;
+            pointer-events: none;
+        }
+
+        .search-wrap input {
+            padding-left: 36px;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            height: 42px;
+            border-radius: 8px;
+            padding: 0 17px;
+
+            border: none;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--teal);
+            color: white;
+
+            box-shadow: 0 5px 14px rgba(0, 184, 200, 0.18);
+        }
+
+        .btn-primary:hover {
+            background: var(--teal-deep);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--teal);
+            color: var(--teal-dark);
+        }
+
+        /* =====================================================
+           TABLE PANEL
+        ===================================================== */
+
+        .table-panel {
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 19px 21px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-title {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .table-subtitle {
+            margin-top: 4px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .result-count {
+            padding: 7px 11px;
+            border-radius: 7px;
+
+            background: var(--teal-soft);
+            color: var(--teal-dark);
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            height: 45px;
+            padding: 0 18px;
+
+            text-align: left;
+
+            background: #FAFDFE;
+            border-bottom: 1px solid var(--border);
+
+            color: #68788A;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.55px;
+        }
+
+        td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #EDF5F6;
+
+            font-size: 12px;
+            color: var(--text);
+
+            vertical-align: middle;
+        }
+
+        tbody tr {
+            transition: background 0.18s ease;
+        }
+
+        tbody tr:hover {
+            background: #FBFEFF;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* =====================================================
+           PATIENT CELL
+        ===================================================== */
+
+        .patient-cell {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-width: 190px;
+        }
+
+        .patient-avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: var(--teal-light);
+            color: var(--teal-dark);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            flex-shrink: 0;
+
+            overflow: hidden;
+        }
+
+        .patient-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .patient-name {
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .patient-username {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* =====================================================
+           CONTACT
+        ===================================================== */
+
+        .contact-info {
+            line-height: 1.55;
+        }
+
+        .contact-info div:first-child {
+            font-weight: 700;
+        }
+
+        .contact-info div:last-child {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* =====================================================
+           BLOOD GROUP
+        ===================================================== */
+
+        .blood-group {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 38px;
+            height: 27px;
+
+            padding: 0 8px;
+
+            border-radius: 6px;
+
+            background: #FFF1F1;
+            color: #C74747;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .not-available {
+            color: #98A5B3;
+            font-size: 11px;
+        }
+
+        /* =====================================================
+           APPOINTMENTS
+        ===================================================== */
+
+        .appointment-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 29px;
+            height: 27px;
+
+            padding: 0 8px;
+
+            background: var(--teal-soft);
+            color: var(--teal-dark);
+
+            border-radius: 6px;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .last-visit {
+            line-height: 1.45;
+        }
+
+        .last-visit-date {
+            font-weight: 700;
+        }
+
+        .last-visit-status {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+
+            padding: 6px 9px;
+            border-radius: 6px;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .status-badge::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status-active {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .status-active::before {
+            background: var(--green);
+        }
+
+        .status-inactive {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+        .status-inactive::before {
+            background: var(--red);
+        }
+
+        /* =====================================================
+           VIEW BUTTON
+        ===================================================== */
+
+        .view-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 32px;
+            padding: 0 12px;
+
+            border-radius: 7px;
+
+            border: 1px solid var(--border);
+            background: white;
+
+            color: var(--teal-dark);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            transition: all 0.2s ease;
+        }
+
+        .view-btn:hover {
+            background: var(--teal-light);
+            border-color: var(--border-bright);
+        }
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 55px;
+            height: 55px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background: var(--teal-light);
+            color: var(--teal-dark);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+        }
+
+        .empty-state h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           PAGINATION
+        ===================================================== */
+
+        .pagination-wrapper {
+            padding: 17px 21px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .pagination-info {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .page-link {
+            min-width: 31px;
+            height: 31px;
+
+            padding: 0 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid var(--border);
+            border-radius: 6px;
+
+            background: white;
+            color: var(--muted);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            transition: all 0.2s ease;
+        }
+
+        .page-link:hover {
+            border-color: var(--teal);
+            color: var(--teal-dark);
+            background: var(--teal-soft);
+        }
+
+        .page-link.active {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: white;
+        }
+
+        .page-link.disabled {
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filters {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .filter-actions {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.open {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .admin-info {
+                display: none;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-actions {
+                grid-column: auto;
+            }
+
+            .filter-actions .btn {
+                flex: 1;
+            }
+
+            .page-heading h1 {
+                font-size: 19px;
+            }
+
+            .page-heading p {
+                font-size: 10px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .topbar {
+                height: 68px;
+            }
+
+            .pagination-wrapper {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            .pagination {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 2px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">+</div>
+
+            <div class="brand-text">
+                <h2>CarePlus</h2>
+                <span>Hospital Management</span>
+            </div>
+        </div>
+
+        <nav class="nav-section">
+
+            <div class="nav-label">Management</div>
+
+            <a href="{% url 'admin_panel:dashboard' %}" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{% url 'admin_panel:users' %}" class="nav-item">
+                <span class="nav-icon">♙</span>
+                <span>Users</span>
+            </a>
+
+            <a href="{% url 'admin_panel:doctors' %}" class="nav-item">
+                <span class="nav-icon">⚕</span>
+                <span>Doctors</span>
+            </a>
+
+            <a href="{% url 'admin_panel:patients' %}" class="nav-item active">
+                <span class="nav-icon">♟</span>
+                <span>Patients</span>
+            </a>
+
+            <a
+    href="{% url 'admin_panel:appointments' %}"
+    class="nav-item"
+>
+
+    <span class="nav-icon">▣</span>
+
+    <span>Appointments</span>
+
+</a>
+
+            <a
+    href="{% url 'admin_panel:payments' %}"
+    class="nav-item"
+>
+    <span class="nav-icon">₹</span>
+    <span>Payments</span>
+</a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▥</span>
+                <span>Reports</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'logout' %}" class="nav-item logout-item">
+                <span class="nav-icon">↪</span>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MOBILE OVERLAY -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+        onclick="closeSidebar()">
+    </div>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="menu-btn"
+                    onclick="toggleSidebar()"
+                    aria-label="Open menu">
+                    ☰
+                </button>
+
+                <div class="page-heading">
+                    <h1>Patients</h1>
+                    <p>Manage patient profiles and medical records</p>
+                </div>
+
+            </div>
+
+            <div class="admin-profile">
+
+                <div class="admin-avatar">
+                    A
+                </div>
+
+                <div class="admin-info">
+                    <strong>Administrator</strong>
+                    <span>ADMIN</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <section class="content">
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <div class="stats-grid">
+
+                <!-- TOTAL -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-label">
+                            Total Patients
+                        </div>
+
+                        <div class="stat-icon">
+                            ♟
+                        </div>
+
+                    </div>
+
+                    <div class="stat-number">
+                        {{ total_patients }}
+                    </div>
+
+                    <div class="stat-description">
+                        Registered patient profiles
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIVE -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-label">
+                            Active Patients
+                        </div>
+
+                        <div class="stat-icon">
+                            ✓
+                        </div>
+
+                    </div>
+
+                    <div class="stat-number">
+                        {{ active_patients }}
+                    </div>
+
+                    <div class="stat-description">
+                        Currently active accounts
+                    </div>
+
+                </div>
+
+
+                <!-- NEW -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-label">
+                            New Patients
+                        </div>
+
+                        <div class="stat-icon">
+                            +
+                        </div>
+
+                    </div>
+
+                    <div class="stat-number">
+                        {{ new_patients }}
+                    </div>
+
+                    <div class="stat-description">
+                        Registered this month
+                    </div>
+
+                </div>
+
+
+                <!-- APPOINTMENTS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-label">
+                            With Appointments
+                        </div>
+
+                        <div class="stat-icon">
+                            ◷
+                        </div>
+
+                    </div>
+
+                    <div class="stat-number">
+                        {{ patients_with_appointments }}
+                    </div>
+
+                    <div class="stat-description">
+                        Patients with appointment history
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FILTERS
+            ================================================== -->
+
+            <div class="panel filter-panel">
+
+                <div class="filter-title">
+                    Search & Filter Patients
+                </div>
+
+                <form method="get">
+
+                    <div class="filters">
+
+                        <!-- SEARCH -->
+
+                        <div class="field">
+
+                            <label for="search">
+                                Search
+                            </label>
+
+                            <div class="search-wrap">
+
+                                <span class="search-icon">
+                                    ⌕
+                                </span>
+
+                                <input
+                                    type="text"
+                                    id="search"
+                                    name="search"
+                                    value="{{ search }}"
+                                    placeholder="Name, username, email or phone..."
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- BLOOD GROUP -->
+
+                        <div class="field">
+
+                            <label for="blood_group">
+                                Blood Group
+                            </label>
+
+                            <select
+                                id="blood_group"
+                                name="blood_group">
+
+                                <option value="">
+                                    All Blood Groups
+                                </option>
+
+                                <option
+                                    value="A+"
+                                    {% if selected_blood_group == "A+" %}selected{% endif %}>
+                                    A+
+                                </option>
+
+                                <option
+                                    value="A-"
+                                    {% if selected_blood_group == "A-" %}selected{% endif %}>
+                                    A-
+                                </option>
+
+                                <option
+                                    value="B+"
+                                    {% if selected_blood_group == "B+" %}selected{% endif %}>
+                                    B+
+                                </option>
+
+                                <option
+                                    value="B-"
+                                    {% if selected_blood_group == "B-" %}selected{% endif %}>
+                                    B-
+                                </option>
+
+                                <option
+                                    value="AB+"
+                                    {% if selected_blood_group == "AB+" %}selected{% endif %}>
+                                    AB+
+                                </option>
+
+                                <option
+                                    value="AB-"
+                                    {% if selected_blood_group == "AB-" %}selected{% endif %}>
+                                    AB-
+                                </option>
+
+                                <option
+                                    value="O+"
+                                    {% if selected_blood_group == "O+" %}selected{% endif %}>
+                                    O+
+                                </option>
+
+                                <option
+                                    value="O-"
+                                    {% if selected_blood_group == "O-" %}selected{% endif %}>
+                                    O-
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="field">
+
+                            <label for="status">
+                                Account Status
+                            </label>
+
+                            <select
+                                id="status"
+                                name="status">
+
+                                <option value="">
+                                    All Statuses
+                                </option>
+
+                                <option
+                                    value="active"
+                                    {% if selected_status == "active" %}selected{% endif %}>
+                                    Active
+                                </option>
+
+                                <option
+                                    value="inactive"
+                                    {% if selected_status == "inactive" %}selected{% endif %}>
+                                    Inactive
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="filter-actions">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary">
+                                Apply Filters
+                            </button>
+
+                            <a
+                                href="{% url 'admin_panel:patients' %}"
+                                class="btn btn-secondary"
+                                style="display:flex;align-items:center;justify-content:center;">
+                                Reset
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- =================================================
+                 PATIENT TABLE
+            ================================================== -->
+
+            <div class="panel table-panel">
+
+                <div class="table-header">
+
+    <div>
+
+        <div class="table-title">
+            Patient Directory
+        </div>
+
+        <div class="table-subtitle">
+            Patient profiles registered in CarePlus
+        </div>
+
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;">
+
+        <div class="result-count">
+            {{ page_obj.paginator.count }} patients
+        </div>
+
+        <a
+            href="{% url 'admin_panel:patient_add' %}"
+            class="btn btn-primary"
+            style="
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                height:38px;
+                white-space:nowrap;
+            ">
+            + Add Patient
+        </a>
+
+    </div>
+
+</div>
+
+
+                <div class="table-container">
+
+                    {% if page_obj.object_list %}
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Patient</th>
+
+                                <th>Contact</th>
+
+                                <th>Blood Group</th>
+
+                                <th>Date of Birth</th>
+
+                                <th>Appointments</th>
+
+                                <th>Last Visit</th>
+
+                                <th>Status</th>
+
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for patient in page_obj %}
+
+                            <tr>
+
+                                <!-- PATIENT -->
+
+                                <td>
+
+                                    <div class="patient-cell">
+
+                                        <div class="patient-avatar">
+
+                                            {% if patient.profile_pic %}
+                                                <img
+                                                    src="{{ patient.profile_pic.url }}"
+                                                    alt="{{ patient.user.get_full_name|default:patient.user.username }}">
+                                            {% else %}
+
+                                                {% if patient.user.first_name %}
+                                                    {{ patient.user.first_name|first|upper }}{{ patient.user.last_name|first|upper }}
+                                                {% else %}
+                                                    {{ patient.user.username|first|upper }}
+                                                {% endif %}
+
+                                            {% endif %}
+
+                                        </div>
+
+                                        <div>
+
+                                            <div class="patient-name">
+
+                                                {% if patient.user.get_full_name %}
+                                                    {{ patient.user.get_full_name }}
+                                                {% else %}
+                                                    {{ patient.user.username }}
+                                                {% endif %}
+
+                                            </div>
+
+                                            <div class="patient-username">
+                                                @{{ patient.user.username }}
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- CONTACT -->
+
+                                <td>
+
+                                    <div class="contact-info">
+
+                                        <div>
+                                            {% if patient.user.phone %}
+                                                {{ patient.user.phone }}
+                                            {% else %}
+                                                <span class="not-available">
+                                                    No phone
+                                                </span>
+                                            {% endif %}
+                                        </div>
+
+                                        <div>
+                                            {% if patient.user.email %}
+                                                {{ patient.user.email }}
+                                            {% else %}
+                                                No email
+                                            {% endif %}
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- BLOOD GROUP -->
+
+                                <td>
+
+                                    {% if patient.blood_group %}
+
+                                        <span class="blood-group">
+                                            {{ patient.blood_group }}
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="not-available">
+                                            Not provided
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- DOB -->
+
+                                <td>
+
+                                    {% if patient.date_of_birth %}
+                                        {{ patient.date_of_birth|date:"d M Y" }}
+                                    {% else %}
+                                        <span class="not-available">
+                                            Not provided
+                                        </span>
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- APPOINTMENTS -->
+
+                                <td>
+
+                                    <span class="appointment-count">
+                                        {{ patient.appointment_count }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- LAST VISIT -->
+
+                                <td>
+
+                                    {% if patient.last_visit %}
+
+                                        <div class="last-visit">
+
+                                            <div class="last-visit-date">
+                                                {{ patient.last_visit.appointment_date|date:"d M Y" }}
+                                            </div>
+
+                                            <div class="last-visit-status">
+                                                Completed
+                                            </div>
+
+                                        </div>
+
+                                    {% else %}
+
+                                        <span class="not-available">
+                                            No completed visit
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    {% if patient.user.is_active %}
+
+                                        <span class="status-badge status-active">
+                                            Active
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status-badge status-inactive">
+                                            Inactive
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- ACTION -->
+
+                                <td>
+
+                                    <a
+                                        href="{% url 'admin_panel:patient_detail' patient.id %}"
+                                        class="view-btn">
+                                        View
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                    {% else %}
+
+                    <!-- EMPTY STATE -->
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ♟
+                        </div>
+
+                        <h3>
+                            No patients found
+                        </h3>
+
+                        <p>
+                            Try changing your search or filter criteria.
+                        </p>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- =================================================
+                     PAGINATION
+                ================================================== -->
+
+                {% if page_obj.paginator.num_pages > 1 %}
+
+                <div class="pagination-wrapper">
+
+                    <div class="pagination-info">
+
+                        Showing
+                        <strong>
+                            {{ page_obj.start_index }}
+                        </strong>
+                        –
+                        <strong>
+                            {{ page_obj.end_index }}
+                        </strong>
+                        of
+                        <strong>
+                            {{ page_obj.paginator.count }}
+                        </strong>
+                        patients
+
+                    </div>
+
+
+                    <div class="pagination">
+
+                        {% if page_obj.has_previous %}
+
+                            <a
+                                class="page-link"
+                                href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_blood_group %}&blood_group={{ selected_blood_group|urlencode }}{% endif %}{% if selected_status %}&status={{ selected_status|urlencode }}{% endif %}">
+                                ‹
+                            </a>
+
+                        {% else %}
+
+                            <span class="page-link disabled">
+                                ‹
+                            </span>
+
+                        {% endif %}
+
+
+                        {% for num in page_obj.paginator.page_range %}
+
+                            {% if num == page_obj.number %}
+
+                                <span class="page-link active">
+                                    {{ num }}
+                                </span>
+
+                            {% elif num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+
+                                <a
+                                    class="page-link"
+                                    href="?page={{ num }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_blood_group %}&blood_group={{ selected_blood_group|urlencode }}{% endif %}{% if selected_status %}&status={{ selected_status|urlencode }}{% endif %}">
+                                    {{ num }}
+                                </a>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+
+                        {% if page_obj.has_next %}
+
+                            <a
+                                class="page-link"
+                                href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_blood_group %}&blood_group={{ selected_blood_group|urlencode }}{% endif %}{% if selected_status %}&status={{ selected_status|urlencode }}{% endif %}">
+                                ›
+                            </a>
+
+                        {% else %}
+
+                            <span class="page-link disabled">
+                                ›
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         MOBILE SIDEBAR SCRIPT
+    ====================================================== -->
+
+    <script>
+
+        const sidebar = document.getElementById("sidebar");
+        const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+        function toggleSidebar() {
+            sidebar.classList.toggle("open");
+            sidebarOverlay.classList.toggle("open");
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove("open");
+            sidebarOverlay.classList.remove("open");
+        }
+
+        window.addEventListener("resize", function () {
+
+            if (window.innerWidth > 850) {
+                closeSidebar();
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

@@ -14,6 +14,8 @@ from accounts.views import (
     login_view,
     logout_view,
     about,
+    services,
+    contact,
 )
 
 
@@ -108,6 +110,9 @@ urlpatterns = [
         about,
         name='about'
     ),
+    path('services/', services, name='services'),
+    path('contact/', contact, name='contact'),
+
 
 
     # --------------------------------------------------------

@@ -1,0 +1,2125 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payments | CarePlus Hospital</title>
+
+    <style>
+        :root {
+            --teal: #00B8C8;
+            --teal-bright: #00D1D9;
+            --teal-deep: #0097A7;
+            --teal-dark: #007F8C;
+            --teal-light: #E3FBFD;
+            --teal-soft: #EFFDFE;
+
+            --bg: #F5FAFC;
+            --white: #FFFFFF;
+
+            --text: #172033;
+            --muted: #607086;
+
+            --border: #CDECEF;
+            --border-bright: #9DDEE5;
+
+            --success: #159957;
+            --success-bg: #EAF9F1;
+
+            --warning: #D98C00;
+            --warning-bg: #FFF6DF;
+
+            --danger: #D64545;
+            --danger-bg: #FFF0F0;
+
+            --shadow: 0 8px 25px rgba(0, 184, 200, 0.07);
+            --shadow-hover: 0 12px 30px rgba(0, 184, 200, 0.12);
+
+            --sidebar-width: 255px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-brand {
+            height: 78px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: linear-gradient(
+                135deg,
+                var(--teal),
+                var(--teal-bright)
+            );
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            box-shadow: 0 6px 16px rgba(0, 184, 200, 0.22);
+        }
+
+        .brand-text {
+            line-height: 1.1;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .brand-subtitle {
+            margin-top: 4px;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .sidebar-nav {
+            padding: 20px 13px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-section-title {
+            padding: 0 13px 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 800;
+            color: #91A0B2;
+        }
+
+        .nav-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 46px;
+            margin-bottom: 5px;
+            padding: 0 13px;
+            border-radius: 10px;
+            color: #58687C;
+            font-size: 14px;
+            font-weight: 700;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: var(--teal-soft);
+            color: var(--teal-dark);
+            transform: translateX(2px);
+        }
+
+        .nav-item.active {
+            background: var(--teal-light);
+            color: var(--teal-dark);
+            box-shadow: inset 3px 0 0 var(--teal);
+        }
+
+        .nav-icon {
+            width: 23px;
+            min-width: 23px;
+            text-align: center;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .sidebar-footer {
+            padding: 15px 13px 18px;
+            border-top: 1px solid var(--border);
+        }
+
+        .admin-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px;
+            background: var(--teal-soft);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .admin-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--teal);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .admin-info {
+            min-width: 0;
+        }
+
+        .admin-name {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .admin-role {
+            margin-top: 3px;
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        /* =========================================================
+           MAIN
+        ========================================================= */
+
+        .main {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+
+        /* =========================================================
+           TOPBAR
+        ========================================================= */
+
+        .topbar {
+            height: 78px;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .menu-button {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 10px;
+            color: var(--teal-dark);
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .page-heading h1 {
+            font-size: 23px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .page-heading p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .topbar-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 12px;
+            background: var(--teal-soft);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--teal-dark);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 0 4px rgba(21, 153, 87, 0.10);
+        }
+
+        /* =========================================================
+           CONTENT
+        ========================================================= */
+
+        .content {
+            padding: 30px 32px 45px;
+        }
+
+        /* =========================================================
+           SUMMARY CARDS
+        ========================================================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            right: -25px;
+            top: -30px;
+            border-radius: 50%;
+            background: var(--teal-soft);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .stat-icon {
+            position: relative;
+            z-index: 1;
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--teal-light);
+            color: var(--teal-dark);
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .stat-value {
+            margin-top: 13px;
+            font-size: 27px;
+            line-height: 1;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .stat-note {
+            margin-top: 9px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .stat-note.success {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .stat-note.danger {
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        /* =========================================================
+           REVENUE HIGHLIGHT
+        ========================================================= */
+
+        .revenue-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .revenue-card {
+            background: linear-gradient(
+                135deg,
+                #ffffff 0%,
+                var(--teal-soft) 100%
+            );
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .revenue-card-label {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .revenue-card-value {
+            margin-top: 7px;
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--teal-dark);
+        }
+
+        .revenue-card-note {
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .revenue-icon {
+            width: 58px;
+            height: 58px;
+            min-width: 58px;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--teal-dark);
+            font-size: 25px;
+            font-weight: 800;
+            box-shadow: 0 7px 20px rgba(0, 184, 200, 0.08);
+        }
+
+        /* =========================================================
+           FILTER CARD
+        ========================================================= */
+
+        .filter-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .filter-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+
+        .filter-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .filter-subtitle {
+            margin-top: 4px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .clear-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 36px;
+            padding: 0 13px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .clear-button:hover {
+            color: var(--teal-dark);
+            border-color: var(--border-bright);
+            background: var(--teal-soft);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: minmax(200px, 1.5fr) repeat(4, minmax(140px, 1fr)) auto;
+            gap: 11px;
+            align-items: end;
+        }
+
+        .field-group label {
+            display: block;
+            margin-bottom: 7px;
+            color: #56667A;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8A99A9;
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .filter-input,
+        .filter-select {
+            width: 100%;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #FBFEFF;
+            color: var(--text);
+            outline: none;
+            font-size: 12px;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .filter-input {
+            padding: 0 12px 0 36px;
+        }
+
+        .filter-select {
+            padding: 0 10px;
+            cursor: pointer;
+        }
+
+        .filter-input:focus,
+        .filter-select:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(0, 184, 200, 0.09);
+            background: white;
+        }
+
+        .filter-submit {
+            height: 40px;
+            min-width: 78px;
+            padding: 0 15px;
+            border: none;
+            border-radius: 9px;
+            background: var(--teal);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 800;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 184, 200, 0.17);
+        }
+
+        .filter-submit:hover {
+            background: var(--teal-deep);
+            transform: translateY(-1px);
+        }
+
+        /* =========================================================
+           TABLE CARD
+        ========================================================= */
+
+        .table-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .table-header {
+            min-height: 68px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .table-count {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .payments-table {
+            width: 100%;
+            min-width: 1050px;
+            border-collapse: collapse;
+        }
+
+        .payments-table th {
+            background: #FBFEFF;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+            text-align: left;
+            color: #748398;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .payments-table td {
+            padding: 15px 16px;
+            border-bottom: 1px solid #EDF6F7;
+            vertical-align: middle;
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        .payments-table tbody tr {
+            transition: background 0.18s ease;
+        }
+
+        .payments-table tbody tr:hover {
+            background: #FAFEFF;
+        }
+
+        .payments-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* =========================================================
+           TABLE CONTENT
+        ========================================================= */
+
+        .transaction-id {
+            font-weight: 800;
+            color: var(--teal-dark);
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .patient-cell,
+        .doctor-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 170px;
+        }
+
+        .person-avatar {
+            width: 34px;
+            height: 34px;
+            min-width: 34px;
+            border-radius: 10px;
+            background: var(--teal-light);
+            color: var(--teal-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            overflow: hidden;
+        }
+
+        .person-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .person-name {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .person-secondary {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .amount {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .method-badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 26px;
+            padding: 0 9px;
+            border-radius: 7px;
+            background: #F2F6F8;
+            border: 1px solid #E2EAEE;
+            color: #556576;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .method-badge.upi {
+            background: var(--teal-soft);
+            border-color: var(--border);
+            color: var(--teal-dark);
+        }
+
+        .method-badge.card {
+            background: #F3F0FF;
+            border-color: #E4DEFF;
+            color: #6752B5;
+        }
+
+        .method-badge.net-banking {
+            background: #FFF7E8;
+            border-color: #F4E4BD;
+            color: #9A6A13;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 27px;
+            padding: 0 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status-badge::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .status-success {
+            color: var(--success);
+            background: var(--success-bg);
+        }
+
+        .status-declined {
+            color: var(--danger);
+            background: var(--danger-bg);
+        }
+
+        .appointment-info {
+            min-width: 120px;
+        }
+
+        .appointment-date {
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .appointment-time {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .payment-date {
+            min-width: 110px;
+        }
+
+        .payment-date-main {
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .payment-date-time {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .view-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 31px;
+            padding: 0 10px;
+            border-radius: 7px;
+            border: 1px solid var(--border);
+            color: var(--teal-dark);
+            background: white;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .view-button:hover {
+            background: var(--teal-light);
+            border-color: var(--border-bright);
+        }
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+        .empty-state {
+            padding: 65px 25px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 62px;
+            height: 62px;
+            margin: 0 auto 15px;
+            border-radius: 17px;
+            background: var(--teal-soft);
+            border: 1px solid var(--border);
+            color: var(--teal-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .empty-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .empty-text {
+            max-width: 420px;
+            margin: 7px auto 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           PAGINATION
+        ========================================================= */
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .pagination-info {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .pagination-links {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .page-link {
+            min-width: 32px;
+            height: 32px;
+            padding: 0 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: white;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 800;
+            transition: all 0.2s ease;
+        }
+
+        .page-link:hover {
+            border-color: var(--border-bright);
+            color: var(--teal-dark);
+            background: var(--teal-soft);
+        }
+
+        .page-link.current {
+            background: var(--teal);
+            color: white;
+            border-color: var(--teal);
+        }
+
+        .page-link.disabled {
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        /* =========================================================
+           SIDEBAR OVERLAY
+        ========================================================= */
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(16, 39, 49, 0.38);
+            z-index: 900;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1250px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .filter-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .filter-search {
+                grid-column: span 2;
+            }
+
+            .filter-submit {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 950px) {
+            .revenue-row {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 25px 22px 40px;
+            }
+
+            .topbar {
+                padding: 0 22px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            :root {
+                --sidebar-width: 255px;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                box-shadow: 12px 0 35px rgba(20, 40, 50, 0.12);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .menu-button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .topbar {
+                height: 70px;
+                padding: 0 16px;
+            }
+
+            .page-heading h1 {
+                font-size: 19px;
+            }
+
+            .page-heading p {
+                display: none;
+            }
+
+            .topbar-badge {
+                display: none;
+            }
+
+            .content {
+                padding: 20px 15px 35px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-value {
+                font-size: 22px;
+            }
+
+            .stat-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
+            .filter-card {
+                padding: 16px;
+            }
+
+            .filter-header {
+                align-items: flex-start;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .filter-search {
+                grid-column: span 2;
+            }
+
+            .filter-submit {
+                grid-column: span 2;
+            }
+
+            .pagination {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .pagination-links {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .revenue-card {
+                padding: 18px;
+            }
+
+            .revenue-card-value {
+                font-size: 25px;
+            }
+
+            .revenue-icon {
+                width: 48px;
+                height: 48px;
+                min-width: 48px;
+                font-size: 20px;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-search,
+            .filter-submit {
+                grid-column: span 1;
+            }
+
+            .clear-button {
+                min-height: 34px;
+                padding: 0 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-icon">✚</div>
+
+            <div class="brand-text">
+                <div class="brand-title">CarePlus</div>
+                <div class="brand-subtitle">Hospital Admin</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-section-title">
+                Administration
+            </div>
+
+            <a
+                href="{% url 'admin_panel:dashboard' %}"
+                class="nav-item"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a
+                href="{% url 'admin_panel:users' %}"
+                class="nav-item"
+            >
+                <span class="nav-icon">♙</span>
+                <span>Users</span>
+            </a>
+
+            <a
+                href="{% url 'admin_panel:doctors' %}"
+                class="nav-item"
+            >
+                <span class="nav-icon">✚</span>
+                <span>Doctors</span>
+            </a>
+
+            <a
+                href="{% url 'admin_panel:patients' %}"
+                class="nav-item"
+            >
+                <span class="nav-icon">♙</span>
+                <span>Patients</span>
+            </a>
+
+            <a
+                href="{% url 'admin_panel:appointments' %}"
+                class="nav-item"
+            >
+                <span class="nav-icon">▣</span>
+                <span>Appointments</span>
+            </a>
+
+            <a
+                href="{% url 'admin_panel:payments' %}"
+                class="nav-item active"
+            >
+                <span class="nav-icon">₹</span>
+                <span>Payments</span>
+            </a>
+
+            <a
+                href="#"
+                class="nav-item"
+            >
+                <span class="nav-icon">▤</span>
+                <span>Reports</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+
+            <div class="admin-card">
+                <div class="admin-avatar">
+                    A
+                </div>
+
+                <div class="admin-info">
+                    <div class="admin-name">
+                        Administrator
+                    </div>
+
+                    <div class="admin-role">
+                        System Administrator
+                    </div>
+                </div>
+            </div>
+
+            <a
+                href="{% url 'logout' %}"
+                class="nav-item"
+                style="margin-top: 10px; margin-bottom: 0;"
+            >
+                <span class="nav-icon">↪</span>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="menu-button"
+                    id="menuButton"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="page-heading">
+                    <h1>Payments</h1>
+                    <p>
+                        Monitor hospital transactions and payment activity.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="topbar-badge">
+                <span class="status-dot"></span>
+                Payment System Active
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-label">
+                            Total Transactions
+                        </div>
+
+                        <div class="stat-icon">
+                            ₹
+                        </div>
+                    </div>
+
+                    <div class="stat-value">
+                        {{ total_transactions }}
+                    </div>
+
+                    <div class="stat-note">
+                        All recorded payment attempts
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-label">
+                            Successful
+                        </div>
+
+                        <div class="stat-icon">
+                            ✓
+                        </div>
+                    </div>
+
+                    <div class="stat-value">
+                        {{ successful_payments }}
+                    </div>
+
+                    <div class="stat-note success">
+                        Successfully processed
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-label">
+                            Declined
+                        </div>
+
+                        <div
+                            class="stat-icon"
+                            style="
+                                background: var(--danger-bg);
+                                color: var(--danger);
+                            "
+                        >
+                            !
+                        </div>
+                    </div>
+
+                    <div class="stat-value">
+                        {{ declined_payments }}
+                    </div>
+
+                    <div class="stat-note danger">
+                        Payment attempts declined
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-label">
+                            Today's Transactions
+                        </div>
+
+                        <div class="stat-icon">
+                            ◷
+                        </div>
+                    </div>
+
+                    <div class="stat-value">
+                        {{ today_transactions }}
+                    </div>
+
+                    <div class="stat-note">
+                        Transactions recorded today
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 REVENUE
+            ================================================== -->
+
+            <div class="revenue-row">
+
+                <div class="revenue-card">
+
+                    <div>
+                        <div class="revenue-card-label">
+                            Total Successful Revenue
+                        </div>
+
+                        <div class="revenue-card-value">
+                            ₹{{ total_revenue|floatformat:2 }}
+                        </div>
+
+                        <div class="revenue-card-note">
+                            Revenue from successfully completed payments
+                        </div>
+                    </div>
+
+                    <div class="revenue-icon">
+                        ₹
+                    </div>
+
+                </div>
+
+
+                <div class="revenue-card">
+
+                    <div>
+                        <div class="revenue-card-label">
+                            Today's Revenue
+                        </div>
+
+                        <div class="revenue-card-value">
+                            ₹{{ today_revenue|floatformat:2 }}
+                        </div>
+
+                        <div class="revenue-card-note">
+                            Successful payments recorded today
+                        </div>
+                    </div>
+
+                    <div class="revenue-icon">
+                        ◷
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FILTERS
+            ================================================== -->
+
+            <form
+                method="get"
+                class="filter-card"
+            >
+
+                <div class="filter-header">
+
+                    <div>
+                        <div class="filter-title">
+                            Search & Filter Payments
+                        </div>
+
+                        <div class="filter-subtitle">
+                            Find transactions using patient, doctor, status or payment details.
+                        </div>
+                    </div>
+
+                    <a
+                        href="{% url 'admin_panel:payments' %}"
+                        class="clear-button"
+                    >
+                        Clear Filters
+                    </a>
+
+                </div>
+
+
+                <div class="filter-grid">
+
+                    <!-- SEARCH -->
+
+                    <div class="field-group filter-search">
+
+                        <label for="search">
+                            Search
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <span class="input-icon">
+                                ⌕
+                            </span>
+
+                            <input
+                                type="text"
+                                id="search"
+                                name="search"
+                                class="filter-input"
+                                placeholder="Patient, doctor or transaction ID"
+                                value="{{ search }}"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="field-group">
+
+                        <label for="status">
+                            Status
+                        </label>
+
+                        <select
+                            id="status"
+                            name="status"
+                            class="filter-select"
+                        >
+
+                            <option value="">
+                                All statuses
+                            </option>
+
+                            {% for value, label in status_choices %}
+                                <option
+                                    value="{{ value }}"
+                                    {% if selected_status == value %}selected{% endif %}
+                                >
+                                    {{ label }}
+                                </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- PAYMENT METHOD -->
+
+                    <div class="field-group">
+
+                        <label for="method">
+                            Payment Method
+                        </label>
+
+                        <select
+                            id="method"
+                            name="method"
+                            class="filter-select"
+                        >
+
+                            <option value="">
+                                All methods
+                            </option>
+
+                            {% for value, label in payment_method_choices %}
+                                <option
+                                    value="{{ value }}"
+                                    {% if selected_method == value %}selected{% endif %}
+                                >
+                                    {{ label }}
+                                </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DOCTOR -->
+
+                    <div class="field-group">
+
+                        <label for="doctor">
+                            Doctor
+                        </label>
+
+                        <select
+                            id="doctor"
+                            name="doctor"
+                            class="filter-select"
+                        >
+
+                            <option value="">
+                                All doctors
+                            </option>
+
+                            {% for doctor in doctors_list %}
+
+                                <option
+                                    value="{{ doctor.id }}"
+                                    {% if selected_doctor|stringformat:"s" == doctor.id|stringformat:"s" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DATE -->
+
+                    <div class="field-group">
+
+                        <label for="date">
+                            Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="date"
+                            name="date"
+                            class="filter-select"
+                            value="{{ selected_date }}"
+                        >
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+
+                    <div class="field-group">
+
+                        <button
+                            type="submit"
+                            class="filter-submit"
+                        >
+                            Apply
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+
+            <!-- =================================================
+                 PAYMENT TABLE
+            ================================================== -->
+
+            <div class="table-card">
+
+                <div class="table-header">
+
+                    <div>
+                        <div class="table-title">
+                            Payment Transactions
+                        </div>
+
+                        <div class="table-count">
+                            Showing {{ payments|length }} transaction{{ payments|length|pluralize }}
+                            on this page
+                        </div>
+                    </div>
+
+                </div>
+
+
+                {% if payments %}
+
+                    <div class="table-wrapper">
+
+                        <table class="payments-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Transaction</th>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Status</th>
+                                    <th>Appointment</th>
+                                    <th>Payment Date</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for payment in payments %}
+
+                                    <tr>
+
+                                        <!-- TRANSACTION -->
+
+                                        <td>
+
+                                            <div class="transaction-id">
+                                                {{ payment.transaction_id }}
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- PATIENT -->
+
+                                        <td>
+
+                                            <div class="patient-cell">
+
+                                                <div class="person-avatar">
+
+                                                    {% if payment.patient.profile_pic %}
+                                                        <img
+                                                            src="{{ payment.patient.profile_pic.url }}"
+                                                            alt="{{ payment.patient.user.get_full_name }}"
+                                                        >
+                                                    {% else %}
+
+                                                        {% with first_name=payment.patient.user.first_name last_name=payment.patient.user.last_name %}
+
+                                                            {% if first_name %}
+                                                                {{ first_name|slice:":1"|upper }}{{ last_name|slice:":1"|upper }}
+                                                            {% else %}
+                                                                {{ payment.patient.user.username|slice:":2"|upper }}
+                                                            {% endif %}
+
+                                                        {% endwith %}
+
+                                                    {% endif %}
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <div class="person-name">
+                                                        {{ payment.patient.user.get_full_name|default:payment.patient.user.username }}
+                                                    </div>
+
+                                                    <div class="person-secondary">
+                                                        {{ payment.patient.user.username }}
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- DOCTOR -->
+
+                                        <td>
+
+                                            <div class="doctor-cell">
+
+                                                <div class="person-avatar">
+
+                                                    {% if payment.doctor.profile_pic %}
+
+                                                        <img
+                                                            src="{{ payment.doctor.profile_pic.url }}"
+                                                            alt="{{ payment.doctor.user.get_full_name }}"
+                                                        >
+
+                                                    {% else %}
+
+                                                        D
+
+                                                    {% endif %}
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <div class="person-name">
+                                                        Dr.
+                                                        {{ payment.doctor.user.get_full_name|default:payment.doctor.user.username }}
+                                                    </div>
+
+                                                    <div class="person-secondary">
+                                                        {{ payment.doctor.get_specialization_display }}
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- AMOUNT -->
+
+                                        <td>
+
+                                            <div class="amount">
+                                                ₹{{ payment.amount|floatformat:2 }}
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- METHOD -->
+
+                                        <td>
+
+                                            {% if payment.payment_method == "UPI" %}
+
+                                                <span class="method-badge upi">
+                                                    UPI
+                                                </span>
+
+                                            {% elif payment.payment_method == "CARD" %}
+
+                                                <span class="method-badge card">
+                                                    Card
+                                                </span>
+
+                                            {% elif payment.payment_method == "NET_BANKING" %}
+
+                                                <span class="method-badge net-banking">
+                                                    Net Banking
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="method-badge">
+                                                    {{ payment.get_payment_method_display }}
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <!-- STATUS -->
+
+                                        <td>
+
+                                            {% if payment.status == "SUCCESS" %}
+
+                                                <span class="status-badge status-success">
+                                                    Successful
+                                                </span>
+
+                                            {% elif payment.status == "DECLINED" %}
+
+                                                <span class="status-badge status-declined">
+                                                    Declined
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="status-badge status-declined">
+                                                    {{ payment.get_status_display }}
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <!-- APPOINTMENT -->
+
+                                        <td>
+
+                                            {% if payment.appointment %}
+
+                                                <div class="appointment-info">
+
+                                                    <div class="appointment-date">
+                                                        {{ payment.appointment_date|date:"d M Y" }}
+                                                    </div>
+
+                                                    <div class="appointment-time">
+                                                        {{ payment.appointment_time|time:"h:i A" }}
+                                                    </div>
+
+                                                </div>
+
+                                            {% else %}
+
+                                                <span class="person-secondary">
+                                                    No appointment
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <!-- PAYMENT DATE -->
+
+                                        <td>
+
+                                            <div class="payment-date">
+
+                                                <div class="payment-date-main">
+                                                    {{ payment.created_at|date:"d M Y" }}
+                                                </div>
+
+                                                <div class="payment-date-time">
+                                                    {{ payment.created_at|time:"h:i A" }}
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <!-- ACTION -->
+
+                                        <td>
+
+                                            <a
+                                                href="#"
+                                                class="view-button"
+                                            >
+                                                View
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         PAGINATION
+                    ================================================== -->
+
+                    {% if page_obj.paginator.num_pages > 1 %}
+
+                        <div class="pagination">
+
+                            <div class="pagination-info">
+
+                                Page
+                                <strong>{{ page_obj.number }}</strong>
+                                of
+                                <strong>{{ page_obj.paginator.num_pages }}</strong>
+
+                            </div>
+
+
+                            <div class="pagination-links">
+
+                                {% if page_obj.has_previous %}
+
+                                    <a
+                                        class="page-link"
+                                        href="?page=1{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_status %}&status={{ selected_status|urlencode }}{% endif %}{% if selected_method %}&method={{ selected_method|urlencode }}{% endif %}{% if selected_doctor %}&doctor={{ selected_doctor|urlencode }}{% endif %}{% if selected_date %}&date={{ selected_date|urlencode }}{% endif %}"
+                                    >
+                                        «
+                                    </a>
+
+                                    <a
+                                        class="page-link"
+                                        href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_status %}&status={{ selected_status|urlencode }}{% endif %}{% if selected_method %}&method={{ selected_method|urlencode }}{% endif %}{% if selected_doctor %}&doctor={{ selected_doctor|urlencode }}{% endif %}{% if selected_date %}&date={{ selected_date|urlencode }}{% endif %}"
+                                    >
+                                        ‹
+                                    </a>
+
+                                {% else %}
+
+                                    <span class="page-link disabled">
+                                        «
+                                    </span>
+
+                                    <span class="page-link disabled">
+                                        ‹
+                                    </span>
+
+                                {% endif %}
+
+
+                                {% for num in page_obj.paginator.page_range %}
+
+                                    {% if page_obj.number == num %}
+
+                                        <span class="page-link current">
+                                            {{ num }}
+                                        </span>
+
+                                    {% elif num > page_obj.number|add:"-2" and num < page_obj.number|add:"2" %}
+
+                                        <a
+                                            class="page-link"
+                                            href="?page={{ num }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_status %}&status={{ selected_status|urlencode }}{% endif %}{% if selected_method %}&method={{ selected_method|urlencode }}{% endif %}{% if selected_doctor %}&doctor={{ selected_doctor|urlencode }}{% endif %}{% if selected_date %}&date={{ selected_date|urlencode }}{% endif %}"
+                                        >
+                                            {{ num }}
+                                        </a>
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+
+                                {% if page_obj.has_next %}
+
+                                    <a
+                                        class="page-link"
+                                        href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_status %}&status={{ selected_status|urlencode }}{% endif %}{% if selected_method %}&method={{ selected_method|urlencode }}{% endif %}{% if selected_doctor %}&doctor={{ selected_doctor|urlencode }}{% endif %}{% if selected_date %}&date={{ selected_date|urlencode }}{% endif %}"
+                                    >
+                                        ›
+                                    </a>
+
+                                    <a
+                                        class="page-link"
+                                        href="?page={{ page_obj.paginator.num_pages }}{% if search %}&search={{ search|urlencode }}{% endif %}{% if selected_status %}&status={{ selected_status|urlencode }}{% endif %}{% if selected_method %}&method={{ selected_method|urlencode }}{% endif %}{% if selected_doctor %}&doctor={{ selected_doctor|urlencode }}{% endif %}{% if selected_date %}&date={{ selected_date|urlencode }}{% endif %}"
+                                    >
+                                        »
+                                    </a>
+
+                                {% else %}
+
+                                    <span class="page-link disabled">
+                                        ›
+                                    </span>
+
+                                    <span class="page-link disabled">
+                                        »
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                {% else %}
+
+                    <!-- EMPTY STATE -->
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ₹
+                        </div>
+
+                        <div class="empty-title">
+                            No payments found
+                        </div>
+
+                        <div class="empty-text">
+                            There are no payment transactions matching your current filters.
+                            Try clearing the filters or searching for another transaction.
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         MOBILE SIDEBAR SCRIPT
+    ========================================================== -->
+
+    <script>
+
+        const sidebar = document.getElementById("sidebar");
+        const menuButton = document.getElementById("menuButton");
+        const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+        function openSidebar() {
+            sidebar.classList.add("open");
+            sidebarOverlay.classList.add("show");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove("open");
+            sidebarOverlay.classList.remove("show");
+            document.body.style.overflow = "";
+        }
+
+        if (menuButton) {
+            menuButton.addEventListener("click", openSidebar);
+        }
+
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener("click", closeSidebar);
+        }
+
+        window.addEventListener("resize", function () {
+            if (window.innerWidth > 760) {
+                closeSidebar();
+            }
+        });
+
+    </script>
+
+</body>
+</html>

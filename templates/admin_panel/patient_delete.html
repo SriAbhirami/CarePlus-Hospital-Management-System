@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Delete Patient | CarePlus Admin</title>
+
+    <style>
+
+        :root {
+            --teal: #00B8C8;
+            --teal-dark: #007F8C;
+            --teal-light: #E3FBFD;
+
+            --bg: #F5FAFC;
+            --white: #FFFFFF;
+
+            --text: #172033;
+            --muted: #607086;
+
+            --border: #CDECEF;
+
+            --red: #E55353;
+            --red-dark: #C63D3D;
+            --red-light: #FFF0F0;
+
+            --shadow: 0 10px 35px rgba(0, 100, 120, 0.10);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: var(--bg);
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            color: var(--text);
+        }
+
+        .card {
+            width: 100%;
+            max-width: 500px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 15px;
+
+            box-shadow: var(--shadow);
+
+            padding: 32px;
+        }
+
+        .icon {
+            width: 58px;
+            height: 58px;
+
+            margin-bottom: 20px;
+
+            border-radius: 50%;
+
+            background: var(--red-light);
+            color: var(--red);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 9px;
+        }
+
+        .description {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .patient-box {
+            margin: 22px 0;
+
+            padding: 16px;
+
+            background: #FBFEFF;
+
+            border: 1px solid var(--border);
+            border-radius: 9px;
+        }
+
+        .patient-name {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .patient-username {
+            margin-top: 4px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .warning {
+            padding: 12px 14px;
+
+            background: var(--red-light);
+            color: var(--red-dark);
+
+            border-radius: 8px;
+
+            font-size: 11px;
+            line-height: 1.5;
+
+            margin-bottom: 22px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+
+            height: 43px;
+
+            border-radius: 8px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .cancel {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--muted);
+        }
+
+        .cancel:hover {
+            background: var(--teal-light);
+            color: var(--teal-dark);
+        }
+
+        .delete {
+            border: none;
+            background: var(--red);
+            color: white;
+        }
+
+        .delete:hover {
+            background: var(--red-dark);
+        }
+
+        @media (max-width: 500px) {
+
+            .card {
+                padding: 24px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div class="icon">
+            !
+        </div>
+
+        <h1>
+            Delete Patient?
+        </h1>
+
+        <p class="description">
+            You are about to permanently delete this patient profile
+            and the associated user account.
+        </p>
+
+
+        <div class="patient-box">
+
+            <div class="patient-name">
+
+                {% if patient.user.get_full_name %}
+                    {{ patient.user.get_full_name }}
+                {% else %}
+                    {{ patient.user.username }}
+                {% endif %}
+
+            </div>
+
+            <div class="patient-username">
+                @{{ patient.user.username }}
+            </div>
+
+        </div>
+
+
+        <div class="warning">
+            This action cannot be undone. The patient's account and
+            profile will be permanently removed from the system.
+        </div>
+
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="actions">
+
+                <a
+                    href="{% url 'admin_panel:patient_detail' patient.id %}"
+                    class="btn cancel">
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn delete">
+                    Delete Patient
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

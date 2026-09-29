@@ -1,0 +1,654 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>{{ page_title }} | CarePlus Admin</title>
+
+    <style>
+
+        :root {
+            --teal: #00B8C8;
+            --teal-bright: #00D1D9;
+            --teal-deep: #0097A7;
+            --teal-dark: #007F8C;
+            --teal-light: #E3FBFD;
+            --teal-soft: #EFFDFE;
+
+            --bg: #F5FAFC;
+            --white: #FFFFFF;
+
+            --text: #172033;
+            --muted: #607086;
+
+            --border: #CDECEF;
+            --border-bright: #9DDEE5;
+
+            --red: #E55353;
+            --red-light: #FFF0F0;
+
+            --shadow: 0 8px 28px rgba(0, 151, 167, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .main {
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 76px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+        .heading h1 {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .heading p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .back-link {
+            height: 38px;
+            padding: 0 14px;
+
+            border: 1px solid var(--border);
+            border-radius: 8px;
+
+            display: flex;
+            align-items: center;
+
+            color: var(--teal-dark);
+            font-size: 12px;
+            font-weight: 800;
+
+            background: white;
+        }
+
+        .back-link:hover {
+            background: var(--teal-soft);
+        }
+
+        .content {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .form-panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .section {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-heading {
+            margin-bottom: 20px;
+        }
+
+        .section-heading h2 {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .section-heading p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #617184;
+        }
+
+        .required {
+            color: var(--red);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            border: 1px solid var(--border);
+            border-radius: 8px;
+
+            background: #FBFEFF;
+            color: var(--text);
+
+            outline: none;
+
+            font-size: 13px;
+
+            transition: all 0.2s ease;
+        }
+
+        input,
+        select {
+            height: 43px;
+            padding: 0 12px;
+        }
+
+        textarea {
+            min-height: 100px;
+            padding: 12px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--teal);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 184, 200, 0.09);
+        }
+
+        .help-text {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .messages {
+            margin-bottom: 18px;
+        }
+
+        .message {
+            padding: 11px 13px;
+            border-radius: 8px;
+            margin-bottom: 7px;
+
+            background: var(--red-light);
+            color: var(--red);
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+
+            padding: 20px 24px;
+            background: #FBFEFF;
+        }
+
+        .btn {
+            height: 42px;
+            padding: 0 18px;
+
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--muted);
+        }
+
+        .btn-save {
+            border: none;
+            background: var(--teal);
+            color: white;
+
+            box-shadow: 0 5px 14px rgba(0, 184, 200, 0.18);
+        }
+
+        .btn-save:hover {
+            background: var(--teal-deep);
+        }
+
+        @media (max-width: 700px) {
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .actions .btn {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="heading">
+
+            <h1>{{ page_title }}</h1>
+
+            <p>
+                {% if form_mode == "add" %}
+                    Create a new patient profile
+                {% else %}
+                    Update patient information
+                {% endif %}
+            </p>
+
+        </div>
+
+        <a
+            href="{% url 'admin_panel:patients' %}"
+            class="back-link">
+            ← Back to Patients
+        </a>
+
+    </header>
+
+
+    <section class="content">
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <form
+            method="post"
+            class="form-panel">
+
+            {% csrf_token %}
+
+
+            <!-- =============================================
+                 ACCOUNT INFORMATION
+            ============================================== -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <h2>
+                        Account Information
+                    </h2>
+
+                    <p>
+                        Login and contact information for the patient.
+                    </p>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="field">
+
+                        <label>
+                            Username <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="username"
+                            required
+                            value="{% if form_data.username %}{{ form_data.username }}{% elif patient %}{{ patient.user.username }}{% endif %}"
+                            placeholder="Enter username">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Email <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            required
+                            value="{% if form_data.email %}{{ form_data.email }}{% elif patient %}{{ patient.user.email }}{% endif %}"
+                            placeholder="patient@example.com">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            First Name <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="first_name"
+                            required
+                            value="{% if form_data.first_name %}{{ form_data.first_name }}{% elif patient %}{{ patient.user.first_name }}{% endif %}"
+                            placeholder="First name">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Last Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="last_name"
+                            value="{% if form_data.last_name %}{{ form_data.last_name }}{% elif patient %}{{ patient.user.last_name }}{% endif %}"
+                            placeholder="Last name">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Phone
+                        </label>
+
+                        <input
+                            type="text"
+                            name="phone"
+                            value="{% if form_data.phone %}{{ form_data.phone }}{% elif patient %}{{ patient.user.phone }}{% endif %}"
+                            placeholder="Phone number">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 PASSWORD
+            ============================================== -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <h2>
+                        Password
+                    </h2>
+
+                    <p>
+                        {% if form_mode == "add" %}
+                            Set the patient's login password.
+                        {% else %}
+                            Leave blank to keep the current password.
+                        {% endif %}
+                    </p>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="field">
+
+                        <label>
+                            Password
+                            {% if form_mode == "add" %}
+                                <span class="required">*</span>
+                            {% endif %}
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            {% if form_mode == "add" %}required{% endif %}
+                            placeholder="{% if form_mode == 'edit' %}Leave blank to keep current{% else %}Enter password{% endif %}">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Confirm Password
+                            {% if form_mode == "add" %}
+                                <span class="required">*</span>
+                            {% endif %}
+                        </label>
+
+                        <input
+                            type="password"
+                            name="confirm_password"
+                            {% if form_mode == "add" %}required{% endif %}
+                            placeholder="Confirm password">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 PATIENT INFORMATION
+            ============================================== -->
+
+            <div class="section">
+
+                <div class="section-heading">
+
+                    <h2>
+                        Patient Information
+                    </h2>
+
+                    <p>
+                        Basic medical information associated with the patient.
+                    </p>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="field">
+
+                        <label>
+                            Date of Birth <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="date"
+                            name="date_of_birth"
+                            required
+                            value="{% if form_data.date_of_birth %}{{ form_data.date_of_birth }}{% elif patient %}{{ patient.date_of_birth|date:'Y-m-d' }}{% endif %}">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Blood Group
+                        </label>
+
+                        <select name="blood_group">
+
+                            <option value="">
+                                Select blood group
+                            </option>
+
+                            {% for value, label in blood_group_choices %}
+
+                                <option
+                                    value="{{ value }}"
+                                    {% if form_data.blood_group == value %}
+                                        selected
+                                    {% elif patient and patient.blood_group == value %}
+                                        selected
+                                    {% endif %}>
+                                    {{ label }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>
+                            Allergies
+                        </label>
+
+                        <textarea
+                            name="allergies"
+                            placeholder="Enter known allergies, if any">{% if form_data.allergies %}{{ form_data.allergies }}{% elif patient %}{{ patient.allergies }}{% endif %}</textarea>
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>
+                            Address
+                        </label>
+
+                        <textarea
+                            name="address"
+                            placeholder="Enter patient's address">{% if form_data.address %}{{ form_data.address }}{% elif patient %}{{ patient.address }}{% endif %}</textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 ACTIONS
+            ============================================== -->
+
+            <div class="actions">
+
+                <a
+                    href="{% url 'admin_panel:patients' %}"
+                    class="btn btn-cancel">
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn btn-save">
+
+                    {% if form_mode == "add" %}
+                        Create Patient
+                    {% else %}
+                        Save Changes
+                    {% endif %}
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
+
+</body>
+</html>

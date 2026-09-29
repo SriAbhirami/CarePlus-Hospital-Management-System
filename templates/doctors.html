@@ -32,16 +32,26 @@
 
     <style>
 
+        /* =========================================================
+           GLOBAL
+        ========================================================= */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: "Inter", sans-serif;
             background: #f6fafb;
             color: #172033;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
         a {
@@ -50,838 +60,813 @@
         }
 
 
-        /* =====================================================
+        /* =========================================================
            NAVBAR
-        ===================================================== */
+        ========================================================= */
 
         .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            width: 100%;
             height: 76px;
-
-            background: #ffffff;
-
-            border-bottom: 1px solid #e7eef0;
-
+            padding: 0 5%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            padding: 0 7%;
-
-            position: sticky;
-            top: 0;
-
-            z-index: 1000;
+            background: #ffffff;
+            border-bottom: 1px solid #e8eef1;
+            box-shadow:
+                0 2px 12px
+                rgba(20, 55, 70, 0.05);
+            isolation: isolate;
         }
 
+
+        /* =========================================================
+           LOGO
+        ========================================================= */
 
         .brand {
+            position: relative;
+            z-index: 10001;
             display: flex;
             align-items: center;
-
-            gap: 12px;
+            color: #123447;
+            white-space: nowrap;
         }
-
 
         .brand-icon {
-            width: 42px;
-            height: 42px;
-
-            border-radius: 12px;
-
-            background: #0f9d8a;
-
-            color: white;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 21px;
-            font-weight: 800;
+            width: 8px;
+            height: 8px;
+            margin-right: 8px;
+            flex-shrink: 0;
+            background: #18b7a4;
+            border-radius: 50%;
         }
-
 
         .brand-text {
-            font-size: 20px;
-
-            font-weight: 800;
-
-            color: #132238;
+            font-size: 1.35rem;
+            font-weight: 750;
+            letter-spacing: 0.2px;
+            color: #123447;
         }
 
 
-        .brand-subtitle {
-            font-size: 10px;
-
-            color: #7b8794;
-
-            margin-top: 2px;
-        }
-
+        /* =========================================================
+           NAV LINKS
+        ========================================================= */
 
         .nav-links {
+            position: relative;
+            z-index: 10000;
             display: flex;
             align-items: center;
-
-            gap: 32px;
+            gap: 30px;
         }
-
 
         .nav-links a {
-            font-size: 14px;
-
-            font-weight: 600;
-
-            color: #5b6777;
-
-            transition: 0.2s ease;
+            position: relative;
+            z-index: 10001;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 2px;
+            color: #526875;
+            font-size: 0.94rem;
+            font-weight: 550;
+            cursor: pointer;
+            pointer-events: auto;
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease;
         }
-
 
         .nav-links a:hover {
-            color: #0f9d8a;
+            color: #109c8d;
+            transform: translateY(-1px);
         }
 
 
-        .nav-links .active {
-            color: #0f9d8a;
+        /* =========================================================
+           ACTIVE PAGE
+        ========================================================= */
+
+        .nav-links a.active {
+            color: #109c8d;
+        }
+
+        .nav-links a.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 2px;
+            height: 2px;
+            background: #18b7a4;
+            border-radius: 10px;
         }
 
 
-        /* =====================================================
-           MAIN
-        ===================================================== */
+        /* =========================================================
+           LOGIN BUTTON
+        ========================================================= */
+
+        .nav-links .login-btn {
+            padding: 9px 18px;
+            color: #109c8d;
+            border: 1px solid #a9ddd7;
+            border-radius: 8px;
+        }
+
+        .nav-links .login-btn:hover {
+            background: #f0fbf9;
+        }
+
+
+        /* =========================================================
+           REGISTER BUTTON
+        ========================================================= */
+
+        .nav-links .register-btn {
+            padding: 10px 19px;
+            background: #18b7a4;
+            color: #ffffff;
+            font-weight: 650;
+            border-radius: 8px;
+            box-shadow:
+                0 5px 15px
+                rgba(24, 183, 164, 0.18);
+        }
+
+        .nav-links .register-btn:hover {
+            background: #109c8d;
+            color: #ffffff;
+        }
+
+
+        /* =========================================================
+           MOBILE MENU BUTTON
+        ========================================================= */
+
+        .menu-toggle {
+            display: none;
+            position: relative;
+            z-index: 10002;
+            width: 42px;
+            height: 42px;
+            padding: 8px;
+            background: #ffffff;
+            border: 1px solid #dbe6e9;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            margin: 5px 0;
+            background: #173042;
+            border-radius: 5px;
+            transition: 0.25s ease;
+        }
+
+
+        /* =========================================================
+           MAIN CONTAINER
+        ========================================================= */
 
         .main-container {
-            max-width: 1200px;
-
-            margin: auto;
-
-            padding: 34px 7% 80px;
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 38px 4.5% 80px;
         }
 
 
-        /* =====================================================
+        /* =========================================================
            PAGE HEADER
-        ===================================================== */
+        ========================================================= */
 
         .page-header {
             display: flex;
-
             align-items: center;
             justify-content: space-between;
-
-            margin-bottom: 18px;
+            margin-bottom: 22px;
         }
-
 
         .page-title h1 {
-            font-size: 25px;
-
+            font-size: 27px;
             line-height: 1.2;
-
             color: #172033;
-
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
-
         .page-title p {
-            font-size: 12px;
-
+            font-size: 13px;
             color: #7a8695;
         }
 
-
         .doctor-count {
             font-size: 12px;
-
             font-weight: 600;
-
             color: #788493;
-
             background: #eef7f6;
-
-            padding: 8px 12px;
-
+            padding: 8px 13px;
             border-radius: 20px;
         }
 
 
-        /* =====================================================
+        /* =========================================================
            FILTER BAR
-        ===================================================== */
+        ========================================================= */
 
         .filter-panel {
+            width: 100%;
             background: #ffffff;
-
             border: 1px solid #e4ebee;
-
             border-radius: 14px;
-
-            padding: 18px;
-
-            margin-bottom: 30px;
-
+            padding: 20px;
+            margin-bottom: 32px;
             box-shadow:
-                0 6px 24px rgba(20, 45, 60, 0.035);
+                0 6px 24px
+                rgba(20, 45, 60, 0.035);
         }
-
 
         .filter-form {
             display: grid;
-
             grid-template-columns:
-                1.7fr
-                1fr
-                0.8fr
-                0.9fr
+                minmax(230px, 1.8fr)
+                minmax(180px, 1.15fr)
+                minmax(130px, 0.8fr)
+                minmax(150px, 0.9fr)
                 auto
                 auto;
-
-            gap: 11px;
-
+            gap: 12px;
             align-items: end;
         }
 
-
         .field {
             display: flex;
-
             flex-direction: column;
-
             gap: 7px;
         }
 
-
         .field label {
             font-size: 10px;
-
             font-weight: 700;
-
             color: #6d7887;
-
             text-transform: uppercase;
-
             letter-spacing: 0.5px;
         }
 
-
         .field input,
         .field select {
-
+            width: 100%;
             height: 44px;
-
             border: 1px solid #dce5e8;
-
             border-radius: 8px;
-
             background: #fbfcfd;
-
             padding: 0 12px;
-
             font-family: inherit;
-
             font-size: 13px;
-
             color: #253447;
-
             outline: none;
-
             transition: 0.2s ease;
         }
-
 
         .field input::placeholder {
             color: #9aa4b0;
         }
 
-
         .field input:focus,
         .field select:focus {
-
             border-color: #0f9d8a;
-
             background: #ffffff;
-
             box-shadow:
-                0 0 0 3px rgba(15, 157, 138, 0.08);
+                0 0 0 3px
+                rgba(15, 157, 138, 0.08);
         }
-
 
         .filter-btn {
-
             height: 44px;
-
             border: none;
-
             border-radius: 8px;
-
-            padding: 0 18px;
-
+            padding: 0 20px;
             background: #0f9d8a;
-
-            color: white;
-
+            color: #ffffff;
             font-family: inherit;
-
             font-size: 12px;
-
             font-weight: 700;
-
             cursor: pointer;
-
             transition: 0.2s ease;
+            white-space: nowrap;
         }
-
 
         .filter-btn:hover {
             background: #0b8878;
         }
 
-
         .clear-btn {
-
             height: 44px;
-
             display: flex;
-
             align-items: center;
             justify-content: center;
-
-            padding: 0 15px;
-
+            padding: 0 17px;
             border: 1px solid #dce5e8;
-
             border-radius: 8px;
-
             color: #5f6c7b;
-
             font-size: 12px;
-
             font-weight: 600;
-
             background: #ffffff;
-
             transition: 0.2s ease;
+            white-space: nowrap;
         }
 
-
         .clear-btn:hover {
-
             border-color: #0f9d8a;
-
             color: #0f9d8a;
         }
 
 
-        /* =====================================================
+        /* =========================================================
            DIRECTORY HEADER
-        ===================================================== */
+        ========================================================= */
 
         .directory-header {
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
             margin-bottom: 18px;
         }
 
-
         .directory-header h2 {
-
-            font-size: 18px;
-
+            font-size: 19px;
             color: #172033;
         }
 
 
-        /* =====================================================
+        /* =========================================================
            DOCTOR GRID
-        ===================================================== */
+        ========================================================= */
 
         .doctor-grid {
-
+            width: 100%;
             display: grid;
-
             grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 20px;
+                repeat(3, minmax(0, 1fr));
+            gap: 24px;
         }
 
+
+        /* =========================================================
+           DOCTOR CARD
+        ========================================================= */
 
         .doctor-card {
-
+            min-width: 0;
             background: #ffffff;
-
             border: 1px solid #e4ebee;
-
-            border-radius: 15px;
-
-            padding: 22px;
-
+            border-radius: 17px;
+            overflow: hidden;
             transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease,
-                border-color 0.2s ease;
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
         }
-
 
         .doctor-card:hover {
-
-            transform: translateY(-3px);
-
+            transform: translateY(-4px);
             border-color: #c9e6e2;
-
             box-shadow:
-                0 15px 35px rgba(20, 45, 60, 0.08);
+                0 18px 40px
+                rgba(20, 45, 60, 0.10);
         }
 
 
-        /* =====================================================
-           DOCTOR TOP
-        ===================================================== */
+        /* =========================================================
+           LARGE DOCTOR IMAGE
+        ========================================================= */
 
-        .doctor-top {
-
-            display: flex;
-
-            align-items: flex-start;
-
-            justify-content: space-between;
-
-            margin-bottom: 17px;
-        }
-
-
-        .doctor-photo {
-
-            width: 70px;
-            height: 70px;
-
-            border-radius: 14px;
-
-            overflow: hidden;
-
+        .doctor-image-wrap {
+            position: relative;
+            width: 100%;
+            height: 300px;
             background: #e8f5f3;
+            overflow: hidden;
+        }
 
+        .doctor-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.4s ease;
+        }
+
+        .doctor-card:hover .doctor-image {
+            transform: scale(1.025);
+        }
+
+
+        /* =========================================================
+           IMAGE FALLBACK
+        ========================================================= */
+
+        .doctor-image-placeholder {
+            width: 100%;
+            height: 100%;
             display: flex;
-
             align-items: center;
             justify-content: center;
-
+            background:
+                linear-gradient(
+                    145deg,
+                    #e8f5f3,
+                    #d9efec
+                );
             color: #0f9d8a;
-
-            font-size: 22px;
-
+            font-size: 58px;
             font-weight: 800;
         }
 
 
-        .doctor-photo img {
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: cover;
-        }
-
+        /* =========================================================
+           AVAILABILITY BADGE
+        ========================================================= */
 
         .availability {
+            position: absolute;
+            top: 16px;
+            right: 16px;
 
             display: inline-flex;
-
             align-items: center;
-
             gap: 6px;
 
-            padding: 6px 9px;
+            padding: 7px 11px;
 
             border-radius: 20px;
 
-            background: #eaf8f1;
+            background: rgba(255, 255, 255, 0.94);
 
             color: #16845d;
 
             font-size: 10px;
-
             font-weight: 700;
+
+            box-shadow:
+                0 5px 15px
+                rgba(20, 45, 60, 0.10);
+
+            backdrop-filter: blur(5px);
         }
 
-
         .availability-dot {
-
             width: 6px;
             height: 6px;
-
             border-radius: 50%;
-
             background: #16845d;
         }
 
 
-        /* =====================================================
-           DOCTOR INFORMATION
-        ===================================================== */
+        /* =========================================================
+           DOCTOR CONTENT
+        ========================================================= */
+
+        .doctor-content {
+            padding: 21px 23px 23px;
+        }
 
         .doctor-name {
-
-            font-size: 17px;
-
+            font-size: 18px;
+            line-height: 1.3;
             color: #172033;
-
             margin-bottom: 5px;
         }
 
-
         .specialization {
-
             font-size: 12px;
-
             font-weight: 700;
-
             color: #0f9d8a;
-
             margin-bottom: 11px;
         }
 
-
         .qualification {
-
             min-height: 38px;
-
             font-size: 11px;
-
             line-height: 1.6;
-
             color: #748091;
-
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
 
+        /* =========================================================
+           DOCTOR META
+        ========================================================= */
+
         .doctor-meta {
-
             display: grid;
-
             grid-template-columns:
                 1fr 1fr;
-
-            gap: 8px;
-
+            gap: 9px;
             margin-bottom: 18px;
         }
 
-
         .meta-item {
-
             background: #f8fafb;
-
             border-radius: 9px;
-
             padding: 10px;
         }
 
-
         .meta-label {
-
             display: block;
-
             font-size: 9px;
-
             text-transform: uppercase;
-
             letter-spacing: 0.5px;
-
             color: #8a95a3;
-
             margin-bottom: 4px;
         }
 
-
         .meta-value {
-
             font-size: 12px;
-
             font-weight: 700;
-
             color: #354255;
         }
-
 
         .rating {
             color: #d89424;
         }
 
 
-        /* =====================================================
+        /* =========================================================
            CARD FOOTER
-        ===================================================== */
+        ========================================================= */
 
         .card-footer {
-
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
-
             gap: 10px;
-
             padding-top: 15px;
-
             border-top: 1px solid #edf1f2;
         }
 
-
         .fee {
-
             font-size: 15px;
-
             font-weight: 800;
-
             color: #172033;
         }
 
-
         .fee span {
-
             display: block;
-
             font-size: 9px;
-
             font-weight: 500;
-
             color: #8994a2;
-
             margin-top: 2px;
         }
 
-
         .book-btn {
-
             display: inline-flex;
-
             align-items: center;
             justify-content: center;
-
             height: 38px;
-
             padding: 0 14px;
-
             border-radius: 8px;
-
             background: #0f9d8a;
-
-            color: white;
-
+            color: #ffffff;
             font-size: 11px;
-
             font-weight: 700;
-
             transition: 0.2s ease;
+            white-space: nowrap;
         }
-
 
         .book-btn:hover {
             background: #0b8878;
         }
 
 
-        /* =====================================================
+        /* =========================================================
            EMPTY STATE
-        ===================================================== */
+        ========================================================= */
 
         .empty-state {
-
             background: #ffffff;
-
             border: 1px solid #e4ebee;
-
             border-radius: 16px;
-
             padding: 65px 25px;
-
             text-align: center;
         }
 
-
         .empty-icon {
-
             width: 58px;
             height: 58px;
-
             margin: 0 auto 16px;
-
             border-radius: 50%;
-
             background: #eef7f6;
-
             color: #0f9d8a;
-
             display: flex;
-
             align-items: center;
             justify-content: center;
-
             font-size: 22px;
         }
 
-
         .empty-state h3 {
-
             font-size: 18px;
-
             margin-bottom: 7px;
         }
 
-
         .empty-state p {
-
             color: #7c8794;
-
             font-size: 13px;
         }
 
 
-        /* =====================================================
-           FOOTER
-        ===================================================== */
+        /* =========================================================
+           LARGE LAPTOP / DESKTOP
+        ========================================================= */
 
-        .footer {
+        @media (min-width: 1450px) {
 
-            background: #132238;
+            .main-container {
+                max-width: 1500px;
+                padding-left: 4%;
+                padding-right: 4%;
+            }
 
-            color: #ffffff;
+            .doctor-grid {
+                gap: 26px;
+            }
 
-            padding: 42px 7%;
+            .doctor-image-wrap {
+                height: 320px;
+            }
 
-            margin-top: 10px;
         }
 
 
-        .footer-inner {
-
-            max-width: 1200px;
-
-            margin: auto;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-        }
-
-
-        .footer-brand {
-
-            font-size: 18px;
-
-            font-weight: 800;
-
-            margin-bottom: 6px;
-        }
-
-
-        .footer-text {
-
-            font-size: 11px;
-
-            color: #9ca9b8;
-        }
-
-
-        .footer-right {
-
-            font-size: 11px;
-
-            color: #9ca9b8;
-        }
-
-
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
+        /* =========================================================
+           TABLET
+        ========================================================= */
 
         @media (max-width: 1050px) {
 
-            .filter-form {
+            .main-container {
+                max-width: 100%;
+                padding-left: 4%;
+                padding-right: 4%;
+            }
 
+            .filter-form {
                 grid-template-columns:
                     1fr 1fr 1fr;
             }
 
-
             .doctor-grid {
-
                 grid-template-columns:
-                    repeat(2, 1fr);
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .doctor-image-wrap {
+                height: 280px;
             }
 
         }
 
 
-        @media (max-width: 720px) {
+        /* =========================================================
+           MOBILE NAVIGATION
+        ========================================================= */
+
+        @media (max-width: 850px) {
 
             .navbar {
-
+                height: 70px;
                 padding: 0 5%;
             }
 
+            .menu-toggle {
+                display: block;
+            }
 
             .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                z-index: 10000;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px 5% 18px;
+                background: #ffffff;
+                border-bottom: 1px solid #e1eaec;
+                box-shadow:
+                    0 15px 30px
+                    rgba(25, 64, 76, 0.12);
+            }
 
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                justify-content: flex-start;
+                padding: 14px 8px;
+                border-bottom: 1px solid #edf1f2;
+            }
+
+            .nav-links a.active::after {
                 display: none;
             }
 
+            .nav-links .login-btn,
+            .nav-links .register-btn {
+                margin-top: 8px;
+                justify-content: center;
+            }
+
+
+            /* HAMBURGER → X */
+
+            .menu-toggle.active span:nth-child(1) {
+                transform:
+                    translateY(7px)
+                    rotate(45deg);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform:
+                    translateY(-7px)
+                    rotate(-45deg);
+            }
+
+
+            /* MAIN */
 
             .main-container {
-
                 padding:
                     25px 5% 60px;
             }
 
-
             .page-header {
-
                 align-items: flex-start;
-
                 gap: 12px;
-
                 flex-direction: column;
             }
 
-
             .page-title h1 {
-
                 font-size: 23px;
             }
 
-
             .filter-form {
-
                 grid-template-columns: 1fr;
             }
-
 
             .doctor-grid {
-
                 grid-template-columns: 1fr;
             }
 
+            .doctor-image-wrap {
+                height: 340px;
+            }
 
-            .footer-inner {
+            .doctor-content {
+                padding: 21px 22px 23px;
+            }
 
-                flex-direction: column;
+        }
 
-                align-items: flex-start;
 
-                gap: 15px;
+        /* =========================================================
+           SMALL MOBILE
+        ========================================================= */
+
+        @media (max-width: 560px) {
+
+            .brand-text {
+                font-size: 1.12rem;
+            }
+
+            .main-container {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+
+            .doctor-image-wrap {
+                height: 300px;
+            }
+
+            .doctor-content {
+                padding: 20px;
             }
 
         }
@@ -905,33 +890,45 @@
         class="brand"
     >
 
-        <div class="brand-icon">
-            +
-        </div>
+        <div class="brand-icon"></div>
 
-        <div>
-
-            <div class="brand-text">
-                CarePlus
-            </div>
-
-            <div class="brand-subtitle">
-                HOSPITAL &amp; HEALTHCARE
-            </div>
-
+        <div class="brand-text">
+            CarePlus Hospital
         </div>
 
     </a>
 
 
-    <div class="nav-links">
+    <!-- MOBILE MENU BUTTON -->
+
+    <button
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        type="button"
+    >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </button>
+
+
+    <!-- NAVIGATION -->
+
+    <div
+        class="nav-links"
+        id="navLinks"
+    >
 
         <a href="{% url 'home' %}">
             Home
         </a>
 
-        <a href="{% url 'specialization_detail' 'CARDIOLOGY' %}">
-            Specializations
+        <a href="{% url 'about' %}">
+            About
         </a>
 
         <a
@@ -941,8 +938,26 @@
             Doctors
         </a>
 
-        <a href="{% url 'about' %}">
-            About
+        <a href="{% url 'services' %}">
+            Services
+        </a>
+
+        <a href="{% url 'contact' %}">
+            Contact
+        </a>
+
+        <a
+            href="{% url 'login' %}"
+            class="login-btn"
+        >
+            Login
+        </a>
+
+        <a
+            href="{% url 'register' %}"
+            class="register-btn"
+        >
+            Register
         </a>
 
     </div>
@@ -996,7 +1011,6 @@
             method="GET"
             class="filter-form"
         >
-
 
             <div class="field">
 
@@ -1160,26 +1174,32 @@
                 <article class="doctor-card">
 
 
-                    <div class="doctor-top">
+                    <!-- =================================================
+                         LARGE DOCTOR IMAGE
+                    ================================================= -->
 
+                    <div class="doctor-image-wrap">
 
-                        <div class="doctor-photo">
+                        {% if doctor.profile_pic %}
 
-                            {% if doctor.profile_pic %}
+                            <img
+                                src="{{ doctor.profile_pic.url }}"
+                                alt="{{ doctor.user.get_full_name|default:doctor.user.username }}"
+                                class="doctor-image"
+                            >
 
-                                <img
-                                    src="{{ doctor.profile_pic.url }}"
-                                    alt="{{ doctor.user.get_full_name|default:doctor.user.username }}"
-                                >
+                        {% else %}
 
-                            {% else %}
+                            <div class="doctor-image-placeholder">
 
                                 {{ doctor.user.first_name|first|default:doctor.user.username|first|upper }}
 
-                            {% endif %}
+                            </div>
 
-                        </div>
+                        {% endif %}
 
+
+                        <!-- AVAILABILITY -->
 
                         <div class="availability">
 
@@ -1192,102 +1212,117 @@
                     </div>
 
 
-                    <h3 class="doctor-name">
+                    <!-- =================================================
+                         DOCTOR DETAILS
+                    ================================================= -->
 
-                        Dr.
-                        {{ doctor.user.get_full_name|default:doctor.user.username }}
-
-                    </h3>
-
-
-                    <div class="specialization">
-
-                        {{ doctor.get_specialization_display }}
-
-                    </div>
+                    <div class="doctor-content">
 
 
-                    <div class="qualification">
+                        <h3 class="doctor-name">
 
-                        {{ doctor.qualification }}
+                            Dr.
+                            {{ doctor.user.get_full_name|default:doctor.user.username }}
 
-                    </div>
-
-
-                    <div class="doctor-meta">
+                        </h3>
 
 
-                        <div class="meta-item">
+                        <div class="specialization">
 
-                            <span class="meta-label">
-                                Experience
-                            </span>
-
-                            <span class="meta-value">
-
-                                {{ doctor.experience }}
-                                year{{ doctor.experience|pluralize }}
-
-                            </span>
+                            {{ doctor.get_specialization_display }}
 
                         </div>
 
 
-                        <div class="meta-item">
+                        <div class="qualification">
 
-                            <span class="meta-label">
-                                Rating
-                            </span>
-
-                            <span class="meta-value rating">
-
-                                ★ {{ doctor.rating }}
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="card-footer">
-
-
-                        <div class="fee">
-
-                            ₹{{ doctor.consultation_fee }}
-
-                            <span>
-                                Consultation
-                            </span>
+                            {{ doctor.qualification }}
 
                         </div>
 
 
-                        {% url 'book_appointment' as booking_url %}
+                        <!-- DOCTOR META -->
 
-{% if user.is_authenticated %}
+                        <div class="doctor-meta">
 
-    <a
-        href="{{ booking_url }}?doctor={{ doctor.id }}"
-        class="book-btn"
-    >
-        Book Appointment
-    </a>
 
-{% else %}
+                            <div class="meta-item">
 
-    <a
-        href="{% url 'login' %}?next={{ booking_url }}?doctor={{ doctor.id }}"
-        class="book-btn"
-    >
-        Book Appointment
-    </a>
+                                <span class="meta-label">
+                                    Experience
+                                </span>
 
-{% endif %}
+                                <span class="meta-value">
+
+                                    {{ doctor.experience }}
+                                    year{{ doctor.experience|pluralize }}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="meta-item">
+
+                                <span class="meta-label">
+                                    Rating
+                                </span>
+
+                                <span class="meta-value rating">
+
+                                    ★ {{ doctor.rating }}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CARD FOOTER -->
+
+                        <div class="card-footer">
+
+
+                            <div class="fee">
+
+                                ₹{{ doctor.consultation_fee }}
+
+                                <span>
+                                    Consultation
+                                </span>
+
+                            </div>
+
+
+                            {% url 'book_appointment' as booking_url %}
+
+
+                            {% if user.is_authenticated %}
+
+                                <a
+                                    href="{{ booking_url }}?doctor={{ doctor.id }}"
+                                    class="book-btn"
+                                >
+                                    Book Appointment
+                                </a>
+
+                            {% else %}
+
+                                <a
+                                    href="{% url 'login' %}?next={{ booking_url }}?doctor={{ doctor.id }}"
+                                    class="book-btn"
+                                >
+                                    Book Appointment
+                                </a>
+
+                            {% endif %}
+
+
+                        </div>
+
 
                     </div>
-
 
                 </article>
 
@@ -1298,6 +1333,10 @@
 
     {% else %}
 
+
+        <!-- =================================================
+             EMPTY STATE
+        ================================================== -->
 
         <div class="empty-state">
 
@@ -1323,32 +1362,153 @@
 
 
 <!-- =========================================================
-     FOOTER
+     MOBILE NAVIGATION JAVASCRIPT
 ========================================================= -->
 
-<footer class="footer">
+<script>
 
-    <div class="footer-inner">
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
 
-        <div>
+            const menuToggle =
+                document.getElementById("menuToggle");
 
-            <div class="footer-brand">
-                CarePlus Hospital
-            </div>
+            const navLinks =
+                document.getElementById("navLinks");
 
-            <div class="footer-text">
-                Compassionate care. Trusted professionals.
-            </div>
 
-        </div>
+            if (!menuToggle || !navLinks) {
+                return;
+            }
 
-        <div class="footer-right">
-            © 2026 CarePlus Hospital. All rights reserved.
-        </div>
 
-    </div>
+            /* =============================================
+               OPEN / CLOSE MOBILE MENU
+            ============================================= */
 
-</footer>
+            menuToggle.addEventListener(
+                "click",
+                function (event) {
+
+                    event.stopPropagation();
+
+                    navLinks.classList.toggle("show");
+
+                    menuToggle.classList.toggle("active");
+
+
+                    const isOpen =
+                        navLinks.classList.contains("show");
+
+
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        isOpen ? "true" : "false"
+                    );
+
+                }
+            );
+
+
+            /* =============================================
+               CLOSE AFTER NAVIGATION
+            ============================================= */
+
+            navLinks
+                .querySelectorAll("a")
+                .forEach(
+                    function (link) {
+
+                        link.addEventListener(
+                            "click",
+                            function () {
+
+                                navLinks.classList.remove(
+                                    "show"
+                                );
+
+                                menuToggle.classList.remove(
+                                    "active"
+                                );
+
+                                menuToggle.setAttribute(
+                                    "aria-expanded",
+                                    "false"
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            /* =============================================
+               CLOSE WHEN CLICKING OUTSIDE
+            ============================================= */
+
+            document.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        window.innerWidth <= 850 &&
+                        !navLinks.contains(event.target) &&
+                        !menuToggle.contains(event.target)
+                    ) {
+
+                        navLinks.classList.remove(
+                            "show"
+                        );
+
+                        menuToggle.classList.remove(
+                            "active"
+                        );
+
+                        menuToggle.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            /* =============================================
+               RESET ON DESKTOP
+            ============================================= */
+
+            window.addEventListener(
+                "resize",
+                function () {
+
+                    if (window.innerWidth > 850) {
+
+                        navLinks.classList.remove(
+                            "show"
+                        );
+
+                        menuToggle.classList.remove(
+                            "active"
+                        );
+
+                        menuToggle.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+</script>
 
 
 </body>

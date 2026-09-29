@@ -1,524 +1,1005 @@
-<!DOCTYPE html>
+{% load static %}
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>About | CarePlus Hospital</title>
-
-<style>
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        background: #ffffff;
-        color: #172033;
-    }
-
-    /* =========================
-       NAVBAR
-    ========================= */
-
-    nav {
-        background: white;
-        padding: 18px 7%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
-
-    .logo {
-        font-size: 24px;
-        font-weight: bold;
-        color: #087f8c;
-    }
-
-    .nav-links {
-        display: flex;
-        gap: 25px;
-        align-items: center;
-    }
-
-    .nav-links a {
-        position: relative;
-        text-decoration: none;
-        color: #334155;
-        font-size: 15px;
-        transition: color 0.2s ease;
-    }
-
-    .nav-links a:hover {
-        color: #087f8c;
-    }
-
-    .nav-links a.active {
-        color: #087f8c;
-        font-weight: 700;
-    }
-
-    .nav-links a.active::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -8px;
-        height: 2px;
-        background: #087f8c;
-        border-radius: 2px;
-    }
-
-    .login-btn,
-    .register-btn {
-        padding: 10px 18px;
-        border-radius: 6px;
-        text-decoration: none;
-    }
-
-    .login-btn {
-        color: #087f8c !important;
-        border: 1px solid #087f8c;
-    }
-
-    .register-btn {
-        background: #087f8c;
-        color: white !important;
-        border: 1px solid #087f8c;
-    }
-
-    .login-btn::after,
-    .register-btn::after {
-        display: none !important;
-    }
-
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .about-hero {
-        background:
-            linear-gradient(
-                90deg,
-                rgba(7, 45, 54, 0.94),
-                rgba(7, 45, 54, 0.72)
-            ),
-            url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d")
-            center/cover;
-
-        min-height: 330px;
-
-        display: flex;
-        align-items: center;
-
-        padding: 65px 7%;
-    }
-
-    .hero-content {
-        max-width: 720px;
-        color: #ffffff;
-    }
-
-    .hero-label {
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        font-weight: 700;
-        color: #70d6d1;
-        margin-bottom: 14px;
-    }
-
-    .hero-content h1 {
-        font-size: 46px;
-        line-height: 1.15;
-        margin-bottom: 18px;
-        letter-spacing: -1px;
-    }
-
-    .hero-content p {
-        max-width: 650px;
-        font-size: 16px;
-        line-height: 1.7;
-        color: #dcebed;
-    }
-
-
-    /* =========================
-       ABOUT INTRO
-    ========================= */
-
-    .about-section {
-        padding: 75px 7%;
-    }
-
-    .about-grid {
-        max-width: 1180px;
-        margin: auto;
-
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 65px;
-
-        align-items: center;
-    }
-
-    .section-label {
-        color: #087f8c;
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-bottom: 13px;
-    }
-
-    .about-content h2 {
-        font-size: 32px;
-        line-height: 1.25;
-        margin-bottom: 20px;
-        color: #172033;
-    }
-
-    .about-content p {
-        color: #64748b;
-        font-size: 15px;
-        line-height: 1.75;
-        margin-bottom: 14px;
-    }
-
-    .about-image {
-        height: 350px;
-
-        background:
-            linear-gradient(
-                rgba(8, 127, 140, 0.05),
-                rgba(8, 127, 140, 0.05)
-            ),
-            url("https://images.unsplash.com/photo-1538108149393-fbbd81895907")
-            center/cover;
-
-        border-radius: 8px;
-    }
-
-
-    /* =========================
-       MISSION / VISION
-    ========================= */
-
-    .mission-section {
-        background: #f5f9fa;
-        border-top: 1px solid #e6eef0;
-        border-bottom: 1px solid #e6eef0;
-
-        padding: 60px 7%;
-    }
-
-    .mission-container {
-        max-width: 1180px;
-        margin: auto;
-    }
-
-    .mission-header {
-        margin-bottom: 35px;
-    }
-
-    .mission-header h2 {
-        font-size: 30px;
-        margin-bottom: 8px;
-    }
-
-    .mission-header p {
-        color: #64748b;
-        font-size: 15px;
-    }
-
-    .mission-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 25px;
-    }
-
-    .mission-card {
-        background: #ffffff;
-        border: 1px solid #e1eaed;
-        border-radius: 8px;
-        padding: 28px 30px;
-    }
-
-    .mission-card h3 {
-        color: #087f8c;
-        font-size: 19px;
-        margin-bottom: 10px;
-    }
-
-    .mission-card p {
-        color: #64748b;
-        font-size: 14px;
-        line-height: 1.7;
-    }
-
-
-    /* =========================
-       KEY CAPABILITIES
-    ========================= */
-
-    .capabilities {
-        padding: 65px 7%;
-    }
-
-    .capabilities-container {
-        max-width: 1180px;
-        margin: auto;
-    }
-
-    .capabilities-header {
-        margin-bottom: 30px;
-    }
-
-    .capabilities-header h2 {
-        font-size: 30px;
-        margin-bottom: 8px;
-    }
-
-    .capabilities-header p {
-        color: #64748b;
-        font-size: 15px;
-    }
-
-    .capability-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        border-top: 1px solid #e1e8ec;
-        border-left: 1px solid #e1e8ec;
-    }
-
-    .capability {
-        padding: 25px 22px;
-        border-right: 1px solid #e1e8ec;
-        border-bottom: 1px solid #e1e8ec;
-        background: #ffffff;
-    }
-
-    .capability-number {
-        color: #087f8c;
-        font-size: 12px;
-        font-weight: 700;
-        margin-bottom: 13px;
-    }
-
-    .capability h3 {
-        font-size: 16px;
-        margin-bottom: 8px;
-        color: #172033;
-    }
-
-    .capability p {
-        color: #64748b;
-        font-size: 13px;
-        line-height: 1.6;
-    }
-
-
-    /* =========================
-       FOOTER
-       MATCHES HOME PAGE
-    ========================= */
-
-    footer {
-        background: #0f2933;
-        color: white;
-        padding: 45px 7%;
-    }
-
-    .footer-content {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
-        gap: 40px;
-    }
-
-    footer h3 {
-        margin-bottom: 15px;
-        font-size: 16px;
-    }
-
-    footer p,
-    footer a {
-        color: #cbd5e1;
-        line-height: 1.8;
-        text-decoration: none;
-        font-size: 14px;
-    }
-
-    footer a:hover {
-        color: white;
-    }
-
-    .footer-brand p {
-        max-width: 360px;
-    }
-
-    .copyright {
-        text-align: center;
-        margin-top: 35px;
-        padding-top: 20px;
-        border-top: 1px solid #334155;
-        color: #94a3b8;
-    }
-
-
-    /* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 900px) {
-
-    nav {
-        padding: 16px 5%;
-    }
-
-    .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    /* Hide only normal navigation links */
-    .nav-links a:not(.login-btn):not(.register-btn) {
-        display: none;
-    }
-
-    .login-btn,
-    .register-btn {
-        padding: 8px 12px;
-        font-size: 13px;
-    }
-
-    .about-grid {
-        grid-template-columns: 1fr;
-        gap: 35px;
-    }
-
-    .about-image {
-        height: 300px;
-    }
-
-    .capability-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-}
-
-
-@media (max-width: 600px) {
-
-    nav {
-        min-height: 64px;
-        padding: 12px 4%;
-        gap: 10px;
-    }
-
-    .logo {
-        font-size: 19px;
-        white-space: nowrap;
-    }
-
-    .nav-links {
-        gap: 7px;
-        margin-left: auto;
-    }
-
-    .login-btn,
-    .register-btn {
-        padding: 7px 10px;
-        font-size: 12px;
-        border-radius: 5px;
-        white-space: nowrap;
-    }
-
-    .about-hero {
-        min-height: 300px;
-        padding: 50px 7%;
-    }
-
-    .hero-content h1 {
-        font-size: 34px;
-    }
-
-    .hero-content p {
-        font-size: 15px;
-    }
-
-    .about-section {
-        padding: 55px 7%;
-    }
-
-    .about-content h2 {
-        font-size: 27px;
-    }
-
-    .mission-section {
-        padding: 50px 7%;
-    }
-
-    .mission-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .capabilities {
-        padding: 50px 7%;
-    }
-
-    .capability-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
-}
-
-
-@media (max-width: 380px) {
-
-    nav {
-        padding: 10px 3%;
-    }
-
-    .logo {
-        font-size: 17px;
-    }
-
-    .nav-links {
-        gap: 5px;
-    }
-
-    .login-btn,
-    .register-btn {
-        padding: 6px 8px;
-        font-size: 11px;
-    }
-
-}
-</style>
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About Us | CarePlus Hospital</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f9fc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        nav {
+            background: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #087f8c;
+            letter-spacing: -0.4px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            position: relative;
+            text-decoration: none;
+            color: #334155;
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #087f8c;
+        }
+
+        .nav-links a.active {
+            color: #087f8c;
+            font-weight: 700;
+        }
+
+        .nav-links a.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -8px;
+            height: 2px;
+            background: #087f8c;
+            border-radius: 2px;
+        }
+
+        .login-btn,
+        .register-btn {
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700 !important;
+        }
+
+        .login-btn {
+            color: #087f8c !important;
+            border: 1px solid #087f8c;
+        }
+
+        .register-btn {
+            background: #087f8c;
+            color: white !important;
+            border: 1px solid #087f8c;
+        }
+
+        .login-btn::after,
+        .register-btn::after {
+            display: none !important;
+        }
+
+        /* =========================================================
+           PAGE HERO
+        ========================================================= */
+
+        .about-hero {
+            background: linear-gradient(
+                135deg,
+                #eaf7f7 0%,
+                #f7fbfc 55%,
+                #ffffff 100%
+            );
+
+            padding: 70px 7% 65px;
+            border-bottom: 1px solid #e3eef1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-hero::before {
+            content: "";
+            position: absolute;
+            width: 330px;
+            height: 330px;
+            border-radius: 50%;
+            background: rgba(8, 127, 140, 0.055);
+            right: -110px;
+            top: -130px;
+        }
+
+        .about-hero::after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: rgba(22, 166, 161, 0.045);
+            left: -80px;
+            bottom: -100px;
+        }
+
+        .hero-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1.45fr 0.85fr;
+            align-items: center;
+            gap: 70px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: #087f8c;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 18px;
+        }
+
+        .hero-label span {
+            width: 28px;
+            height: 2px;
+            background: #087f8c;
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            line-height: 1.12;
+            letter-spacing: -1.2px;
+            color: #172033;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero-content h1 strong {
+            color: #087f8c;
+        }
+
+        .hero-content p {
+            max-width: 680px;
+            color: #526176;
+            font-size: 17px;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .hero-panel {
+            background: white;
+            border: 1px solid #dcebee;
+            border-radius: 14px;
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(15, 41, 51, 0.07);
+        }
+
+        .hero-panel-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e7eef1;
+            margin-bottom: 20px;
+        }
+
+        .hero-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: #eaf7f7;
+            color: #087f8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .hero-panel-top h3 {
+            color: #172033;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .hero-panel-top p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+
+        .hero-points {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .hero-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            color: #526176;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .check {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #eaf7f7;
+            color: #087f8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+            margin-top: 1px;
+        }
+
+        /* =========================================================
+           TRUST STATS
+        ========================================================= */
+
+        .trust-section {
+            padding: 0 7%;
+            margin-top: -30px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .trust-container {
+            max-width: 1120px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #e2ecef;
+            border-radius: 12px;
+            box-shadow: 0 8px 28px rgba(15, 41, 51, 0.08);
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .trust-item {
+            padding: 25px 30px;
+            display: flex;
+            align-items: center;
+            gap: 17px;
+            position: relative;
+        }
+
+        .trust-item:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 22px;
+            bottom: 22px;
+            width: 1px;
+            background: #e5edf0;
+        }
+
+        .trust-number {
+            color: #087f8c;
+            font-size: 29px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .trust-text strong {
+            display: block;
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .trust-text span {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        /* =========================================================
+           WHO WE ARE
+        ========================================================= */
+
+        .who-section {
+            padding: 85px 7% 65px;
+            background: white;
+        }
+
+        .section-container {
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        .section-heading {
+            margin-bottom: 38px;
+        }
+
+        .section-heading .label {
+            color: #087f8c;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            display: block;
+            margin-bottom: 9px;
+        }
+
+        .section-heading h2 {
+            font-size: 34px;
+            color: #172033;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .section-heading p {
+            color: #64748b;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .who-grid {
+            display: grid;
+            grid-template-columns: 1.25fr 0.75fr;
+            gap: 28px;
+        }
+
+        .who-main {
+            border: 1px solid #e1eaed;
+            border-radius: 12px;
+            padding: 32px;
+            background: #ffffff;
+            box-shadow: 0 4px 16px rgba(15, 41, 51, 0.045);
+        }
+
+        .who-main h3 {
+            color: #172033;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        .who-main p {
+            color: #526176;
+            font-size: 15px;
+            line-height: 1.8;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .who-main p:last-child {
+            margin-bottom: 0;
+        }
+
+        .who-highlights {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .highlight-card {
+            background: #f5f9fa;
+            border: 1px solid #e0ecef;
+            border-radius: 10px;
+            padding: 22px 18px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(15, 41, 51, 0.07);
+        }
+
+        .highlight-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #eaf7f7;
+            color: #087f8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 13px;
+        }
+
+        .highlight-card h4 {
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .highlight-card p {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.55;
+            font-weight: 500;
+        }
+
+        /* =========================================================
+           FOUNDER
+        ========================================================= */
+
+        .founder-section {
+            background: #eaf7f7;
+            padding: 65px 7%;
+        }
+
+        .founder-container {
+            max-width: 1120px;
+            margin: 0 auto;
+
+            display: grid;
+            grid-template-columns: 270px 1fr;
+            gap: 55px;
+            align-items: center;
+        }
+
+        .founder-photo-wrap {
+            display: flex;
+            justify-content: center;
+        }
+
+        .founder-photo {
+            width: 245px;
+            height: 285px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(15, 41, 51, 0.15);
+            border: 5px solid white;
+        }
+
+        .founder-content .label {
+            color: #087f8c;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .founder-content h2 {
+            color: #172033;
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .founder-role {
+            color: #087f8c;
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 18px;
+        }
+
+        .founder-content p {
+            color: #526176;
+            font-size: 15px;
+            line-height: 1.8;
+            font-weight: 500;
+            max-width: 720px;
+        }
+
+        .founder-meta {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+            flex-wrap: wrap;
+        }
+
+        .founder-meta span {
+            background: white;
+            border: 1px solid #d8e8ea;
+            color: #334155;
+            padding: 8px 13px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* =========================================================
+           MISSION / VISION
+        ========================================================= */
+
+        .mission-section {
+            background: white;
+            padding: 70px 7%;
+        }
+
+        .mission-grid {
+            max-width: 1120px;
+            margin: 0 auto;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .mission-card {
+            border: 1px solid #e0eaed;
+            border-radius: 12px;
+            padding: 32px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(15, 41, 51, 0.07);
+        }
+
+        .mission-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #087f8c;
+        }
+
+        .mission-number {
+            color: #087f8c;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .mission-card h3 {
+            color: #172033;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .mission-card p {
+            color: #526176;
+            font-size: 14px;
+            line-height: 1.75;
+            font-weight: 500;
+        }
+
+        /* =========================================================
+           CAPABILITIES
+        ========================================================= */
+
+        .capabilities {
+            background: #f5f9fa;
+            padding: 70px 7%;
+        }
+
+        .capabilities-heading {
+            max-width: 1120px;
+            margin: 0 auto 35px;
+        }
+
+        .capabilities-heading .label {
+            color: #087f8c;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .capabilities-heading h2 {
+            color: #172033;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .capabilities-heading p {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .capability-grid {
+            max-width: 1120px;
+            margin: 0 auto;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .capability-card {
+            background: white;
+            border: 1px solid #e0eaed;
+            border-radius: 10px;
+            padding: 25px 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .capability-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(15, 41, 51, 0.07);
+        }
+
+        .capability-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 9px;
+            background: #eaf7f7;
+            color: #087f8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .capability-card h3 {
+            color: #1e293b;
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .capability-card p {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+            background: #0f2933;
+            color: white;
+            padding: 45px 7%;
+        }
+
+        .footer-content {
+            max-width: 1120px;
+            margin: 0 auto;
+
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        footer h3 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .footer-brand h2 {
+            color: white;
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        footer p,
+        footer a {
+            color: #cbd5e1;
+            line-height: 1.8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        .footer-contact p {
+            margin-bottom: 2px;
+        }
+
+        .copyright {
+            max-width: 1120px;
+            margin: 35px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid #334955;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        /* =========================================================
+           ANIMATIONS
+        ========================================================= */
+
+        .fade-up {
+            animation: fadeUp 0.65s ease both;
+        }
+
+        .delay-1 {
+            animation-delay: 0.08s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.16s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.24s;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================================================
+           TABLET
+        ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .hero-layout {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .hero-panel {
+                max-width: 650px;
+            }
+
+            .who-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .capability-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 760px) {
+
+            nav {
+                padding: 16px 5%;
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 16px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .login-btn,
+            .register-btn {
+                padding: 8px 13px;
+            }
+
+            .about-hero {
+                padding: 50px 6% 55px;
+            }
+
+            .hero-content h1 {
+                font-size: 38px;
+            }
+
+            .hero-content p {
+                font-size: 15px;
+                line-height: 1.7;
+            }
+
+            .hero-panel {
+                padding: 23px;
+            }
+
+            .trust-section {
+                padding: 0 6%;
+                margin-top: -20px;
+            }
+
+            .trust-container {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-item {
+                padding: 20px;
+            }
+
+            .trust-item:not(:last-child)::after {
+                left: 20px;
+                right: 20px;
+                top: auto;
+                bottom: 0;
+                width: auto;
+                height: 1px;
+            }
+
+            .who-section,
+            .mission-section,
+            .capabilities {
+                padding: 55px 6%;
+            }
+
+            .section-heading h2,
+            .capabilities-heading h2 {
+                font-size: 28px;
+            }
+
+            .who-highlights {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .founder-section {
+                padding: 55px 6%;
+            }
+
+            .founder-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .founder-photo {
+                width: 205px;
+                height: 245px;
+            }
+
+            .founder-meta {
+                justify-content: center;
+            }
+
+            .founder-content h2 {
+                font-size: 29px;
+            }
+
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .capability-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            footer {
+                padding: 40px 6%;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .hero-content h1 {
+                font-size: 32px;
+            }
+
+            .hero-label {
+                font-size: 11px;
+            }
+
+            .hero-panel {
+                padding: 20px;
+            }
+
+            .who-highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .who-main {
+                padding: 24px;
+            }
+
+            .capability-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-brand {
+                grid-column: auto;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                scroll-behavior: auto !important;
+            }
+
+            .fade-up {
+                animation: none;
+            }
+
+            .highlight-card,
+            .mission-card,
+            .capability-card {
+                transition: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-
-<!-- =========================
+<!-- =========================================================
      NAVBAR
-========================== -->
+========================================================= -->
 
 <nav>
 
@@ -532,36 +1013,27 @@
             Home
         </a>
 
-        <a
-            href="{% url 'about' %}"
-            class="active"
-        >
+        <a href="{% url 'about' %}" class="active">
             About
         </a>
 
-        <a href="#">
+        <a href="{% url 'doctors_directory' %}">
             Doctors
         </a>
 
-        <a href="#">
+        <a href="{% url 'services' %}">
             Services
         </a>
 
-        <a href="#">
+        <a href="{% url 'contact' %}">
             Contact
         </a>
 
-        <a
-            href="{% url 'login' %}"
-            class="login-btn"
-        >
+        <a href="{% url 'login' %}" class="login-btn">
             Login
         </a>
 
-        <a
-            href="{% url 'register' %}"
-            class="register-btn"
-        >
+        <a href="{% url 'register' %}" class="register-btn">
             Register
         </a>
 
@@ -570,134 +1042,410 @@
 </nav>
 
 
-<!-- =========================
-     HERO
-========================== -->
+<!-- =========================================================
+     ABOUT HERO
+========================================================= -->
 
 <section class="about-hero">
 
-    <div class="hero-content">
+    <div class="hero-inner">
 
-        <div class="hero-label">
-            About CarePlus
+        <div class="hero-layout">
+
+            <div class="hero-content fade-up">
+
+                <div class="hero-label">
+                    <span></span>
+                    About CarePlus
+                </div>
+
+                <h1>
+                    Healthcare built around
+                    <strong>people, trust and care.</strong>
+                </h1>
+
+                <p>
+                    CarePlus Hospital brings patients, doctors and hospital
+                    services together through a connected healthcare
+                    experience designed for simpler, safer and more
+                    accessible care.
+                </p>
+
+            </div>
+
+
+            <div class="hero-panel fade-up delay-1">
+
+                <div class="hero-panel-top">
+
+                    <div class="hero-icon">
+                        +
+                    </div>
+
+                    <div>
+                        <h3>
+                            Connected Healthcare
+                        </h3>
+
+                        <p>
+                            One platform. One connected experience.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="hero-points">
+
+                    <div class="hero-point">
+                        <div class="check">✓</div>
+                        <span>
+                            Easy appointment management
+                        </span>
+                    </div>
+
+                    <div class="hero-point">
+                        <div class="check">✓</div>
+                        <span>
+                            Secure patient information
+                        </span>
+                    </div>
+
+                    <div class="hero-point">
+                        <div class="check">✓</div>
+                        <span>
+                            Streamlined doctor consultations
+                        </span>
+                    </div>
+
+                    <div class="hero-point">
+                        <div class="check">✓</div>
+                        <span>
+                            Better coordination across hospital services
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <h1>
-            Modern Healthcare.<br>
-            Connected Care.
-        </h1>
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     TRUST / IMPACT STATS
+========================================================= -->
+
+<section class="trust-section">
+
+    <div class="trust-container">
+
+        <div class="trust-item fade-up">
+
+            <div class="trust-number">
+                50+
+            </div>
+
+            <div class="trust-text">
+                <strong>Experienced Doctors</strong>
+                <span>Across multiple specialties</span>
+            </div>
+
+        </div>
+
+
+        <div class="trust-item fade-up delay-1">
+
+            <div class="trust-number">
+                10K+
+            </div>
+
+            <div class="trust-text">
+                <strong>Patients Served</strong>
+                <span>Focused on quality care</span>
+            </div>
+
+        </div>
+
+
+        <div class="trust-item fade-up delay-2">
+
+            <div class="trust-number">
+                24/7
+            </div>
+
+            <div class="trust-text">
+                <strong>Emergency Support</strong>
+                <span>Care when you need it</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     WHO WE ARE
+========================================================= -->
+
+<section class="who-section">
+
+    <div class="section-container">
+
+        <div class="section-heading fade-up">
+
+            <span class="label">
+                Who We Are
+            </span>
+
+            <h2>
+                A modern approach to hospital care
+            </h2>
+
+            <p>
+                Designed to make healthcare more connected, organized and patient-focused.
+            </p>
+
+        </div>
+
+
+        <div class="who-grid">
+
+            <div class="who-main fade-up">
+
+                <h3>
+                    Care that puts people first
+                </h3>
+
+                <p>
+                    CarePlus Hospital is designed around a simple principle:
+                    healthcare should be easy to access and easy to manage.
+                </p>
+
+                <p>
+                    Our hospital platform connects patients, doctors and
+                    healthcare teams through a unified digital environment.
+                    From appointments and consultations to prescriptions and
+                    patient records, essential healthcare information can be
+                    managed in one place.
+                </p>
+
+                <p>
+                    By combining professional medical care with modern
+                    technology, CarePlus aims to create a smoother experience
+                    for both patients and hospital teams.
+                </p>
+
+            </div>
+
+
+            <div class="who-highlights">
+
+                <div class="highlight-card fade-up delay-1">
+
+                    <div class="highlight-icon">
+                        ♡
+                    </div>
+
+                    <h4>
+                        Patient First
+                    </h4>
+
+                    <p>
+                        Healthcare experiences designed around patient needs.
+                    </p>
+
+                </div>
+
+
+                <div class="highlight-card fade-up delay-2">
+
+                    <div class="highlight-icon">
+                        ✚
+                    </div>
+
+                    <h4>
+                        Quality Care
+                    </h4>
+
+                    <p>
+                        Professional healthcare supported by experienced teams.
+                    </p>
+
+                </div>
+
+
+                <div class="highlight-card fade-up delay-2">
+
+                    <div class="highlight-icon">
+                        ✓
+                    </div>
+
+                    <h4>
+                        Reliable Service
+                    </h4>
+
+                    <p>
+                        Organized services that help patients navigate care.
+                    </p>
+
+                </div>
+
+
+                <div class="highlight-card fade-up delay-3">
+
+                    <div class="highlight-icon">
+                        ◉
+                    </div>
+
+                    <h4>
+                        Digital Access
+                    </h4>
+
+                    <p>
+                        Connected tools for appointments, records and care.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOUNDER
+========================================================= -->
+
+<section class="founder-section">
+
+    <div class="founder-container">
+
+        <div class="founder-photo-wrap fade-up">
+
+            <img
+                src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=700&q=85"
+                alt="Founder of CarePlus Hospital"
+                class="founder-photo"
+            >
+
+        </div>
+
+
+        <div class="founder-content fade-up delay-1">
+
+            <span class="label">
+                Leadership
+            </span>
+
+            <h2>
+                Dr. Arjun Menon
+            </h2>
+
+            <div class="founder-role">
+                Founder & Medical Director
+            </div>
+
+            <p>
+                CarePlus was established with the vision of creating a
+                healthcare environment where professional medical expertise
+                and modern hospital technology work together. The focus is
+                on delivering dependable care while making the healthcare
+                journey simpler for patients and healthcare teams.
+            </p>
+
+            <div class="founder-meta">
+
+                <span>
+                    Established in 2018
+                </span>
+
+                <span>
+                    Medical Leadership
+                </span>
+
+                <span>
+                    Patient-Centered Care
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MISSION & VISION
+========================================================= -->
+
+<section class="mission-section">
+
+    <div class="section-heading section-container fade-up">
+
+        <span class="label">
+            Our Direction
+        </span>
+
+        <h2>
+            Mission & Vision
+        </h2>
 
         <p>
-            CarePlus brings patients, doctors and hospital staff together
-            through a structured digital healthcare platform designed
-            for simpler and more efficient care management.
+            The principles that guide the CarePlus healthcare experience.
         </p>
 
     </div>
 
-</section>
 
+    <div class="mission-grid">
 
-<!-- =========================
-     ABOUT CAREPLUS
-========================= -->
+        <div class="mission-card fade-up">
 
-<section class="about-section">
-
-    <div class="about-grid">
-
-        <div class="about-content">
-
-            <div class="section-label">
-                Who We Are
+            <div class="mission-number">
+                01 — OUR MISSION
             </div>
 
-            <h2>
-                A connected approach to hospital management
-            </h2>
+            <h3>
+                Deliver better healthcare experiences
+            </h3>
 
             <p>
-                CarePlus is a modern hospital management platform that
-                brings essential healthcare operations into one organized
-                digital environment.
-            </p>
-
-            <p>
-                The system supports appointment management, patient
-                records, payments, consultations and prescriptions while
-                providing dedicated experiences for patients, doctors
-                and hospital staff.
-            </p>
-
-            <p>
-                Our focus is simple: make healthcare administration
-                more structured, accessible and convenient.
-            </p>
-
-        </div>
-
-        <div class="about-image"></div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     MISSION & VISION
-========================== -->
-
-<section class="mission-section">
-
-    <div class="mission-container">
-
-        <div class="mission-header">
-
-            <div class="section-label">
-                Our Direction
-            </div>
-
-            <h2>
-                Mission & Vision
-            </h2>
-
-            <p>
-                Creating a more organized and connected healthcare experience.
+                To provide accessible, reliable and patient-focused healthcare
+                supported by experienced professionals and well-organized
+                hospital services.
             </p>
 
         </div>
 
 
-        <div class="mission-grid">
+        <div class="mission-card fade-up delay-1">
 
-            <div class="mission-card">
-
-                <h3>
-                    Our Mission
-                </h3>
-
-                <p>
-                    To simplify healthcare management through structured
-                    digital workflows that support patients, doctors and
-                    hospital teams.
-                </p>
-
+            <div class="mission-number">
+                02 — OUR VISION
             </div>
 
+            <h3>
+                Build a more connected healthcare future
+            </h3>
 
-            <div class="mission-card">
-
-                <h3>
-                    Our Vision
-                </h3>
-
-                <p>
-                    To provide a connected healthcare environment where
-                    essential hospital services can be managed through
-                    one reliable platform.
-                </p>
-
-            </div>
+            <p>
+                To create a healthcare environment where technology,
+                medical expertise and compassionate service come together
+                to improve the way care is delivered.
+            </p>
 
         </div>
 
@@ -706,99 +1454,95 @@
 </section>
 
 
-<!-- =========================
+<!-- =========================================================
      PLATFORM CAPABILITIES
-========================== -->
+========================================================= -->
 
 <section class="capabilities">
 
-    <div class="capabilities-container">
+    <div class="capabilities-heading fade-up">
 
-        <div class="capabilities-header">
+        <span class="label">
+            Healthcare Platform
+        </span>
 
-            <div class="section-label">
-                Platform
+        <h2>
+            Everything connected in one place
+        </h2>
+
+        <p>
+            Digital capabilities designed to support patients, doctors and hospital teams.
+        </p>
+
+    </div>
+
+
+    <div class="capability-grid">
+
+        <div class="capability-card fade-up">
+
+            <div class="capability-icon">
+                ▣
             </div>
 
-            <h2>
-                Built for connected care
-            </h2>
+            <h3>
+                Appointments
+            </h3>
 
             <p>
-                Core capabilities that bring the CarePlus experience together.
+                Schedule and manage appointments with available doctors.
             </p>
 
         </div>
 
 
-        <div class="capability-grid">
+        <div class="capability-card fade-up delay-1">
 
-            <div class="capability">
-
-                <div class="capability-number">
-                    01
-                </div>
-
-                <h3>
-                    Appointments
-                </h3>
-
-                <p>
-                    Streamlined appointment scheduling and management.
-                </p>
-
+            <div class="capability-icon">
+                ▤
             </div>
 
+            <h3>
+                Patient Records
+            </h3>
 
-            <div class="capability">
+            <p>
+                Keep essential patient information organized and accessible.
+            </p>
 
-                <div class="capability-number">
-                    02
-                </div>
+        </div>
 
-                <h3>
-                    Patient Records
-                </h3>
 
-                <p>
-                    Organized access to essential patient information.
-                </p>
+        <div class="capability-card fade-up delay-2">
 
+            <div class="capability-icon">
+                ✚
             </div>
 
+            <h3>
+                Consultations
+            </h3>
 
-            <div class="capability">
+            <p>
+                Support structured interactions between doctors and patients.
+            </p>
 
-                <div class="capability-number">
-                    03
-                </div>
+        </div>
 
-                <h3>
-                    Consultations
-                </h3>
 
-                <p>
-                    Structured workflows for doctors and clinical activities.
-                </p>
+        <div class="capability-card fade-up delay-3">
 
+            <div class="capability-icon">
+                Rx
             </div>
 
+            <h3>
+                Prescriptions
+            </h3>
 
-            <div class="capability">
-
-                <div class="capability-number">
-                    04
-                </div>
-
-                <h3>
-                    Prescriptions
-                </h3>
-
-                <p>
-                    Digital prescription creation and patient access.
-                </p>
-
-            </div>
+            <p>
+                Manage prescription information as part of the patient journey.
+            </p>
 
         </div>
 
@@ -807,28 +1551,34 @@
 </section>
 
 
-<!-- =========================
+<!-- =========================================================
      FOOTER
-========================== -->
+========================================================= -->
 
 <footer>
 
     <div class="footer-content">
 
-        <div>
+        <div class="footer-brand">
 
-            <h3>CarePlus Hospital</h3>
+            <h2>
+                CarePlus Hospital
+            </h2>
 
             <p>
-                Providing trusted healthcare with compassion,
-                technology and experienced medical professionals.
+                Providing trusted healthcare with experienced doctors,
+                modern facilities and compassionate care for you and
+                your family.
             </p>
 
         </div>
 
+
         <div>
 
-            <h3>Quick Links</h3>
+            <h3>
+                Quick Links
+            </h3>
 
             <p>
                 <a href="{% url 'home' %}">
@@ -843,42 +1593,48 @@
             </p>
 
             <p>
-                <a href="#">
+                <a href="{% url 'doctors_directory' %}">
                     Doctors
                 </a>
             </p>
 
             <p>
-                <a href="#">
+                <a href="{% url 'services' %}">
                     Services
                 </a>
             </p>
 
         </div>
 
-        <div>
 
-            <h3>Contact</h3>
+        <div class="footer-contact">
 
-            <p>📍 Trivandrum, Kerala</p>
+            <h3>
+                Contact
+            </h3>
 
-            <p>📞 +91 98765 43210</p>
+            <p>
+                Trivandrum, Kerala
+            </p>
 
-            <p>✉️ info@careplus.com</p>
+            <p>
+                +91 98765 43210
+            </p>
+
+            <p>
+                info@careplus.com
+            </p>
 
         </div>
 
     </div>
 
+
     <div class="copyright">
-
         © 2026 CarePlus Hospital. All rights reserved.
-
     </div>
 
 </footer>
 
-
 </body>
-
 </html>

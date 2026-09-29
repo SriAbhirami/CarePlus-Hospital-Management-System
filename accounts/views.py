@@ -172,3 +172,87 @@ def about(request):
         request,
         'about.html'
     )
+# ============================================================
+# SERVICES
+# ============================================================
+def services(request):
+    service_data = [
+        {
+            'icon': '🩺',
+            'title': 'General Consultation',
+            'description': (
+                'Professional medical consultation for routine '
+                'health concerns, diagnosis, and treatment guidance.'
+            ),
+        },
+        {
+            'icon': '🔬',
+            'title': 'Diagnostics & Laboratory',
+            'description': (
+                'Reliable diagnostic support including laboratory '
+                'tests and investigations to assist accurate diagnosis.'
+            ),
+        },
+        {
+            'icon': '🚑',
+            'title': 'Emergency Care',
+            'description': (
+                'Prompt medical attention for urgent health conditions '
+                'with coordinated emergency support.'
+            ),
+        },
+        {
+            'icon': '❤️',
+            'title': 'Cardiac Care',
+            'description': (
+                'Specialized consultation and ongoing care for '
+                'heart-related conditions and cardiovascular health.'
+            ),
+        },
+        {
+            'icon': '💊',
+            'title': 'Pharmacy Services',
+            'description': (
+                'Convenient access to prescribed medications with '
+                'clear guidance for safe and effective use.'
+            ),
+        },
+        {
+            'icon': '🧠',
+            'title': 'Specialized Care',
+            'description': (
+                'Access experienced specialists across multiple '
+                'medical disciplines for focused healthcare.'
+            ),
+        },
+        {
+            'icon': '🏥',
+            'title': 'Inpatient Care',
+            'description': (
+                'Comfortable inpatient services with continuous '
+                'monitoring and coordinated medical support.'
+            ),
+        },
+        {
+            'icon': '🛡️',
+            'title': 'Preventive Healthcare',
+            'description': (
+                'Health checkups, screening, and preventive guidance '
+                'to help maintain long-term wellbeing.'
+            ),
+        },
+    ]
+
+    return render(
+        request,
+        'services.html',
+        {
+            'services': service_data
+        }
+    )
+
+# ============================================================
+# CONTACT
+# ============================================================
+def contact(request):
+    return render(request, 'contact.html')

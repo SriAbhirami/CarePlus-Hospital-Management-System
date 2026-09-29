@@ -1,0 +1,1336 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Users | CarePlus Hospital</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #F5FAFC;
+            color: #172033;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 255px;
+            height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid #CDECEF;
+            padding: 26px 16px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            padding: 0 14px 28px;
+            border-bottom: 1px solid #E5F3F5;
+            margin-bottom: 22px;
+        }
+
+        .brand h1 {
+            font-size: 22px;
+            color: #00B8C8;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+        }
+
+        .brand span {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #607086;
+        }
+
+
+        .menu-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: #8A98AA;
+            letter-spacing: 1px;
+            padding: 0 14px 10px;
+            text-transform: uppercase;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 5px;
+            border-radius: 7px;
+            color: #607086;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #EFFDFE;
+            color: #00A8B7;
+        }
+
+        .nav-item.active {
+            background: #E3FBFD;
+            color: #0097A7;
+            box-shadow:
+                inset 3px 0 0 #00B8C8,
+                0 0 15px rgba(0, 184, 200, 0.13);
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            margin-left: 255px;
+            min-height: 100vh;
+            padding: 28px 34px 40px;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h2 {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .page-heading p {
+            margin-top: 6px;
+            color: #607086;
+            font-size: 14px;
+        }
+
+        .admin-badge {
+            padding: 9px 15px;
+            border-radius: 20px;
+            background: #E3FBFD;
+            color: #008D9B;
+            border: 1px solid #9DDEE5;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           SUMMARY CARDS
+        ===================================================== */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid #CDECEF;
+            border-radius: 10px;
+            padding: 22px;
+            box-shadow:
+                0 4px 18px rgba(0, 184, 200, 0.13),
+                0 0 10px rgba(0, 209, 217, 0.09);
+            transition: 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 26px rgba(0, 184, 200, 0.20),
+                0 0 16px rgba(0, 209, 217, 0.14);
+        }
+
+        .stat-label {
+            color: #607086;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: 800;
+            margin-top: 8px;
+            color: #00A8B7;
+        }
+
+
+        /* =====================================================
+           TOOLBAR
+        ===================================================== */
+
+        .content-card {
+            background: #ffffff;
+            border: 1px solid #CDECEF;
+            border-radius: 10px;
+            box-shadow:
+                0 4px 18px rgba(0, 184, 200, 0.13),
+                0 0 10px rgba(0, 209, 217, 0.09);
+            overflow: hidden;
+        }
+
+        .toolbar {
+            padding: 20px;
+            border-bottom: 1px solid #E5F3F5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 250px;
+            flex: 1;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 42px;
+            border: 1px solid #CDECEF;
+            border-radius: 7px;
+            padding: 0 14px;
+            outline: none;
+            color: #172033;
+            background: #ffffff;
+        }
+
+        .search-box input:focus {
+            border-color: #00B8C8;
+            box-shadow: 0 0 0 3px rgba(0, 184, 200, 0.10);
+        }
+
+        .filter-select {
+            height: 42px;
+            border: 1px solid #CDECEF;
+            border-radius: 7px;
+            padding: 0 35px 0 12px;
+            background: white;
+            color: #455468;
+            outline: none;
+        }
+
+        .filter-select:focus {
+            border-color: #00B8C8;
+        }
+
+        .filter-btn {
+            height: 42px;
+            padding: 0 17px;
+            border: 0;
+            border-radius: 7px;
+            background: #00B8C8;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover {
+            background: #0097A7;
+        }
+
+        .clear-btn {
+            height: 42px;
+            padding: 0 15px;
+            border: 1px solid #CDECEF;
+            border-radius: 7px;
+            color: #008D9B;
+            background: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .clear-btn:hover {
+            background: #EFFDFE;
+        }
+
+        .add-user-btn {
+            height: 42px;
+            padding: 0 18px;
+            border-radius: 7px;
+            background: #00B8C8;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 184, 200, 0.20);
+        }
+
+        .add-user-btn:hover {
+            background: #0097A7;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #F7FCFD;
+        }
+
+        th {
+            padding: 15px 20px;
+            text-align: left;
+            font-size: 11px;
+            color: #708096;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 700;
+            border-bottom: 1px solid #E2F1F3;
+        }
+
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #EDF5F6;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #FBFEFE;
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #E3FBFD;
+            color: #008D9B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .user-name {
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .user-username {
+            font-size: 11px;
+            color: #8794A6;
+            margin-top: 3px;
+        }
+
+        .role-badge,
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .role-patient {
+            background: #EAF7FF;
+            color: #2878A6;
+        }
+
+        .role-doctor {
+            background: #E9FBF3;
+            color: #13835B;
+        }
+
+        .role-staff {
+            background: #FFF6E5;
+            color: #A66A00;
+        }
+
+        .role-admin {
+            background: #F2EBFF;
+            color: #7341B5;
+        }
+
+        .status-active {
+            background: #E9FBF3;
+            color: #13835B;
+        }
+
+        .status-inactive {
+            background: #FFF0F0;
+            color: #C03939;
+        }
+
+        .action-group {
+            display: flex;
+            gap: 7px;
+        }
+
+        .action-btn {
+            padding: 7px 10px;
+            border-radius: 6px;
+            border: 1px solid #CDECEF;
+            color: #008D9B;
+            background: white;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .action-btn:hover {
+            background: #EFFDFE;
+        }
+
+        .action-btn.edit {
+            color: #52657B;
+            border-color: #D9E3EA;
+        }
+
+
+        /* =====================================================
+           PAGINATION
+        ===================================================== */
+
+        .pagination {
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .pagination-info {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .page-links {
+            display: flex;
+            gap: 5px;
+        }
+
+        .page-link {
+            min-width: 34px;
+            height: 34px;
+            padding: 0 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #CDECEF;
+            border-radius: 6px;
+            color: #607086;
+            font-size: 12px;
+            font-weight: 600;
+            background: white;
+        }
+
+        .page-link:hover {
+            background: #EFFDFE;
+            color: #008D9B;
+        }
+
+        .page-link.current {
+            background: #00B8C8;
+            border-color: #00B8C8;
+            color: white;
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #718096;
+        }
+
+        .empty-state-icon {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            color: #344054;
+            margin-bottom: 7px;
+            font-size: 16px;
+        }
+
+
+        /* =====================================================
+           MOBILE MENU
+        ===================================================== */
+
+        .mobile-topbar {
+            display: none;
+        }
+
+        .overlay {
+            display: none;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 760px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
+                box-shadow: 5px 0 25px rgba(0,0,0,0.10);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(15, 41, 51, 0.35);
+                z-index: 900;
+            }
+
+            .overlay.show {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 18px 16px 30px;
+            }
+
+            .mobile-topbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 22px;
+            }
+
+            .mobile-brand {
+                color: #00B8C8;
+                font-weight: 800;
+                font-size: 20px;
+            }
+
+            .menu-toggle {
+                width: 40px;
+                height: 40px;
+                border: 1px solid #CDECEF;
+                border-radius: 7px;
+                background: white;
+                color: #00A8B7;
+                font-size: 20px;
+                cursor: pointer;
+            }
+
+            .topbar {
+                margin-bottom: 22px;
+            }
+
+            .page-heading h2 {
+                font-size: 23px;
+            }
+
+            .admin-badge {
+                display: none;
+            }
+
+            .toolbar {
+                align-items: stretch;
+            }
+
+            .filters {
+                width: 100%;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .filter-select {
+                flex: 1;
+            }
+
+            .filter-btn,
+            .clear-btn {
+                flex: 1;
+            }
+
+            .add-user-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                padding: 18px;
+            }
+
+            .toolbar {
+                padding: 15px;
+            }
+
+            .pagination {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .page-heading p {
+                font-size: 13px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+        <h1>CarePlus</h1>
+        <span>Hospital Administration</span>
+    </div>
+
+    <div class="menu-title">
+        Administration
+    </div>
+
+    <a href="{% url 'admin_panel:dashboard' %}" class="nav-item">
+
+        <span class="nav-icon">▦</span>
+
+        <span>Dashboard</span>
+
+    </a>
+
+    <a href="{% url 'admin_panel:users' %}" class="nav-item active">
+
+        <span class="nav-icon">♙</span>
+
+        <span>Users</span>
+
+    </a>
+
+    <a href="{% url 'admin_panel:doctors' %}" class="nav-item">
+    <span class="nav-icon">⚕</span>
+    <span>Doctors</span>
+</a>
+
+    <a href="{% url 'admin_panel:patients' %}" class="nav-item">
+    <span class="nav-icon">♟</span>
+    <span>Patients</span>
+</a>
+
+    <a href="{% url 'admin_panel:appointments' %}" class="nav-item">
+    <span class="nav-icon">▣</span>
+    <span>Appointments</span>
+</a>
+
+    <a
+    href="{% url 'admin_panel:payments' %}"
+    class="nav-item"
+>
+    <span class="nav-icon">₹</span>
+    <span>Payments</span>
+</a>
+
+    <a href="#" class="nav-item">
+        <span class="nav-icon">▤</span>
+        <span>Reports</span>
+    </a>
+
+    <div class="sidebar-bottom">
+
+        <a href="{% url 'logout' %}" class="nav-item">
+            <span class="nav-icon">↪</span>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+</aside>
+
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+    <!-- Mobile topbar -->
+
+    <div class="mobile-topbar">
+
+        <div class="mobile-brand">
+            CarePlus
+        </div>
+
+        <button
+            class="menu-toggle"
+            onclick="openSidebar()"
+            type="button"
+        >
+            ☰
+        </button>
+
+    </div>
+
+
+    <!-- Page heading -->
+
+    <div class="topbar">
+
+        <div class="page-heading">
+
+            <h2>User Management</h2>
+
+            <p>
+                Manage hospital users, roles and account access.
+            </p>
+
+        </div>
+
+        <div class="admin-badge">
+            Administrator
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SUMMARY
+    ===================================================== -->
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Total Users
+            </div>
+
+            <div class="stat-number">
+                {{ total_users }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Active Users
+            </div>
+
+            <div class="stat-number">
+                {{ active_users }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Inactive Users
+            </div>
+
+            <div class="stat-number">
+                {{ inactive_users }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Staff Members
+            </div>
+
+            <div class="stat-number">
+                {{ staff_users }}
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         USERS TABLE
+    ===================================================== -->
+
+    <section class="content-card">
+
+
+        <!-- Toolbar -->
+
+        <div class="toolbar">
+
+            <form
+                method="get"
+                class="filters"
+            >
+
+                <div class="search-box">
+
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ search }}"
+                        placeholder="Search users..."
+                    >
+
+                </div>
+
+
+                <select
+                    name="role"
+                    class="filter-select"
+                >
+
+                    <option value="">
+                        All Roles
+                    </option>
+
+                    {% for value, label in role_choices %}
+
+                        <option
+                            value="{{ value }}"
+                            {% if selected_role == value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ label }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+                <select
+                    name="status"
+                    class="filter-select"
+                >
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    <option
+                        value="ACTIVE"
+                        {% if selected_status == "ACTIVE" %}
+                            selected
+                        {% endif %}
+                    >
+                        Active
+                    </option>
+
+                    <option
+                        value="INACTIVE"
+                        {% if selected_status == "INACTIVE" %}
+                            selected
+                        {% endif %}
+                    >
+                        Inactive
+                    </option>
+
+                </select>
+
+
+                <button
+                    type="submit"
+                    class="filter-btn"
+                >
+                    Filter
+                </button>
+
+
+                <a
+                    href="{% url 'admin_panel:users' %}"
+                    class="clear-btn"
+                >
+                    Clear
+                </a>
+
+            </form>
+
+
+            <a
+                href="{% url 'admin_panel:user_add' %}"
+                class="add-user-btn"
+            >
+                <span>+</span>
+                Add User
+            </a>
+
+        </div>
+
+
+        <!-- Table -->
+
+        <div class="table-wrapper">
+
+            {% if users %}
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>User</th>
+
+                            <th>Email</th>
+
+                            <th>Phone</th>
+
+                            <th>Role</th>
+
+                            <th>Status</th>
+
+                            <th>Joined</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for user in users %}
+
+                            <tr>
+
+                                <!-- User -->
+
+                                <td>
+
+                                    <div class="user-cell">
+
+                                        <div class="avatar">
+
+                                            {% if user.first_name %}
+
+                                                {{ user.first_name|first|upper }}
+
+                                            {% else %}
+
+                                                {{ user.username|first|upper }}
+
+                                            {% endif %}
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <div class="user-name">
+
+                                                {% if user.get_full_name %}
+
+                                                    {{ user.get_full_name }}
+
+                                                {% else %}
+
+                                                    {{ user.username }}
+
+                                                {% endif %}
+
+                                            </div>
+
+                                            <div class="user-username">
+
+                                                @{{ user.username }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- Email -->
+
+                                <td>
+
+                                    {% if user.email %}
+
+                                        {{ user.email }}
+
+                                    {% else %}
+
+                                        <span style="color:#9AA6B5;">
+                                            —
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Phone -->
+
+                                <td>
+
+                                    {% if user.phone %}
+
+                                        {{ user.phone }}
+
+                                    {% else %}
+
+                                        <span style="color:#9AA6B5;">
+                                            —
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Role -->
+
+                                <td>
+
+                                    {% if user.role == "PATIENT" %}
+
+                                        <span class="role-badge role-patient">
+                                            Patient
+                                        </span>
+
+                                    {% elif user.role == "DOCTOR" %}
+
+                                        <span class="role-badge role-doctor">
+                                            Doctor
+                                        </span>
+
+                                    {% elif user.role == "STAFF" %}
+
+                                        <span class="role-badge role-staff">
+                                            Staff
+                                        </span>
+
+                                    {% elif user.role == "ADMIN" %}
+
+                                        <span class="role-badge role-admin">
+                                            Admin
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Status -->
+
+                                <td>
+
+                                    {% if user.is_active %}
+
+                                        <span class="status-badge status-active">
+                                            Active
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status-badge status-inactive">
+                                            Inactive
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Joined -->
+
+                                <td>
+
+                                    {{ user.date_joined|date:"d M Y" }}
+
+                                </td>
+
+
+                                <!-- Actions -->
+
+                                <td>
+
+                                    <div class="action-group">
+
+                                        <a
+                                            href="{% url 'admin_panel:user_detail' user.id %}"
+                                            class="action-btn"
+                                        >
+                                            View
+                                        </a>
+
+                                        <a
+                                            href="{% url 'admin_panel:user_edit' user.id %}"
+                                            class="action-btn edit"
+                                        >
+                                            Edit
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <div class="empty-state-icon">
+                        ♙
+                    </div>
+
+                    <h3>
+                        No users found
+                    </h3>
+
+                    <p>
+                        Try changing your search or filter criteria.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =================================================
+             PAGINATION
+        ================================================= -->
+
+        {% if page_obj.paginator.num_pages > 1 %}
+
+            <div class="pagination">
+
+                <div class="pagination-info">
+
+                    Showing
+                    {{ page_obj.start_index }}
+                    –
+                    {{ page_obj.end_index }}
+                    of
+                    {{ page_obj.paginator.count }}
+                    users
+
+                </div>
+
+
+                <div class="page-links">
+
+                    {% if page_obj.has_previous %}
+
+                        <a
+                            class="page-link"
+                            href="?search={{ search|urlencode }}&role={{ selected_role|urlencode }}&status={{ selected_status|urlencode }}&page={{ page_obj.previous_page_number }}"
+                        >
+                            ‹
+                        </a>
+
+                    {% endif %}
+
+
+                    {% for page_num in page_obj.paginator.page_range %}
+
+                        {% if page_num == page_obj.number %}
+
+                            <span class="page-link current">
+                                {{ page_num }}
+                            </span>
+
+                        {% else %}
+
+                            <a
+                                class="page-link"
+                                href="?search={{ search|urlencode }}&role={{ selected_role|urlencode }}&status={{ selected_status|urlencode }}&page={{ page_num }}"
+                            >
+                                {{ page_num }}
+                            </a>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                    {% if page_obj.has_next %}
+
+                        <a
+                            class="page-link"
+                            href="?search={{ search|urlencode }}&role={{ selected_role|urlencode }}&status={{ selected_status|urlencode }}&page={{ page_obj.next_page_number }}"
+                        >
+                            ›
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+
+<script>
+
+    function openSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList
+            .add("open");
+
+        document
+            .getElementById("overlay")
+            .classList
+            .add("show");
+    }
+
+
+    function closeSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList
+            .remove("open");
+
+        document
+            .getElementById("overlay")
+            .classList
+            .remove("show");
+    }
+
+</script>
+
+
+</body>
+</html>
