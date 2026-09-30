@@ -2,6 +2,7 @@ from datetime import datetime
 import uuid
 
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.shortcuts import render, redirect
 
 from doctors.models import Doctor
@@ -10,6 +11,7 @@ from patients.models import Patient
 from appointments.models import (
     Appointment,
     PaymentTransaction,
+    PaymentDetails,
 )
 
 
@@ -25,11 +27,9 @@ def book_appointment(request):
     # --------------------------------------------------------
 
     try:
-
         patient = request.user.patient_profile
 
     except Patient.DoesNotExist:
-
         return redirect(
             'patient_dashboard'
         )
@@ -51,11 +51,6 @@ def book_appointment(request):
 
     # --------------------------------------------------------
     # GET SELECTED DOCTOR
-    #
-    # IMPORTANT:
-    # Doctor can come from:
-    #   1. GET  -> when coming from Doctors/Specialization page
-    #   2. POST -> when submitting booking form
     # --------------------------------------------------------
 
     doctor_id = (
@@ -78,8 +73,6 @@ def book_appointment(request):
                 )
             )
 
-            # Automatically use the doctor's specialization
-            # when a specific doctor was selected.
             specialization = selected_doctor.specialization
 
         except (
@@ -488,7 +481,17 @@ def pay_bills(request):
             'payment_method'
         )
 
-        if not payment_method:
+        # ----------------------------------------------------
+        # VALIDATE PAYMENT METHOD
+        # ----------------------------------------------------
+
+        valid_methods = {
+            choice[0]
+            for choice in
+            PaymentTransaction.PAYMENT_METHOD_CHOICES
+        }
+
+        if payment_method not in valid_methods:
 
             return render(
                 request,
@@ -497,19 +500,38 @@ def pay_bills(request):
                     'doctor': doctor,
                     'pending_booking': pending_booking,
                     'error': (
-                        'Please select a payment method.'
+                        'Please select a valid payment method.'
                     )
                 }
             )
 
+        # ----------------------------------------------------
+        # STORE PAYMENT METHOD
+        # ----------------------------------------------------
+
+        pending_booking[
+            'payment_method'
+        ] = payment_method
+
+        # Remove any previous payment details if
+        # the patient comes back and changes method.
+        pending_booking.pop(
+            'payment_details',
+            None
+        )
+
         request.session[
             'pending_booking'
-        ]['payment_method'] = payment_method
+        ] = pending_booking
 
         request.session.modified = True
 
+        # ----------------------------------------------------
+        # GO TO PAYMENT DETAILS
+        # ----------------------------------------------------
+
         return redirect(
-            'process_payment'
+            'payment_details'
         )
 
     # --------------------------------------------------------
@@ -522,6 +544,411 @@ def pay_bills(request):
         {
             'doctor': doctor,
             'pending_booking': pending_booking,
+        }
+    )
+
+
+# ============================================================
+# PAYMENT DETAILS
+# ============================================================
+
+@login_required
+def payment_details(request):
+
+    # --------------------------------------------------------
+    # CHECK PATIENT PROFILE
+    # --------------------------------------------------------
+
+    try:
+
+        patient = request.user.patient_profile
+
+    except Patient.DoesNotExist:
+
+        return redirect(
+            'patient_dashboard'
+        )
+
+    # --------------------------------------------------------
+    # GET PENDING BOOKING
+    # --------------------------------------------------------
+
+    pending_booking = request.session.get(
+        'pending_booking'
+    )
+
+    if not pending_booking:
+
+        return redirect(
+            'book_appointment'
+        )
+
+    # --------------------------------------------------------
+    # GET PAYMENT METHOD
+    # --------------------------------------------------------
+
+    payment_method = pending_booking.get(
+        'payment_method'
+    )
+
+    valid_methods = {
+        choice[0]
+        for choice in
+        PaymentTransaction.PAYMENT_METHOD_CHOICES
+    }
+
+    if payment_method not in valid_methods:
+
+        return redirect(
+            'pay_bills'
+        )
+
+    # --------------------------------------------------------
+    # GET DOCTOR
+    # --------------------------------------------------------
+
+    try:
+
+        doctor = Doctor.objects.get(
+            id=pending_booking['doctor_id']
+        )
+
+    except Doctor.DoesNotExist:
+
+        request.session.pop(
+            'pending_booking',
+            None
+        )
+
+        request.session.modified = True
+
+        return redirect(
+            'book_appointment'
+        )
+
+    # ========================================================
+    # FORM SUBMISSION
+    # ========================================================
+
+    if request.method == 'POST':
+
+        payment_data = {}
+
+        # ====================================================
+        # UPI
+        # ====================================================
+
+        if payment_method == 'UPI':
+
+            upi_id = (
+                request.POST.get(
+                    'upi_id'
+                )
+                or ''
+            ).strip()
+
+            if not upi_id:
+
+                return render(
+                    request,
+                    'patient/payment_details.html',
+                    {
+                        'doctor': doctor,
+                        'pending_booking': pending_booking,
+                        'payment_method': payment_method,
+                        'error': 'Please enter your UPI ID.'
+                    }
+                )
+
+            # Simple demo validation.
+            # Example: abhirami@upi
+            if (
+                '@' not in upi_id
+                or upi_id.startswith('@')
+                or upi_id.endswith('@')
+            ):
+
+                return render(
+                    request,
+                    'patient/payment_details.html',
+                    {
+                        'doctor': doctor,
+                        'pending_booking': pending_booking,
+                        'payment_method': payment_method,
+                        'error': (
+                            'Please enter a valid UPI ID, '
+                            'for example name@upi.'
+                        )
+                    }
+                )
+
+            payment_data = {
+                'upi_id': upi_id
+            }
+
+        # ====================================================
+        # CARD
+        # ====================================================
+
+        elif payment_method == 'CARD':
+
+            card_number = (
+                request.POST.get(
+                    'card_number'
+                )
+                or ''
+            ).replace(
+                ' ',
+                ''
+            ).strip()
+
+            card_holder_name = (
+                request.POST.get(
+                    'card_holder_name'
+                )
+                or ''
+            ).strip()
+
+            expiry_month = (
+                request.POST.get(
+                    'expiry_month'
+                )
+                or ''
+            ).strip()
+
+            expiry_year = (
+                request.POST.get(
+                    'expiry_year'
+                )
+                or ''
+            ).strip()
+
+            cvv = (
+                request.POST.get(
+                    'cvv'
+                )
+                or ''
+            ).strip()
+
+            # ------------------------------------------------
+            # CARD NUMBER
+            # ------------------------------------------------
+
+            if (
+                not card_number
+                or not card_number.isdigit()
+                or not 12 <= len(card_number) <= 19
+            ):
+
+                return render(
+                    request,
+                    'patient/payment_details.html',
+                    {
+                        'doctor': doctor,
+                        'pending_booking': pending_booking,
+                        'payment_method': payment_method,
+                        'error': (
+                            'Please enter a valid card number.'
+                        )
+                    }
+                )
+
+            # ------------------------------------------------
+            # CARD HOLDER
+            # ------------------------------------------------
+
+            if not card_holder_name:
+
+                return render(
+                    request,
+                    'patient/payment_details.html',
+                    {
+                        'doctor': doctor,
+                        'pending_booking': pending_booking,
+                        'payment_method': payment_method,
+                        'error': (
+                            'Please enter the card holder name.'
+                        )
+                    }
+                )
+
+            # ------------------------------------------------
+            # EXPIRY
+            # ------------------------------------------------
+
+            try:
+
+                expiry_month_int = int(
+                    expiry_month
+                )
+
+                expiry_year_int = int(
+                    expiry_year
+                )
+
+            except ValueError:
+
+                return render(
+                    request,
+                    'patient/payment_details.html',
+                    {
+                        'doctor': doctor,
+                        'pending_booking': pending_booking,
+                        'payment_method': payment_method,
+                        'error': (
+                            'Please enter a valid expiry date.'
+                        )
+                    }
+                )
+
+            if not 1 <= expiry_month_int <= 12:
+
+                return render(
+                    request,
+                    'patient/payment_details.html',
+                    {
+                        'doctor': doctor,
+                        'pending_booking': pending_booking,
+                        'payment_method': payment_method,
+                        'error': (
+                            'Expiry month must be between 01 and 12.'
+                        )
+                    }
+                )
+
+            if not 2026 <= expiry_year_int <= 2100:
+
+                return render(
+                    request,
+                    'patient/payment_details.html',
+                    {
+                        'doctor': doctor,
+                        'pending_booking': pending_booking,
+                        'payment_method': payment_method,
+                        'error': (
+                            'Please enter a valid expiry year.'
+                        )
+                    }
+                )
+
+            # ------------------------------------------------
+            # CVV
+            # ------------------------------------------------
+
+            if (
+                not cvv
+                or not cvv.isdigit()
+                or len(cvv) not in [3, 4]
+            ):
+
+                return render(
+                    request,
+                    'patient/payment_details.html',
+                    {
+                        'doctor': doctor,
+                        'pending_booking': pending_booking,
+                        'payment_method': payment_method,
+                        'error': (
+                            'Please enter a valid 3 or 4 digit CVV.'
+                        )
+                    }
+                )
+
+            # ------------------------------------------------
+            # IMPORTANT:
+            # Never store full card number or CVV.
+            # Only store the last 4 digits.
+            # ------------------------------------------------
+
+            payment_data = {
+                'card_holder_name': card_holder_name,
+                'card_last4': card_number[-4:],
+                'expiry_month': expiry_month_int,
+                'expiry_year': expiry_year_int,
+            }
+
+        # ====================================================
+        # NET BANKING
+        # ====================================================
+
+        elif payment_method == 'NET_BANKING':
+
+            bank_name = (
+                request.POST.get(
+                    'bank_name'
+                )
+                or ''
+            ).strip()
+
+            bank_customer_id = (
+                request.POST.get(
+                    'bank_customer_id'
+                )
+                or ''
+            ).strip()
+
+            if not bank_name:
+
+                return render(
+                    request,
+                    'patient/payment_details.html',
+                    {
+                        'doctor': doctor,
+                        'pending_booking': pending_booking,
+                        'payment_method': payment_method,
+                        'error': 'Please select your bank.'
+                    }
+                )
+
+            if not bank_customer_id:
+
+                return render(
+                    request,
+                    'patient/payment_details.html',
+                    {
+                        'doctor': doctor,
+                        'pending_booking': pending_booking,
+                        'payment_method': payment_method,
+                        'error': (
+                            'Please enter your customer ID.'
+                        )
+                    }
+                )
+
+            payment_data = {
+                'bank_name': bank_name,
+                'bank_customer_id': bank_customer_id,
+            }
+
+        # ====================================================
+        # STORE SAFE DETAILS IN SESSION
+        # ====================================================
+
+        pending_booking[
+            'payment_details'
+        ] = payment_data
+
+        request.session[
+            'pending_booking'
+        ] = pending_booking
+
+        request.session.modified = True
+
+        return redirect(
+            'process_payment'
+        )
+
+    # ========================================================
+    # DISPLAY PAYMENT DETAILS PAGE
+    # ========================================================
+
+    return render(
+        request,
+        'patient/payment_details.html',
+        {
+            'doctor': doctor,
+            'pending_booking': pending_booking,
+            'payment_method': payment_method,
         }
     )
 
@@ -598,6 +1025,20 @@ def process_payment(request):
             'pay_bills'
         )
 
+    # --------------------------------------------------------
+    # PAYMENT DETAILS
+    # --------------------------------------------------------
+
+    saved_payment_details = pending_booking.get(
+        'payment_details'
+    )
+
+    if not saved_payment_details:
+
+        return redirect(
+            'payment_details'
+        )
+
     # ========================================================
     # PAYMENT SUBMISSION
     # ========================================================
@@ -647,46 +1088,58 @@ def process_payment(request):
 
         if payment_result == 'success':
 
-            appointment = Appointment.objects.create(
-
-                patient=patient,
-
-                doctor=doctor,
-
-                appointment_date=appointment_date,
-
-                appointment_time=appointment_time,
-
-                consultation_fee=doctor.consultation_fee,
-
-                status='CONFIRMED'
-            )
-
             transaction_id = (
                 'CP'
                 + uuid.uuid4().hex[:12].upper()
             )
 
-            PaymentTransaction.objects.create(
+            # ------------------------------------------------
+            # CREATE ALL SUCCESSFUL PAYMENT RECORDS TOGETHER
+            # ------------------------------------------------
 
-                patient=patient,
+            with transaction.atomic():
 
-                doctor=doctor,
+                appointment = Appointment.objects.create(
 
-                appointment=appointment,
+                    patient=patient,
 
-                amount=doctor.consultation_fee,
+                    doctor=doctor,
 
-                payment_method=payment_method,
+                    appointment_date=appointment_date,
 
-                status='SUCCESS',
+                    appointment_time=appointment_time,
 
-                transaction_id=transaction_id,
+                    consultation_fee=doctor.consultation_fee,
 
-                appointment_date=appointment_date,
+                    status='CONFIRMED'
+                )
 
-                appointment_time=appointment_time,
-            )
+                PaymentTransaction.objects.create(
+                    patient=patient,
+                    doctor=doctor,
+                    appointment=appointment,
+                    amount=doctor.consultation_fee,
+                    payment_method=payment_method,
+                    status='SUCCESS',
+                    transaction_id=transaction_id,
+                    appointment_date=appointment_date,
+                    appointment_time=appointment_time,
+                )
+
+                payment_transaction = (
+                    PaymentTransaction.objects.get(
+                        transaction_id=transaction_id
+                    )
+                )
+
+                PaymentDetails.objects.create(
+                    transaction=payment_transaction,
+                    **saved_payment_details
+                )
+
+            # ------------------------------------------------
+            # STORE SUCCESS INFORMATION
+            # ------------------------------------------------
 
             request.session[
                 'payment_success'
@@ -742,26 +1195,43 @@ def process_payment(request):
                 + uuid.uuid4().hex[:12].upper()
             )
 
-            PaymentTransaction.objects.create(
+            # ------------------------------------------------
+            # CREATE DECLINED PAYMENT RECORDS TOGETHER
+            # ------------------------------------------------
 
-                patient=patient,
+            with transaction.atomic():
 
-                doctor=doctor,
+                payment_transaction = (
+                    PaymentTransaction.objects.create(
 
-                appointment=None,
+                        patient=patient,
 
-                amount=doctor.consultation_fee,
+                        doctor=doctor,
 
-                payment_method=payment_method,
+                        appointment=None,
 
-                status='DECLINED',
+                        amount=doctor.consultation_fee,
 
-                transaction_id=transaction_id,
+                        payment_method=payment_method,
 
-                appointment_date=appointment_date,
+                        status='DECLINED',
 
-                appointment_time=appointment_time,
-            )
+                        transaction_id=transaction_id,
+
+                        appointment_date=appointment_date,
+
+                        appointment_time=appointment_time,
+                    )
+                )
+
+                PaymentDetails.objects.create(
+                    transaction=payment_transaction,
+                    **saved_payment_details
+                )
+
+            # ------------------------------------------------
+            # STORE FAILURE INFORMATION
+            # ------------------------------------------------
 
             request.session[
                 'payment_failed'

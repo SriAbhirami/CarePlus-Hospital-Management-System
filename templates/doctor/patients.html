@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Patients | CarePlus</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        /* ==================================================
+           NAVBAR
+        ================================================== */
+
+        .navbar {
+            height: 72px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 38px;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 700;
+            color: #172554;
+        }
+
+        .brand span {
+            color: #2563eb;
+        }
+
+        .doctor-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .doctor-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #1d4ed8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            overflow: hidden;
+        }
+
+        .doctor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .doctor-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .doctor-specialization {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        /* ==================================================
+           MAIN
+        ================================================== */
+
+        .main {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 34px 25px 50px;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 27px;
+            color: #172033;
+        }
+
+        .page-header p {
+            margin: 7px 0 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* ==================================================
+           PATIENT CARD
+        ================================================== */
+
+        .patients-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .patient-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            transition: 0.2s ease;
+        }
+
+        .patient-card:hover {
+            border-color: #bfdbfe;
+            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.07);
+            transform: translateY(-2px);
+        }
+
+        .patient-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .patient-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #e0f2fe;
+            color: #0369a1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            font-weight: 700;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .patient-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .patient-name {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .patient-username {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .patient-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding-top: 3px;
+        }
+
+        .detail-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #172033;
+        }
+
+        .patient-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding-top: 5px;
+            border-top: 1px solid #eef2f7;
+        }
+
+        .last-visit {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .view-button {
+            text-decoration: none;
+            background: #2563eb;
+            color: #ffffff;
+            padding: 9px 15px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .view-button:hover {
+            background: #1d4ed8;
+        }
+
+        /* ==================================================
+           EMPTY STATE
+        ================================================== */
+
+        .empty-state {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 55px 25px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 55px;
+            height: 55px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 7px;
+            font-size: 18px;
+        }
+
+        .empty-state p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (max-width: 850px) {
+
+            .patients-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .main {
+                padding: 25px 15px 40px;
+            }
+
+            .navbar {
+                padding: 0 15px;
+            }
+
+            .doctor-text {
+                display: none;
+            }
+
+            .patient-details {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .view-button {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ==================================================
+         NAVBAR
+    ================================================== -->
+
+    <nav class="navbar">
+
+        <div class="brand">
+            Care<span>Plus</span>
+        </div>
+
+        <div class="doctor-info">
+
+            <div class="doctor-text">
+
+                <div class="doctor-name">
+                    Dr.
+                    {{ doctor.user.get_full_name|default:doctor.user.username }}
+                </div>
+
+                <div class="doctor-specialization">
+                    {{ doctor.get_specialization_display }}
+                </div>
+
+            </div>
+
+            <div class="doctor-avatar">
+
+                {% if doctor.profile_pic %}
+                    <img
+                        src="{{ doctor.profile_pic.url }}"
+                        alt="Doctor"
+                    >
+                {% else %}
+                    {{ doctor.user.first_name|first|upper }}
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ==================================================
+         MAIN
+    ================================================== -->
+
+    <main class="main">
+
+        <div class="page-header">
+
+            <h1>My Patients</h1>
+
+            <p>
+                Patients who have appointments with you.
+            </p>
+
+        </div>
+
+
+        {% if patients %}
+
+            <div class="patients-grid">
+
+                {% for item in patients %}
+
+                    <div class="patient-card">
+
+                        <!-- PATIENT HEADER -->
+
+                        <div class="patient-top">
+
+                            <div class="patient-avatar">
+
+                                {% if item.patient.profile_pic %}
+
+                                    <img
+                                        src="{{ item.patient.profile_pic.url }}"
+                                        alt="Patient"
+                                    >
+
+                                {% else %}
+
+                                    {{ item.patient.user.first_name|first|upper }}
+
+                                {% endif %}
+
+                            </div>
+
+                            <div>
+
+                                <div class="patient-name">
+
+                                    {{ item.patient.user.get_full_name|default:item.patient.user.username }}
+
+                                </div>
+
+                                <div class="patient-username">
+
+                                    @{{ item.patient.user.username }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PATIENT DETAILS -->
+
+                        <div class="patient-details">
+
+                            <div class="detail-item">
+
+                                <div class="detail-label">
+                                    Phone
+                                </div>
+
+                                <div class="detail-value">
+                                    {{ item.patient.user.phone|default:"Not provided" }}
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-item">
+
+                                <div class="detail-label">
+                                    Blood Group
+                                </div>
+
+                                <div class="detail-value">
+                                    {{ item.patient.blood_group|default:"Not provided" }}
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-item">
+
+                                <div class="detail-label">
+                                    Appointments
+                                </div>
+
+                                <div class="detail-value">
+                                    {{ item.appointment_count }}
+                                </div>
+
+                            </div>
+
+
+                            <div class="detail-item">
+
+                                <div class="detail-label">
+                                    Date of Birth
+                                </div>
+
+                                <div class="detail-value">
+                                    {{ item.patient.date_of_birth|date:"d M Y"|default:"Not provided" }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- FOOTER -->
+
+                        <div class="patient-footer">
+
+                            <div class="last-visit">
+
+                                {% if item.last_appointment %}
+
+                                    Last visit:
+                                    {{ item.last_appointment.appointment_date|date:"d M Y" }}
+
+                                {% else %}
+
+                                    No appointment history
+
+                                {% endif %}
+
+                            </div>
+
+                            <a
+                                href="{% url 'doctor_patient_detail' item.patient.id %}"
+                                class="view-button"
+                            >
+                                View Patient
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    👤
+                </div>
+
+                <h3>No Patients Yet</h3>
+
+                <p>
+                    Patients who book an appointment with you will appear here.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </main>
+
+</body>
+</html>

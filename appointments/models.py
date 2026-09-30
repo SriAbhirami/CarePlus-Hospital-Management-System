@@ -125,6 +125,64 @@ class PaymentTransaction(models.Model):
             f"{self.patient.user.get_full_name() or self.patient.user.username}"
         )
 
+class PaymentDetails(models.Model):
+
+    transaction = models.OneToOneField(
+        PaymentTransaction,
+        on_delete=models.CASCADE,
+        related_name='payment_details'
+    )
+
+    # UPI
+    upi_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    # Card
+    card_holder_name = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    card_last4 = models.CharField(
+        max_length=4,
+        blank=True,
+        null=True
+    )
+
+    expiry_month = models.PositiveSmallIntegerField(
+        blank=True,
+        null=True
+    )
+
+    expiry_year = models.PositiveSmallIntegerField(
+        blank=True,
+        null=True
+    )
+
+    # Net Banking
+    bank_name = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    bank_customer_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f"Payment Details - {self.transaction.transaction_id}"
+
 class Prescription(models.Model):
 
     appointment = models.OneToOneField(

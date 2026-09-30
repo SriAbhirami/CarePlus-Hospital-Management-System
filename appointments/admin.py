@@ -5,6 +5,7 @@ from .models import (
     PaymentTransaction,
     Prescription,
     PrescriptionMedicine,
+    PaymentDetails,
 )
 
 
@@ -156,3 +157,49 @@ class PaymentTransactionAdmin(admin.ModelAdmin):
         'doctor__user__first_name',
         'doctor__user__last_name',
     )
+
+
+# ============================================================
+# PAYMENT DETAILS ADMIN
+# ============================================================
+
+@admin.register(PaymentDetails)
+class PaymentDetailsAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'transaction',
+        'get_payment_method',
+        'upi_id',
+        'card_holder_name',
+        'card_last4',
+        'expiry_month',
+        'expiry_year',
+        'bank_name',
+        'bank_customer_id',
+        'created_at',
+    )
+
+    search_fields = (
+        'transaction__transaction_id',
+        'upi_id',
+        'card_holder_name',
+        'bank_customer_id',
+    )
+
+    list_filter = (
+        'transaction__payment_method',
+        'created_at',
+    )
+
+    readonly_fields = (
+        'transaction',
+        'created_at',
+    )
+
+    @admin.display(
+        description='Payment Method',
+        ordering='transaction__payment_method'
+    )
+    def get_payment_method(self, obj):
+
+        return obj.transaction.payment_method

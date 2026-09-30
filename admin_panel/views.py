@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Q, Count, Avg, Prefetch, prefetch_related_objects
+from django.db.models import Q, Count, Avg, Sum, Prefetch, prefetch_related_objects
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.dateparse import parse_time
@@ -14,8 +14,7 @@ from django.utils.dateparse import parse_time
 from accounts.models import User
 from patients.models import Patient
 from doctors.models import Doctor
-from appointments.models import Appointment
-
+from appointments.models import Appointment, PaymentTransaction
 
 # ============================================================
 # ADMIN ACCESS

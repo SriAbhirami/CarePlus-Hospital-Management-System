@@ -8,6 +8,7 @@
 
     <title>Appointments | CarePlus Admin</title>
 
+
     <style>
         * {
             margin: 0;
@@ -100,176 +101,235 @@
         ========================================================= */
 
         .sidebar {
-            width: 255px;
-
-            background: white;
-
-            border-right: 1px solid var(--border);
-
             position: fixed;
-
             top: 0;
             left: 0;
-            bottom: 0;
+            width: 255px;
+            height: 100vh;
+
+            background: #FFFFFF;
+            border-right: 1px solid #CDECEF;
 
             z-index: 1000;
 
             display: flex;
             flex-direction: column;
 
-            padding: 24px 16px;
-
             transition: transform 0.25s ease;
-
-            box-shadow:
-                4px 0 22px rgba(0, 184, 200, 0.08);
         }
 
-        .brand {
-            padding: 3px 12px 24px;
+        .sidebar-brand {
+            height: 78px;
 
-            border-bottom: 1px solid var(--border);
-
-            margin-bottom: 25px;
-        }
-
-        .brand h2 {
-            color: var(--teal);
-
-            font-size: 23px;
-
-            font-weight: 800;
-
-            letter-spacing: -0.4px;
-
-            margin-bottom: 4px;
-
-            text-shadow:
-                0 0 10px rgba(0, 184, 200, 0.15);
-        }
-
-        .brand p {
-            color: var(--muted);
-
-            font-size: 11px;
-
-            font-weight: 600;
-
-            line-height: 1.5;
-        }
-
-        .menu-title {
-            font-size: 10px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1.1px;
-
-            color: #8B9AAF;
-
-            font-weight: 800;
-
-            padding: 0 12px;
-
-            margin-bottom: 10px;
-        }
-
-        .nav-item {
             display: flex;
-
             align-items: center;
 
             gap: 12px;
 
-            color: #506078;
+            padding: 0 24px;
 
-            padding: 11px 12px;
+            border-bottom: 1px solid #CDECEF;
 
-            margin-bottom: 4px;
+            flex-shrink: 0;
+        }
 
-            border-radius: 8px;
+        .brand-icon {
+            width: 38px;
+            height: 38px;
 
-            font-size: 13px;
+            border-radius: 11px;
 
-            font-weight: 600;
+            background:
+                linear-gradient(
+                    135deg,
+                    #00B8C8,
+                    #00D1D9
+                );
 
-            border: 1px solid transparent;
+            color: #FFFFFF;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+            font-weight: 700;
+
+            box-shadow:
+                0 6px 16px rgba(0, 184, 200, 0.22);
+
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            line-height: 1.1;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #172033;
+        }
+
+        .brand-subtitle {
+            margin-top: 4px;
+
+            font-size: 10px;
+            color: #607086;
+
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+
+            font-weight: 700;
+        }
+
+        .sidebar-nav {
+            padding: 20px 13px;
+
+            flex: 1;
+
+            overflow-y: auto;
+        }
+
+        .nav-section-title {
+            padding: 0 13px 10px;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+
+            font-weight: 800;
+
+            color: #91A0B2;
+        }
+
+        .nav-item {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            min-height: 46px;
+
+            margin-bottom: 5px;
+
+            padding: 0 13px;
+
+            border-radius: 10px;
+
+            color: #58687C;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            border: none;
 
             transition:
                 background 0.2s ease,
                 color 0.2s ease,
-                box-shadow 0.2s ease,
-                border-color 0.2s ease,
                 transform 0.2s ease;
         }
 
         .nav-item:hover {
-            background: var(--teal-soft);
+            background: #EFFDFE;
 
-            color: var(--teal-deep);
-
-            border-color: #C9F1F4;
-
-            box-shadow: var(--nav-glow);
+            color: #007F8C;
 
             transform: translateX(2px);
         }
 
         .nav-item.active {
-            background: var(--teal-light);
+            background: #E3FBFD;
 
-            color: var(--teal-dark);
-
-            font-weight: 800;
-
-            border-color: #B9E8ED;
+            color: #007F8C;
 
             box-shadow:
-                0 0 16px rgba(0, 184, 200, 0.15),
-                inset 3px 0 0 var(--teal-bright);
+                inset 3px 0 0 #00B8C8;
         }
 
         .nav-icon {
-            width: 22px;
+            width: 23px;
+            min-width: 23px;
 
-            height: 22px;
+            height: auto;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
-            font-size: 15px;
+            text-align: center;
 
-            color: inherit;
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+        .sidebar-footer {
+            padding: 15px 13px 18px;
+
+            border-top: 1px solid #CDECEF;
 
             flex-shrink: 0;
         }
 
-        .logout {
-            margin-top: auto;
+        .sidebar .admin-card {
+            display: flex;
+            align-items: center;
 
-            padding-top: 15px;
+            gap: 10px;
 
-            border-top: 1px solid var(--border);
+            padding: 11px;
+
+            background: #EFFDFE;
+
+            border: 1px solid #CDECEF;
+
+            border-radius: 12px;
         }
 
-        .logout .nav-item {
-            color: #64748B;
+        .sidebar .admin-avatar {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            background: #00B8C8;
+
+            color: #FFFFFF;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            flex-shrink: 0;
         }
 
-        .logout .nav-item:hover {
-            background: #FEF2F2;
+        .sidebar .admin-info {
+            min-width: 0;
+        }
 
-            color: #B91C1C;
+        .sidebar .admin-name {
+            font-size: 12px;
 
-            border-color: #FECACA;
+            font-weight: 800;
 
-            box-shadow:
-                0 0 10px rgba(185, 28, 28, 0.07);
+            color: #172033;
+        }
 
-            transform: translateX(2px);
+        .sidebar .admin-role {
+            margin-top: 3px;
+
+            font-size: 10px;
+
+            color: #607086;
         }
 
         /* =========================================================
@@ -282,7 +342,6 @@
 
         .menu-button {
             width: 40px;
-
             height: 40px;
 
             border: 1px solid var(--border-bright);
@@ -297,8 +356,8 @@
 
             cursor: pointer;
 
+            display: flex;
             align-items: center;
-
             justify-content: center;
 
             box-shadow:
@@ -428,11 +487,9 @@
             position: absolute;
 
             width: 70px;
-
             height: 70px;
 
             right: -30px;
-
             top: -30px;
 
             border-radius: 50%;
@@ -1047,6 +1104,8 @@
 
             font-weight: 800;
 
+            cursor: pointer;
+
             transition:
                 background 0.2s ease,
                 border-color 0.2s ease,
@@ -1196,6 +1255,272 @@
         }
 
         /* =========================================================
+           APPOINTMENT DETAILS MODAL
+        ========================================================= */
+
+        .appointment-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 24px;
+
+            background: rgba(15, 41, 51, 0.55);
+            backdrop-filter: blur(5px);
+        }
+
+        .appointment-modal-overlay.show {
+            display: flex;
+        }
+
+        .appointment-modal {
+            width: 100%;
+            max-width: 720px;
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: #FFFFFF;
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 25px 70px rgba(15, 41, 51, 0.25),
+                0 0 25px rgba(0, 184, 200, 0.12);
+
+            animation: appointmentModalIn 0.22s ease;
+        }
+
+        @keyframes appointmentModalIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .appointment-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 20px 22px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .appointment-modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .appointment-modal-subtitle {
+            margin-top: 4px;
+
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .modal-close-button {
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid var(--border);
+            border-radius: 9px;
+
+            background: white;
+
+            color: var(--muted);
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .modal-close-button:hover {
+            background: var(--red-bg);
+            color: var(--red);
+            border-color: #F0BABA;
+        }
+
+        .appointment-modal-body {
+            padding: 22px;
+        }
+
+        .modal-patient-card {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            padding: 15px;
+
+            background: var(--teal-soft);
+
+            border: 1px solid var(--border);
+
+            border-radius: 13px;
+
+            margin-bottom: 20px;
+        }
+
+        .modal-patient-avatar {
+            width: 52px;
+            height: 52px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            border-radius: 13px;
+
+            background: var(--teal-light);
+
+            color: var(--teal-dark);
+
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .modal-patient-avatar img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .modal-patient-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .modal-patient-meta {
+            margin-top: 4px;
+
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .modal-section-title {
+            margin-bottom: 12px;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            color: var(--text);
+
+            text-transform: uppercase;
+            letter-spacing: 0.45px;
+        }
+
+        .modal-info-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            gap: 11px;
+
+            margin-bottom: 20px;
+        }
+
+        .modal-info-item {
+            padding: 13px;
+
+            background: #FAFDFE;
+
+            border: 1px solid var(--border);
+
+            border-radius: 10px;
+        }
+
+        .modal-info-label {
+            font-size: 10px;
+
+            color: var(--muted);
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.35px;
+
+            font-weight: 700;
+        }
+
+        .modal-info-value {
+            margin-top: 5px;
+
+            font-size: 13px;
+
+            color: var(--text);
+
+            font-weight: 700;
+
+            word-break: break-word;
+        }
+
+        .modal-status {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 5px 8px;
+
+            border-radius: 7px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+        }
+
+        .modal-reason {
+            padding: 14px;
+
+            background: #FAFDFE;
+
+            border: 1px solid var(--border);
+
+            border-radius: 10px;
+
+            color: var(--text);
+
+            font-size: 13px;
+
+            line-height: 1.55;
+
+            min-height: 55px;
+        }
+
+        /* =========================================================
            TABLET
         ========================================================= */
 
@@ -1238,6 +1563,8 @@
 
                 transform: translateX(-100%);
 
+                transition: transform 0.25s ease;
+
                 box-shadow:
                     8px 0 32px rgba(0, 184, 200, 0.16);
             }
@@ -1247,6 +1574,8 @@
             }
 
             .sidebar-overlay {
+                display: none;
+
                 position: fixed;
 
                 inset: 0;
@@ -1396,6 +1725,31 @@
 
                 padding-bottom: 2px;
             }
+
+            .appointment-modal-overlay {
+                padding: 12px;
+            }
+
+            .appointment-modal {
+                max-height: 94vh;
+                border-radius: 15px;
+            }
+
+            .appointment-modal-header {
+                padding: 17px;
+            }
+
+            .appointment-modal-body {
+                padding: 17px;
+            }
+
+            .modal-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-patient-card {
+                padding: 13px;
+            }
         }
 
         /* =========================================================
@@ -1490,6 +1844,7 @@
                 transition: none !important;
             }
         }
+
     </style>
 </head>
 
@@ -1503,160 +1858,120 @@
 
     <aside class="sidebar" id="sidebar">
 
-        <div class="brand">
+        <div class="sidebar-brand">
 
-            <h2>
-                CarePlus
-            </h2>
-
-            <p>
-                Hospital Management System
-            </p>
-
-        </div>
-
-
-        <div class="menu-title">
-            Administration
-        </div>
-
-
-        <!-- DASHBOARD -->
-
-        <a
-            href="{% url 'admin_panel:dashboard' %}"
-            class="nav-item"
-        >
-
-            <span class="nav-icon">
-                ⌂
-            </span>
-
-            <span>
-                Dashboard
-            </span>
-
-        </a>
-
-
-        <!-- USERS -->
-
-        <a
-            href="{% url 'admin_panel:users' %}"
-            class="nav-item"
-        >
-
-            <span class="nav-icon">
-                ♙
-            </span>
-
-            <span>
-                Users
-            </span>
-
-        </a>
-
-
-        <!-- DOCTORS -->
-
-        <a
-            href="{% url 'admin_panel:doctors' %}"
-            class="nav-item"
-        >
-
-            <span class="nav-icon">
+            <div class="brand-icon">
                 ✚
-            </span>
+            </div>
 
-            <span>
-                Doctors
-            </span>
+            <div class="brand-text">
 
-        </a>
+                <div class="brand-title">
+                    CarePlus
+                </div>
 
+                <div class="brand-subtitle">
+                    Hospital Admin
+                </div>
 
-        <!-- PATIENTS -->
+            </div>
 
-        <a
-            href="{% url 'admin_panel:patients' %}"
-            class="nav-item"
-        >
-
-            <span class="nav-icon">
-                ♟
-            </span>
-
-            <span>
-                Patients
-            </span>
-
-        </a>
+        </div>
 
 
-        <!-- APPOINTMENTS - ACTIVE -->
+        <nav class="sidebar-nav">
 
-        <a
-            href="{% url 'admin_panel:appointments' %}"
-            class="nav-item active"
-        >
-
-            <span class="nav-icon">
-                ▣
-            </span>
-
-            <span>
-                Appointments
-            </span>
-
-        </a>
+            <div class="nav-section-title">
+                Administration
+            </div>
 
 
-        <!-- PAYMENTS -->
-
-        <a
-    href="{% url 'admin_panel:payments' %}"
-    class="nav-item"
->
-    <span class="nav-icon">₹</span>
-    <span>Payments</span>
-</a>
+            <a
+                href="{% url 'admin_panel:dashboard' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
 
 
-        <!-- REPORTS -->
-
-        <a
-            href="#"
-            class="nav-item"
-        >
-
-            <span class="nav-icon">
-                ▤
-            </span>
-
-            <span>
-                Reports
-            </span>
-
-        </a>
+            <a
+                href="{% url 'admin_panel:users' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'users' or request.resolver_match.url_name == 'user_add' or request.resolver_match.url_name == 'user_detail' or request.resolver_match.url_name == 'user_edit' or request.resolver_match.url_name == 'user_toggle_status' %}active{% endif %}"
+            >
+                <span class="nav-icon">♙</span>
+                <span>Users</span>
+            </a>
 
 
-        <!-- LOGOUT -->
+            <a
+                href="{% url 'admin_panel:doctors' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'doctors' or request.resolver_match.url_name == 'doctor_add' or request.resolver_match.url_name == 'doctor_toggle_availability' %}active{% endif %}"
+            >
+                <span class="nav-icon">✚</span>
+                <span>Doctors</span>
+            </a>
 
-        <div class="logout">
+
+            <a
+                href="{% url 'admin_panel:patients' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'patients' or request.resolver_match.url_name == 'patient_add' or request.resolver_match.url_name == 'patient_detail' or request.resolver_match.url_name == 'patient_edit' or request.resolver_match.url_name == 'patient_delete' %}active{% endif %}"
+            >
+                <span class="nav-icon">♙</span>
+                <span>Patients</span>
+            </a>
+
+
+            <a
+                href="{% url 'admin_panel:appointments' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'appointments' %}active{% endif %}"
+            >
+                <span class="nav-icon">▣</span>
+                <span>Appointments</span>
+            </a>
+
+
+            <a
+                href="{% url 'admin_panel:payments' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'payments' %}active{% endif %}"
+            >
+                <span class="nav-icon">₹</span>
+                <span>Payments</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="admin-card">
+
+                <div class="admin-avatar">
+                    A
+                </div>
+
+                <div class="admin-info">
+
+                    <div class="admin-name">
+                        Administrator
+                    </div>
+
+                    <div class="admin-role">
+                        System Administrator
+                    </div>
+
+                </div>
+
+            </div>
+
 
             <a
                 href="{% url 'logout' %}"
                 class="nav-item"
+                style="margin-top: 10px; margin-bottom: 0;"
             >
-
-                <span class="nav-icon">
-                    ↪
-                </span>
-
-                <span>
-                    Logout
-                </span>
-
+                <span class="nav-icon">↪</span>
+                <span>Logout</span>
             </a>
 
         </div>
@@ -1664,15 +1979,10 @@
     </aside>
 
 
-    <!-- =========================================================
-         MOBILE SIDEBAR OVERLAY
-    ========================================================= -->
-
     <div
         class="sidebar-overlay"
         id="sidebarOverlay"
-    >
-    </div>
+    ></div>
 
 
     <!-- =========================================================
@@ -1734,8 +2044,6 @@
 
                 <section class="stats-grid">
 
-                    <!-- TOTAL -->
-
                     <div class="stat-card">
 
                         <div class="stat-label">
@@ -1750,8 +2058,6 @@
 
                     </div>
 
-
-                    <!-- TODAY -->
 
                     <div class="stat-card today">
 
@@ -1768,8 +2074,6 @@
                     </div>
 
 
-                    <!-- PENDING -->
-
                     <div class="stat-card pending">
 
                         <div class="stat-label">
@@ -1784,8 +2088,6 @@
 
                     </div>
 
-
-                    <!-- CONFIRMED -->
 
                     <div class="stat-card confirmed">
 
@@ -1802,8 +2104,6 @@
                     </div>
 
 
-                    <!-- COMPLETED -->
-
                     <div class="stat-card completed">
 
                         <div class="stat-label">
@@ -1818,8 +2118,6 @@
 
                     </div>
 
-
-                    <!-- CANCELLED -->
 
                     <div class="stat-card cancelled">
 
@@ -1844,10 +2142,7 @@
 
                 <section class="content-card">
 
-
-                    <!-- =================================================
-                         FILTERS
-                    ================================================== -->
+                    <!-- FILTERS -->
 
                     <div class="filter-section">
 
@@ -2081,9 +2376,7 @@
                     </div>
 
 
-                    <!-- =================================================
-                         TABLE HEADER
-                    ================================================== -->
+                    <!-- TABLE HEADER -->
 
                     <div class="table-top">
 
@@ -2108,9 +2401,7 @@
                     </div>
 
 
-                    <!-- =================================================
-                         TABLE
-                    ================================================== -->
+                    <!-- TABLE -->
 
                     {% if appointments %}
 
@@ -2374,9 +2665,32 @@
 
                                             <td>
 
-                                                <a
-                                                    href="#"
-                                                    class="view-button"
+                                                <button
+                                                    type="button"
+                                                    class="view-button appointment-view-button"
+
+                                                    data-patient-name="{{ appointment.patient.user.get_full_name|default:appointment.patient.user.username|escape }}"
+                                                    data-patient-username="{{ appointment.patient.user.username|escape }}"
+                                                    data-patient-phone="{{ appointment.patient.user.phone|default:'No phone'|escape }}"
+                                                    data-patient-email="{{ appointment.patient.user.email|default:'No email'|escape }}"
+
+                                                    {% if appointment.patient.profile_pic %}
+                                                        data-patient-image="{{ appointment.patient.profile_pic.url }}"
+                                                    {% endif %}
+
+                                                    data-doctor-name="Dr. {{ appointment.doctor.user.get_full_name|default:appointment.doctor.user.username|escape }}"
+                                                    data-specialization="{{ appointment.doctor.get_specialization_display|escape }}"
+                                                    data-qualification="{{ appointment.doctor.qualification|default:'Not specified'|escape }}"
+
+                                                    data-date="{{ appointment.appointment_date|date:'d M Y' }}"
+                                                    data-time="{{ appointment.appointment_time|time:'h:i A' }}"
+                                                    data-fee="₹{{ appointment.consultation_fee|floatformat:0 }}"
+
+                                                    data-status="{{ appointment.get_status_display|escape }}"
+                                                    data-status-code="{{ appointment.status|escape }}"
+
+                                                    data-reason="{{ appointment.reason|default:'No reason provided'|escape }}"
+
                                                     title="Appointment details"
                                                 >
 
@@ -2405,7 +2719,7 @@
 
                                                     View
 
-                                                </a>
+                                                </button>
 
                                             </td>
 
@@ -2506,9 +2820,7 @@
 
                     {% else %}
 
-                        <!-- =================================================
-                             EMPTY STATE
-                        ================================================== -->
+                        <!-- EMPTY STATE -->
 
                         <div class="empty-state">
 
@@ -2578,6 +2890,286 @@
 
 
 <!-- =========================================================
+     APPOINTMENT DETAILS MODAL
+========================================================= -->
+
+<div
+    class="appointment-modal-overlay"
+    id="appointmentModalOverlay"
+    aria-hidden="true"
+>
+
+    <div
+        class="appointment-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="appointmentModalTitle"
+    >
+
+        <div class="appointment-modal-header">
+
+            <div>
+
+                <div
+                    class="appointment-modal-title"
+                    id="appointmentModalTitle"
+                >
+                    Appointment Details
+                </div>
+
+                <div class="appointment-modal-subtitle">
+                    Complete appointment information
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close-button"
+                id="modalCloseButton"
+                aria-label="Close appointment details"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="appointment-modal-body">
+
+            <!-- PATIENT -->
+
+            <div class="modal-patient-card">
+
+                <div
+                    class="modal-patient-avatar"
+                    id="modalPatientAvatar"
+                >
+
+                    <img
+                        id="modalPatientImage"
+                        src=""
+                        alt=""
+                        style="display: none;"
+                    >
+
+                    <span id="modalPatientInitial">
+                        P
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <div
+                        class="modal-patient-name"
+                        id="modalPatientName"
+                    >
+                        Patient
+                    </div>
+
+                    <div
+                        class="modal-patient-meta"
+                        id="modalPatientUsername"
+                    >
+                        Username
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PATIENT CONTACT -->
+
+            <div class="modal-section-title">
+                Patient Information
+            </div>
+
+
+            <div class="modal-info-grid">
+
+                <div class="modal-info-item">
+
+                    <div class="modal-info-label">
+                        Phone
+                    </div>
+
+                    <div
+                        class="modal-info-value"
+                        id="modalPatientPhone"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="modal-info-item">
+
+                    <div class="modal-info-label">
+                        Email
+                    </div>
+
+                    <div
+                        class="modal-info-value"
+                        id="modalPatientEmail"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPOINTMENT -->
+
+            <div class="modal-section-title">
+                Appointment Information
+            </div>
+
+
+            <div class="modal-info-grid">
+
+                <div class="modal-info-item">
+
+                    <div class="modal-info-label">
+                        Doctor
+                    </div>
+
+                    <div
+                        class="modal-info-value"
+                        id="modalDoctorName"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="modal-info-item">
+
+                    <div class="modal-info-label">
+                        Specialization
+                    </div>
+
+                    <div
+                        class="modal-info-value"
+                        id="modalSpecialization"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="modal-info-item">
+
+                    <div class="modal-info-label">
+                        Qualification
+                    </div>
+
+                    <div
+                        class="modal-info-value"
+                        id="modalQualification"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="modal-info-item">
+
+                    <div class="modal-info-label">
+                        Date
+                    </div>
+
+                    <div
+                        class="modal-info-value"
+                        id="modalDate"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="modal-info-item">
+
+                    <div class="modal-info-label">
+                        Time
+                    </div>
+
+                    <div
+                        class="modal-info-value"
+                        id="modalTime"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="modal-info-item">
+
+                    <div class="modal-info-label">
+                        Consultation Fee
+                    </div>
+
+                    <div
+                        class="modal-info-value"
+                        id="modalFee"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <div class="modal-info-item">
+
+                    <div class="modal-info-label">
+                        Status
+                    </div>
+
+                    <div
+                        class="modal-info-value"
+                        id="modalStatus"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- REASON -->
+
+            <div class="modal-section-title">
+                Reason for Visit
+            </div>
+
+
+            <div
+                class="modal-reason"
+                id="modalReason"
+            >
+                No reason provided.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
      MOBILE SIDEBAR SCRIPT
 ========================================================= -->
 
@@ -2615,24 +3207,39 @@
     }
 
 
-    menuButton.addEventListener(
-        "click",
-        function () {
+    function toggleSidebar() {
+
+        if (sidebar.classList.contains("open")) {
+
+            closeSidebar();
+
+        } else {
 
             openSidebar();
 
         }
-    );
+
+    }
 
 
-    sidebarOverlay.addEventListener(
-        "click",
-        function () {
+    if (menuButton) {
 
-            closeSidebar();
+        menuButton.addEventListener(
+            "click",
+            toggleSidebar
+        );
 
-        }
-    );
+    }
+
+
+    if (sidebarOverlay) {
+
+        sidebarOverlay.addEventListener(
+            "click",
+            closeSidebar
+        );
+
+    }
 
 
     window.addEventListener(
@@ -2672,7 +3279,364 @@
         }
     );
 
+
+    /* =========================================================
+       APPOINTMENT DETAILS MODAL
+    ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const modalOverlay =
+                document.getElementById("appointmentModalOverlay");
+
+            const modalCloseButton =
+                document.getElementById("modalCloseButton");
+
+            const viewButtons =
+                document.querySelectorAll(".appointment-view-button");
+
+
+            if (!modalOverlay) {
+
+                console.error(
+                    "CarePlus: Appointment modal element was not found."
+                );
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------------------
+               MODAL ELEMENTS
+            ----------------------------------------------------- */
+
+            const modalPatientImage =
+                document.getElementById("modalPatientImage");
+
+            const modalPatientInitial =
+                document.getElementById("modalPatientInitial");
+
+            const modalPatientName =
+                document.getElementById("modalPatientName");
+
+            const modalPatientUsername =
+                document.getElementById("modalPatientUsername");
+
+            const modalPatientPhone =
+                document.getElementById("modalPatientPhone");
+
+            const modalPatientEmail =
+                document.getElementById("modalPatientEmail");
+
+            const modalDoctorName =
+                document.getElementById("modalDoctorName");
+
+            const modalSpecialization =
+                document.getElementById("modalSpecialization");
+
+            const modalQualification =
+                document.getElementById("modalQualification");
+
+            const modalDate =
+                document.getElementById("modalDate");
+
+            const modalTime =
+                document.getElementById("modalTime");
+
+            const modalFee =
+                document.getElementById("modalFee");
+
+            const modalStatus =
+                document.getElementById("modalStatus");
+
+            const modalReason =
+                document.getElementById("modalReason");
+
+
+            /* -----------------------------------------------------
+               OPEN MODAL
+            ----------------------------------------------------- */
+
+            function openAppointmentModal(button) {
+
+                const data =
+                    button.dataset;
+
+
+                /* PATIENT */
+
+                const patientName =
+                    data.patientName || "Patient";
+
+                modalPatientName.textContent =
+                    patientName;
+
+                modalPatientUsername.textContent =
+                    data.patientUsername
+                    ? "@" + data.patientUsername
+                    : "Username";
+
+
+                modalPatientPhone.textContent =
+                    data.patientPhone || "No phone";
+
+                modalPatientEmail.textContent =
+                    data.patientEmail || "No email";
+
+
+                /* PATIENT IMAGE */
+
+                if (
+                    data.patientImage &&
+                    modalPatientImage
+                ) {
+
+                    modalPatientImage.src =
+                        data.patientImage;
+
+                    modalPatientImage.alt =
+                        patientName;
+
+                    modalPatientImage.style.display =
+                        "block";
+
+                    modalPatientInitial.style.display =
+                        "none";
+
+                    modalPatientImage.onerror =
+                        function () {
+
+                            modalPatientImage.style.display =
+                                "none";
+
+                            modalPatientInitial.style.display =
+                                "flex";
+
+                        };
+
+                } else {
+
+                    modalPatientImage.src = "";
+
+                    modalPatientImage.style.display =
+                        "none";
+
+                    modalPatientInitial.style.display =
+                        "flex";
+
+                    modalPatientInitial.textContent =
+                        patientName
+                            .trim()
+                            .charAt(0)
+                            .toUpperCase() || "P";
+
+                }
+
+
+                /* DOCTOR */
+
+                modalDoctorName.textContent =
+                    data.doctorName || "—";
+
+                modalSpecialization.textContent =
+                    data.specialization || "—";
+
+                modalQualification.textContent =
+                    data.qualification || "Not specified";
+
+
+                /* DATE / TIME */
+
+                modalDate.textContent =
+                    data.date || "—";
+
+                modalTime.textContent =
+                    data.time || "—";
+
+                modalFee.textContent =
+                    data.fee || "—";
+
+
+                /* STATUS */
+
+                const statusText =
+                    data.status || "—";
+
+                const statusCode =
+                    (
+                        data.statusCode ||
+                        ""
+                    ).toUpperCase();
+
+
+                modalStatus.textContent =
+                    statusText;
+
+
+                modalStatus.className =
+                    "modal-info-value modal-status";
+
+
+                if (statusCode === "PENDING") {
+
+                    modalStatus.classList.add(
+                        "status-pending"
+                    );
+
+                } else if (statusCode === "CONFIRMED") {
+
+                    modalStatus.classList.add(
+                        "status-confirmed"
+                    );
+
+                } else if (statusCode === "COMPLETED") {
+
+                    modalStatus.classList.add(
+                        "status-completed"
+                    );
+
+                } else if (statusCode === "CANCELLED") {
+
+                    modalStatus.classList.add(
+                        "status-cancelled"
+                    );
+
+                }
+
+
+                /* REASON */
+
+                modalReason.textContent =
+                    data.reason || "No reason provided.";
+
+
+                /* SHOW MODAL */
+
+                modalOverlay.classList.add("show");
+
+                modalOverlay.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+                document.body.style.overflow =
+                    "hidden";
+
+
+                /* Put focus on close button */
+
+                if (modalCloseButton) {
+
+                    modalCloseButton.focus();
+
+                }
+
+            }
+
+
+            /* -----------------------------------------------------
+               CLOSE MODAL
+            ----------------------------------------------------- */
+
+            function closeAppointmentModal() {
+
+                modalOverlay.classList.remove("show");
+
+                modalOverlay.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+                document.body.style.overflow =
+                    "";
+
+            }
+
+
+            /* -----------------------------------------------------
+               VIEW BUTTONS
+            ----------------------------------------------------- */
+
+            viewButtons.forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            openAppointmentModal(
+                                button
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+            /* -----------------------------------------------------
+               CLOSE BUTTON
+            ----------------------------------------------------- */
+
+            if (modalCloseButton) {
+
+                modalCloseButton.addEventListener(
+                    "click",
+                    closeAppointmentModal
+                );
+
+            }
+
+
+            /* -----------------------------------------------------
+               CLICK OUTSIDE MODAL
+            ----------------------------------------------------- */
+
+            modalOverlay.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target === modalOverlay
+                    ) {
+
+                        closeAppointmentModal();
+
+                    }
+
+                }
+            );
+
+
+            /* -----------------------------------------------------
+               ESCAPE KEY
+            ----------------------------------------------------- */
+
+            document.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key === "Escape" &&
+                        modalOverlay.classList.contains("show")
+                    ) {
+
+                        closeAppointmentModal();
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
 </script>
+
 
 </body>
 </html>

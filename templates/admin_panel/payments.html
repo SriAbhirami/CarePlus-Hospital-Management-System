@@ -848,12 +848,417 @@
             font-size: 10px;
             font-weight: 800;
             white-space: nowrap;
+            cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .view-button:hover {
             background: var(--teal-light);
             border-color: var(--border-bright);
+        }
+
+        /* =========================================================
+           PAYMENT DETAILS MODAL
+        ========================================================= */
+
+        .payment-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(15, 41, 51, 0.58);
+            backdrop-filter: blur(6px);
+        }
+
+        .payment-modal-overlay.show {
+            display: flex;
+        }
+
+        .payment-modal {
+            width: min(900px, 100%);
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0, 60, 70, 0.25);
+            animation: paymentModalIn 0.22s ease-out;
+        }
+
+        @keyframes paymentModalIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .payment-modal-header {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 22px 24px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .payment-modal-heading {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .payment-modal-icon {
+            width: 46px;
+            height: 46px;
+            min-width: 46px;
+            border-radius: 13px;
+            background: var(--teal-light);
+            border: 1px solid var(--border);
+            color: var(--teal-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .payment-modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .payment-modal-subtitle {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .modal-close-button {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: white;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 19px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close-button:hover {
+            background: var(--danger-bg);
+            border-color: #F1C8C8;
+            color: var(--danger);
+        }
+
+        .payment-modal-body {
+            padding: 24px;
+        }
+
+        /* Payment summary */
+
+        .payment-summary {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .payment-summary-main {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: linear-gradient(
+                135deg,
+                #ffffff 0%,
+                var(--teal-soft) 100%
+            );
+        }
+
+        .summary-label {
+            color: var(--muted);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 800;
+        }
+
+        .summary-transaction {
+            margin-top: 8px;
+            color: var(--teal-dark);
+            font-size: 15px;
+            font-weight: 800;
+            word-break: break-all;
+        }
+
+        .summary-amount {
+            margin-top: 14px;
+            color: var(--text);
+            font-size: 30px;
+            line-height: 1;
+            font-weight: 800;
+        }
+
+        .summary-date {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .payment-summary-status {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            align-self: flex-start;
+            margin-top: 10px;
+            min-height: 31px;
+            padding: 0 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .modal-status.status-success {
+            color: var(--success);
+            background: var(--success-bg);
+        }
+
+        .modal-status.status-declined {
+            color: var(--danger);
+            background: var(--danger-bg);
+        }
+
+        /* Detail sections */
+
+        .modal-section {
+            margin-top: 20px;
+        }
+
+        .modal-section:first-child {
+            margin-top: 0;
+        }
+
+        .modal-section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 11px;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .modal-section-title::before {
+            content: "";
+            width: 4px;
+            height: 16px;
+            border-radius: 5px;
+            background: var(--teal);
+        }
+
+        .modal-section-card {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .modal-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .modal-detail-item {
+            min-width: 0;
+            padding: 14px 16px;
+            border-bottom: 1px solid #EDF6F7;
+        }
+
+        .modal-detail-item:nth-child(odd) {
+            border-right: 1px solid #EDF6F7;
+        }
+
+        .modal-detail-item:nth-last-child(-n + 2) {
+            border-bottom: none;
+        }
+
+        .modal-detail-label {
+            color: #8190A1;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            font-weight: 800;
+        }
+
+        .modal-detail-value {
+            margin-top: 5px;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .modal-detail-value.highlight {
+            color: var(--teal-dark);
+        }
+
+        /* Person cards */
+
+        .modal-person-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #FBFEFF;
+        }
+
+        .modal-person-avatar {
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: var(--teal-light);
+            color: var(--teal-dark);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .modal-person-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-person-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .modal-person-secondary {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .modal-person-contact {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .modal-person-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* Method badge in modal */
+
+        .modal-method {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 0 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .modal-method.upi {
+            background: var(--teal-soft);
+            color: var(--teal-dark);
+            border: 1px solid var(--border);
+        }
+
+        .modal-method.card {
+            background: #F3F0FF;
+            color: #6752B5;
+            border: 1px solid #E4DEFF;
+        }
+
+        .modal-method.net-banking {
+            background: #FFF7E8;
+            color: #9A6A13;
+            border: 1px solid #F4E4BD;
+        }
+
+        .modal-method.other {
+            background: #F2F6F8;
+            color: #556576;
+            border: 1px solid #E2EAEE;
+        }
+
+        .modal-reason {
+            padding: 15px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #FBFEFF;
+            color: var(--text);
+            font-size: 12px;
+            line-height: 1.65;
+            min-height: 55px;
+        }
+
+        .payment-modal-footer {
+            padding: 15px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            background: #FBFEFF;
+        }
+
+        .modal-done-button {
+            min-height: 38px;
+            padding: 0 17px;
+            border: none;
+            border-radius: 9px;
+            background: var(--teal);
+            color: white;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 800;
+            transition: all 0.2s ease;
+        }
+
+        .modal-done-button:hover {
+            background: var(--teal-deep);
         }
 
         /* =========================================================
@@ -1001,6 +1406,10 @@
             .topbar {
                 padding: 0 22px;
             }
+
+            .payment-summary {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 760px) {
@@ -1096,9 +1505,34 @@
                 width: 100%;
                 justify-content: center;
             }
+
+            .payment-modal-overlay {
+                padding: 10px;
+            }
+
+            .payment-modal {
+                max-height: calc(100vh - 20px);
+                border-radius: 16px;
+            }
+
+            .payment-modal-header {
+                padding: 17px;
+            }
+
+            .payment-modal-body {
+                padding: 17px;
+            }
+
+            .payment-modal-footer {
+                padding: 13px 17px;
+            }
+
+            .modal-person-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 560px) {
             .stats-grid {
                 grid-template-columns: 1fr;
             }
@@ -1130,6 +1564,36 @@
             .clear-button {
                 min-height: 34px;
                 padding: 0 10px;
+            }
+
+            .modal-detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-detail-item:nth-child(odd) {
+                border-right: none;
+            }
+
+            .modal-detail-item:nth-last-child(-n + 2) {
+                border-bottom: 1px solid #EDF6F7;
+            }
+
+            .modal-detail-item:last-child {
+                border-bottom: none;
+            }
+
+            .payment-modal-title {
+                font-size: 16px;
+            }
+
+            .payment-modal-icon {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+            }
+
+            .summary-amount {
+                font-size: 26px;
             }
         }
     </style>
@@ -1204,14 +1668,6 @@
             >
                 <span class="nav-icon">₹</span>
                 <span>Payments</span>
-            </a>
-
-            <a
-                href="#"
-                class="nav-item"
-            >
-                <span class="nav-icon">▤</span>
-                <span>Reports</span>
             </a>
 
         </nav>
@@ -1929,7 +2385,40 @@
 
                                             <a
                                                 href="#"
-                                                class="view-button"
+                                                class="view-button payment-view-button"
+                                                data-transaction-id="{{ payment.transaction_id|escape }}"
+                                                data-amount="₹{{ payment.amount|floatformat:2 }}"
+                                                data-payment-method="{{ payment.get_payment_method_display|escape }}"
+                                                data-payment-method-code="{{ payment.payment_method|escape }}"
+                                                data-status="{{ payment.get_status_display|escape }}"
+                                                data-status-code="{{ payment.status|escape }}"
+                                                data-payment-date="{{ payment.created_at|date:'d M Y'|escape }}"
+                                                data-payment-time="{{ payment.created_at|time:'h:i A'|escape }}"
+
+                                                data-patient-name="{{ payment.patient.user.get_full_name|default:payment.patient.user.username|escape }}"
+                                                data-patient-username="{{ payment.patient.user.username|escape }}"
+                                                data-patient-phone="{{ payment.patient.user.phone|default:'Not provided'|escape }}"
+                                                data-patient-email="{{ payment.patient.user.email|default:'Not provided'|escape }}"
+                                                {% if payment.patient.profile_pic %}
+                                                    data-patient-image="{{ payment.patient.profile_pic.url|escape }}"
+                                                {% endif %}
+
+                                                data-doctor-name="{{ payment.doctor.user.get_full_name|default:payment.doctor.user.username|escape }}"
+                                                data-doctor-specialization="{{ payment.doctor.get_specialization_display|escape }}"
+                                                data-doctor-qualification="{{ payment.doctor.qualification|default:'Not specified'|escape }}"
+                                                data-doctor-experience="{{ payment.doctor.experience|default:'Not specified'|escape }}"
+                                                {% if payment.doctor.profile_pic %}
+                                                    data-doctor-image="{{ payment.doctor.profile_pic.url|escape }}"
+                                                {% endif %}
+
+                                                {% if payment.appointment %}
+                                                    data-appointment-id="{{ payment.appointment.id|escape }}"
+                                                    data-appointment-date="{{ payment.appointment_date|date:'d M Y'|escape }}"
+                                                    data-appointment-time="{{ payment.appointment_time|time:'h:i A'|escape }}"
+                                                    data-appointment-status="{{ payment.appointment.get_status_display|escape }}"
+                                                    data-appointment-fee="₹{{ payment.appointment.consultation_fee|floatformat:2 }}"
+                                                    data-appointment-reason="{{ payment.appointment.reason|default:'No reason provided'|escape }}"
+                                                {% endif %}
                                             >
                                                 View
                                             </a>
@@ -2084,6 +2573,652 @@
 
 
     <!-- =========================================================
+         PAYMENT DETAILS MODAL
+    ========================================================== -->
+
+    <div
+        class="payment-modal-overlay"
+        id="paymentModalOverlay"
+        aria-hidden="true"
+    >
+
+        <div
+            class="payment-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="paymentModalTitle"
+        >
+
+            <!-- MODAL HEADER -->
+
+            <div class="payment-modal-header">
+
+                <div class="payment-modal-heading">
+
+                    <div class="payment-modal-icon">
+                        ₹
+                    </div>
+
+                    <div>
+                        <div
+                            class="payment-modal-title"
+                            id="paymentModalTitle"
+                        >
+                            Payment Details
+                        </div>
+
+                        <div class="payment-modal-subtitle">
+                            Complete transaction and appointment information
+                        </div>
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="modal-close-button"
+                    id="paymentModalCloseButton"
+                    aria-label="Close payment details"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <!-- MODAL BODY -->
+
+            <div class="payment-modal-body">
+
+                <!-- PAYMENT SUMMARY -->
+
+                <div class="payment-summary">
+
+                    <div class="payment-summary-main">
+
+                        <div class="summary-label">
+                            Transaction ID
+                        </div>
+
+                        <div
+                            class="summary-transaction"
+                            id="modalTransactionId"
+                        >
+                            —
+                        </div>
+
+                        <div
+                            class="summary-amount"
+                            id="modalAmount"
+                        >
+                            —
+                        </div>
+
+                        <div
+                            class="summary-date"
+                            id="modalPaymentDate"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="payment-summary-status">
+
+                        <div class="summary-label">
+                            Payment Status
+                        </div>
+
+                        <div
+                            class="modal-status"
+                            id="modalPaymentStatus"
+                        >
+                            —
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENT INFORMATION -->
+
+                <div class="modal-section">
+
+                    <div class="modal-section-title">
+                        Payment Information
+                    </div>
+
+                    <div class="modal-section-card">
+
+                        <div class="modal-detail-grid">
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Transaction ID
+                                </div>
+
+                                <div
+                                    class="modal-detail-value highlight"
+                                    id="modalPaymentTransactionId"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Amount
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalPaymentAmount"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Payment Method
+                                </div>
+
+                                <div id="modalPaymentMethod">
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Payment Status
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalPaymentStatusDetail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Payment Date
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalPaymentDateDetail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Payment Time
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalPaymentTimeDetail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PATIENT & DOCTOR -->
+
+                <div class="modal-section">
+
+                    <div class="modal-section-title">
+                        People Associated With Payment
+                    </div>
+
+                    <div class="modal-person-grid">
+
+                        <!-- PATIENT -->
+
+                        <div class="modal-person-card">
+
+                            <div
+                                class="modal-person-avatar"
+                                id="modalPatientAvatar"
+                            >
+                                <span id="modalPatientInitial">
+                                    P
+                                </span>
+
+                                <img
+                                    id="modalPatientImage"
+                                    src=""
+                                    alt=""
+                                    style="display: none;"
+                                >
+                            </div>
+
+                            <div>
+
+                                <div
+                                    class="modal-person-name"
+                                    id="modalPatientName"
+                                >
+                                    —
+                                </div>
+
+                                <div
+                                    class="modal-person-secondary"
+                                    id="modalPatientUsername"
+                                >
+                                    —
+                                </div>
+
+                                <div
+                                    class="modal-person-contact"
+                                    id="modalPatientPhone"
+                                >
+                                    —
+                                </div>
+
+                                <div
+                                    class="modal-person-contact"
+                                    id="modalPatientEmail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DOCTOR -->
+
+                        <div class="modal-person-card">
+
+                            <div
+                                class="modal-person-avatar"
+                                id="modalDoctorAvatar"
+                            >
+                                <span id="modalDoctorInitial">
+                                    D
+                                </span>
+
+                                <img
+                                    id="modalDoctorImage"
+                                    src=""
+                                    alt=""
+                                    style="display: none;"
+                                >
+                            </div>
+
+                            <div>
+
+                                <div
+                                    class="modal-person-name"
+                                    id="modalDoctorName"
+                                >
+                                    —
+                                </div>
+
+                                <div
+                                    class="modal-person-secondary"
+                                    id="modalDoctorSpecialization"
+                                >
+                                    —
+                                </div>
+
+                                <div
+                                    class="modal-person-contact"
+                                    id="modalDoctorQualification"
+                                >
+                                    —
+                                </div>
+
+                                <div
+                                    class="modal-person-contact"
+                                    id="modalDoctorExperience"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PATIENT DETAILS -->
+
+                <div class="modal-section">
+
+                    <div class="modal-section-title">
+                        Patient Details
+                    </div>
+
+                    <div class="modal-section-card">
+
+                        <div class="modal-detail-grid">
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Full Name
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalPatientFullName"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Username
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalPatientUsernameDetail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Phone
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalPatientPhoneDetail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Email
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalPatientEmailDetail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DOCTOR DETAILS -->
+
+                <div class="modal-section">
+
+                    <div class="modal-section-title">
+                        Doctor Details
+                    </div>
+
+                    <div class="modal-section-card">
+
+                        <div class="modal-detail-grid">
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Doctor
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalDoctorNameDetail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Specialization
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalDoctorSpecializationDetail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Qualification
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalDoctorQualificationDetail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Experience
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalDoctorExperienceDetail"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPOINTMENT DETAILS -->
+
+                <div class="modal-section">
+
+                    <div class="modal-section-title">
+                        Associated Appointment
+                    </div>
+
+                    <div class="modal-section-card">
+
+                        <div class="modal-detail-grid">
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Appointment ID
+                                </div>
+
+                                <div
+                                    class="modal-detail-value highlight"
+                                    id="modalAppointmentId"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Appointment Status
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalAppointmentStatus"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Appointment Date
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalAppointmentDate"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Appointment Time
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalAppointmentTime"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-detail-item">
+
+                                <div class="modal-detail-label">
+                                    Consultation Fee
+                                </div>
+
+                                <div
+                                    class="modal-detail-value"
+                                    id="modalAppointmentFee"
+                                >
+                                    —
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPOINTMENT REASON -->
+
+                <div class="modal-section">
+
+                    <div class="modal-section-title">
+                        Appointment Reason
+                    </div>
+
+                    <div
+                        class="modal-reason"
+                        id="modalAppointmentReason"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MODAL FOOTER -->
+
+            <div class="payment-modal-footer">
+
+                <button
+                    type="button"
+                    class="modal-done-button"
+                    id="paymentModalDoneButton"
+                >
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
          MOBILE SIDEBAR SCRIPT
     ========================================================== -->
 
@@ -2117,6 +3252,624 @@
             if (window.innerWidth > 760) {
                 closeSidebar();
             }
+        });
+
+    </script>
+
+
+    <!-- =========================================================
+         PAYMENT MODAL SCRIPT
+    ========================================================== -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const modalOverlay =
+                document.getElementById("paymentModalOverlay");
+
+            const closeButton =
+                document.getElementById("paymentModalCloseButton");
+
+            const doneButton =
+                document.getElementById("paymentModalDoneButton");
+
+            const viewButtons =
+                document.querySelectorAll(".payment-view-button");
+
+
+            /*
+             * PAYMENT SUMMARY
+             */
+
+            const modalTransactionId =
+                document.getElementById("modalTransactionId");
+
+            const modalAmount =
+                document.getElementById("modalAmount");
+
+            const modalPaymentDate =
+                document.getElementById("modalPaymentDate");
+
+            const modalPaymentStatus =
+                document.getElementById("modalPaymentStatus");
+
+
+            /*
+             * PAYMENT INFORMATION
+             */
+
+            const modalPaymentTransactionId =
+                document.getElementById("modalPaymentTransactionId");
+
+            const modalPaymentAmount =
+                document.getElementById("modalPaymentAmount");
+
+            const modalPaymentMethod =
+                document.getElementById("modalPaymentMethod");
+
+            const modalPaymentStatusDetail =
+                document.getElementById("modalPaymentStatusDetail");
+
+            const modalPaymentDateDetail =
+                document.getElementById("modalPaymentDateDetail");
+
+            const modalPaymentTimeDetail =
+                document.getElementById("modalPaymentTimeDetail");
+
+
+            /*
+             * PATIENT
+             */
+
+            const modalPatientName =
+                document.getElementById("modalPatientName");
+
+            const modalPatientInitial =
+                document.getElementById("modalPatientInitial");
+
+            const modalPatientImage =
+                document.getElementById("modalPatientImage");
+
+            const modalPatientUsername =
+                document.getElementById("modalPatientUsername");
+
+            const modalPatientPhone =
+                document.getElementById("modalPatientPhone");
+
+            const modalPatientEmail =
+                document.getElementById("modalPatientEmail");
+
+
+            const modalPatientFullName =
+                document.getElementById("modalPatientFullName");
+
+            const modalPatientUsernameDetail =
+                document.getElementById("modalPatientUsernameDetail");
+
+            const modalPatientPhoneDetail =
+                document.getElementById("modalPatientPhoneDetail");
+
+            const modalPatientEmailDetail =
+                document.getElementById("modalPatientEmailDetail");
+
+
+            /*
+             * DOCTOR
+             */
+
+            const modalDoctorName =
+                document.getElementById("modalDoctorName");
+
+            const modalDoctorInitial =
+                document.getElementById("modalDoctorInitial");
+
+            const modalDoctorImage =
+                document.getElementById("modalDoctorImage");
+
+            const modalDoctorSpecialization =
+                document.getElementById("modalDoctorSpecialization");
+
+            const modalDoctorQualification =
+                document.getElementById("modalDoctorQualification");
+
+            const modalDoctorExperience =
+                document.getElementById("modalDoctorExperience");
+
+
+            const modalDoctorNameDetail =
+                document.getElementById("modalDoctorNameDetail");
+
+            const modalDoctorSpecializationDetail =
+                document.getElementById("modalDoctorSpecializationDetail");
+
+            const modalDoctorQualificationDetail =
+                document.getElementById("modalDoctorQualificationDetail");
+
+            const modalDoctorExperienceDetail =
+                document.getElementById("modalDoctorExperienceDetail");
+
+
+            /*
+             * APPOINTMENT
+             */
+
+            const modalAppointmentId =
+                document.getElementById("modalAppointmentId");
+
+            const modalAppointmentStatus =
+                document.getElementById("modalAppointmentStatus");
+
+            const modalAppointmentDate =
+                document.getElementById("modalAppointmentDate");
+
+            const modalAppointmentTime =
+                document.getElementById("modalAppointmentTime");
+
+            const modalAppointmentFee =
+                document.getElementById("modalAppointmentFee");
+
+            const modalAppointmentReason =
+                document.getElementById("modalAppointmentReason");
+
+
+            if (!modalOverlay) {
+                return;
+            }
+
+
+            /*
+             * OPEN MODAL
+             */
+
+            function openPaymentModal(button) {
+
+                const data = button.dataset;
+
+
+                /* -----------------------------------------
+                   PAYMENT SUMMARY
+                ----------------------------------------- */
+
+                const transactionId =
+                    data.transactionId || "Not available";
+
+                const amount =
+                    data.amount || "Not available";
+
+                const paymentStatus =
+                    data.status || "Not available";
+
+                const paymentDate =
+                    data.paymentDate || "Not available";
+
+                const paymentTime =
+                    data.paymentTime || "Not available";
+
+
+                modalTransactionId.textContent =
+                    transactionId;
+
+                modalAmount.textContent =
+                    amount;
+
+                modalPaymentDate.textContent =
+                    paymentDate + " at " + paymentTime;
+
+
+                /*
+                 * PAYMENT STATUS
+                 */
+
+                modalPaymentStatus.textContent =
+                    paymentStatus;
+
+                modalPaymentStatus.className =
+                    "modal-status";
+
+
+                if (data.statusCode === "SUCCESS") {
+
+                    modalPaymentStatus.classList.add(
+                        "status-success"
+                    );
+
+                } else {
+
+                    modalPaymentStatus.classList.add(
+                        "status-declined"
+                    );
+
+                }
+
+
+                /*
+                 * PAYMENT INFORMATION
+                 */
+
+                modalPaymentTransactionId.textContent =
+                    transactionId;
+
+                modalPaymentAmount.textContent =
+                    amount;
+
+                modalPaymentStatusDetail.textContent =
+                    paymentStatus;
+
+                modalPaymentDateDetail.textContent =
+                    paymentDate;
+
+                modalPaymentTimeDetail.textContent =
+                    paymentTime;
+
+
+                /*
+                 * PAYMENT METHOD
+                 */
+
+                const methodCode =
+                    (data.paymentMethodCode || "").toUpperCase();
+
+                modalPaymentMethod.textContent = "";
+
+                const methodBadge =
+                    document.createElement("span");
+
+                methodBadge.className =
+                    "modal-method";
+
+
+                if (methodCode === "UPI") {
+
+                    methodBadge.classList.add("upi");
+
+                } else if (methodCode === "CARD") {
+
+                    methodBadge.classList.add("card");
+
+                } else if (methodCode === "NET_BANKING") {
+
+                    methodBadge.classList.add("net-banking");
+
+                } else {
+
+                    methodBadge.classList.add("other");
+
+                }
+
+
+                methodBadge.textContent =
+                    data.paymentMethod || "Not available";
+
+                modalPaymentMethod.appendChild(
+                    methodBadge
+                );
+
+
+                /*
+                 * PATIENT
+                 */
+
+                const patientName =
+                    data.patientName || "Patient";
+
+                modalPatientName.textContent =
+                    patientName;
+
+                modalPatientFullName.textContent =
+                    patientName;
+
+                modalPatientUsername.textContent =
+                    data.patientUsername
+                        ? "@" + data.patientUsername
+                        : "Username not available";
+
+                modalPatientUsernameDetail.textContent =
+                    data.patientUsername || "Not available";
+
+                modalPatientPhone.textContent =
+                    data.patientPhone || "Phone not provided";
+
+                modalPatientPhoneDetail.textContent =
+                    data.patientPhone || "Phone not provided";
+
+                modalPatientEmail.textContent =
+                    data.patientEmail || "Email not provided";
+
+                modalPatientEmailDetail.textContent =
+                    data.patientEmail || "Email not provided";
+
+
+                /*
+                 * PATIENT IMAGE
+                 */
+
+                if (data.patientImage) {
+
+                    modalPatientImage.src =
+                        data.patientImage;
+
+                    modalPatientImage.alt =
+                        patientName;
+
+                    modalPatientImage.style.display =
+                        "block";
+
+                    modalPatientInitial.style.display =
+                        "none";
+
+                } else {
+
+                    modalPatientImage.src = "";
+
+                    modalPatientImage.style.display =
+                        "none";
+
+                    modalPatientInitial.textContent =
+                        patientName
+                            .trim()
+                            .charAt(0)
+                            .toUpperCase() || "P";
+
+                    modalPatientInitial.style.display =
+                        "inline";
+
+                }
+
+
+                /*
+                 * DOCTOR
+                 */
+
+                const doctorName =
+                    data.doctorName || "Doctor";
+
+                modalDoctorName.textContent =
+                    "Dr. " + doctorName;
+
+                modalDoctorNameDetail.textContent =
+                    "Dr. " + doctorName;
+
+                modalDoctorSpecialization.textContent =
+                    data.doctorSpecialization ||
+                    "Specialization not available";
+
+                modalDoctorSpecializationDetail.textContent =
+                    data.doctorSpecialization ||
+                    "Specialization not available";
+
+                modalDoctorQualification.textContent =
+                    data.doctorQualification ||
+                    "Qualification not specified";
+
+                modalDoctorQualificationDetail.textContent =
+                    data.doctorQualification ||
+                    "Qualification not specified";
+
+                modalDoctorExperience.textContent =
+                    data.doctorExperience
+                        ? data.doctorExperience + " years experience"
+                        : "Experience not specified";
+
+                modalDoctorExperienceDetail.textContent =
+                    data.doctorExperience
+                        ? data.doctorExperience + " years"
+                        : "Not specified";
+
+
+                /*
+                 * DOCTOR IMAGE
+                 */
+
+                if (data.doctorImage) {
+
+                    modalDoctorImage.src =
+                        data.doctorImage;
+
+                    modalDoctorImage.alt =
+                        doctorName;
+
+                    modalDoctorImage.style.display =
+                        "block";
+
+                    modalDoctorInitial.style.display =
+                        "none";
+
+                } else {
+
+                    modalDoctorImage.src = "";
+
+                    modalDoctorImage.style.display =
+                        "none";
+
+                    modalDoctorInitial.textContent =
+                        doctorName
+                            .trim()
+                            .charAt(0)
+                            .toUpperCase() || "D";
+
+                    modalDoctorInitial.style.display =
+                        "inline";
+
+                }
+
+
+                /*
+                 * APPOINTMENT
+                 */
+
+                if (data.appointmentId) {
+
+                    modalAppointmentId.textContent =
+                        "#" + data.appointmentId;
+
+                    modalAppointmentStatus.textContent =
+                        data.appointmentStatus ||
+                        "Not available";
+
+                    modalAppointmentDate.textContent =
+                        data.appointmentDate ||
+                        "Not available";
+
+                    modalAppointmentTime.textContent =
+                        data.appointmentTime ||
+                        "Not available";
+
+                    modalAppointmentFee.textContent =
+                        data.appointmentFee ||
+                        "Not available";
+
+                    modalAppointmentReason.textContent =
+                        data.appointmentReason ||
+                        "No reason provided";
+
+                } else {
+
+                    modalAppointmentId.textContent =
+                        "No appointment";
+
+                    modalAppointmentStatus.textContent =
+                        "No appointment associated";
+
+                    modalAppointmentDate.textContent =
+                        "—";
+
+                    modalAppointmentTime.textContent =
+                        "—";
+
+                    modalAppointmentFee.textContent =
+                        "—";
+
+                    modalAppointmentReason.textContent =
+                        "This payment transaction is not associated with an appointment.";
+
+                }
+
+
+                /*
+                 * SHOW MODAL
+                 */
+
+                modalOverlay.classList.add("show");
+
+                modalOverlay.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+                document.body.style.overflow =
+                    "hidden";
+
+            }
+
+
+            /*
+             * CLOSE MODAL
+             */
+
+            function closePaymentModal() {
+
+                modalOverlay.classList.remove("show");
+
+                modalOverlay.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+                document.body.style.overflow =
+                    "";
+
+            }
+
+
+            /*
+             * VIEW BUTTONS
+             */
+
+            viewButtons.forEach(function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+
+                        openPaymentModal(button);
+
+                    }
+                );
+
+            });
+
+
+            /*
+             * CLOSE BUTTON
+             */
+
+            if (closeButton) {
+
+                closeButton.addEventListener(
+                    "click",
+                    closePaymentModal
+                );
+
+            }
+
+
+            /*
+             * DONE BUTTON
+             */
+
+            if (doneButton) {
+
+                doneButton.addEventListener(
+                    "click",
+                    closePaymentModal
+                );
+
+            }
+
+
+            /*
+             * CLICK OUTSIDE MODAL
+             */
+
+            modalOverlay.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        event.target === modalOverlay
+                    ) {
+
+                        closePaymentModal();
+
+                    }
+
+                }
+            );
+
+
+            /*
+             * ESCAPE KEY
+             */
+
+            document.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key === "Escape" &&
+                        modalOverlay.classList.contains("show")
+                    ) {
+
+                        closePaymentModal();
+
+                    }
+
+                }
+            );
+
         });
 
     </script>

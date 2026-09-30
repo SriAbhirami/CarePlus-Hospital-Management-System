@@ -1,1784 +1,611 @@
-{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>
-        {% if patient.user.get_full_name %}
-            {{ patient.user.get_full_name }}
-        {% else %}
-            {{ patient.user.username }}
-        {% endif %}
-        | CarePlus Admin
-    </title>
+    <title>Patient Details | CarePlus</title>
 
     <style>
-
-        :root {
-            --teal: #00B8C8;
-            --teal-bright: #00D1D9;
-            --teal-deep: #0097A7;
-            --teal-dark: #007F8C;
-            --teal-light: #E3FBFD;
-            --teal-soft: #EFFDFE;
-
-            --bg: #F5FAFC;
-            --white: #FFFFFF;
-
-            --text: #172033;
-            --muted: #607086;
-
-            --border: #CDECEF;
-            --border-bright: #9DDEE5;
-
-            --green: #16A66A;
-            --green-light: #E8F9F1;
-
-            --orange: #E79A22;
-            --orange-light: #FFF5E2;
-
-            --red: #E55353;
-            --red-light: #FFF0F0;
-
-            --shadow: 0 8px 28px rgba(0, 151, 167, 0.08);
-            --shadow-hover: 0 12px 32px rgba(0, 151, 167, 0.13);
-        }
-
-
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
-
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
         }
 
+        /* NAVBAR */
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-
-        /* =====================================================
-           SIDEBAR
-        ===================================================== */
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-
-            width: 255px;
-            height: 100vh;
-
-            background: var(--white);
-            border-right: 1px solid var(--border);
-
-            z-index: 1000;
-
+        .navbar {
+            height: 72px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
             display: flex;
-            flex-direction: column;
-
-            transition: transform 0.3s ease;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 38px;
         }
-
 
         .brand {
-            height: 76px;
-
-            display: flex;
-            align-items: center;
-
-            padding: 0 25px;
-
-            border-bottom: 1px solid var(--border);
+            font-size: 22px;
+            font-weight: 700;
+            color: #172554;
         }
 
+        .brand span {
+            color: #087f8c;
+        }
 
-        .brand-icon {
-            width: 38px;
-            height: 38px;
+        .doctor-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-            border-radius: 10px;
-
-            background: linear-gradient(
-                135deg,
-                var(--teal),
-                var(--teal-deep)
-            );
-
+        .doctor-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #1d4ed8;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            color: white;
-
-            font-size: 21px;
-            font-weight: bold;
-
-            box-shadow:
-                0 6px 16px rgba(0, 184, 200, 0.22);
-        }
-
-
-        .brand-text {
-            margin-left: 11px;
-        }
-
-
-        .brand-text h2 {
-            font-size: 19px;
-            font-weight: 800;
-
-            color: var(--teal-dark);
-
-            letter-spacing: -0.3px;
-        }
-
-
-        .brand-text span {
-            display: block;
-
-            margin-top: 2px;
-
-            font-size: 10px;
-            color: var(--muted);
-
             font-weight: 700;
-
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            overflow: hidden;
         }
 
-
-        .nav-section {
-            padding: 22px 13px;
-
-            flex: 1;
-
-            overflow-y: auto;
+        .doctor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-
-        .nav-label {
-            padding: 0 13px 10px;
-
-            font-size: 10px;
-            font-weight: 800;
-
-            color: #8A98A8;
-
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-
-        .nav-item {
-            position: relative;
-
-            display: flex;
-            align-items: center;
-
-            height: 46px;
-
-            margin-bottom: 4px;
-            padding: 0 14px;
-
-            border-radius: 9px;
-
-            color: #556477;
-
+        .doctor-name {
             font-size: 14px;
-            font-weight: 700;
-
-            transition: all 0.2s ease;
+            font-weight: 600;
         }
 
-
-        .nav-item:hover {
-            color: var(--teal-dark);
-            background: var(--teal-soft);
+        .doctor-specialization {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 3px;
         }
 
-
-        .nav-item.active {
-            color: var(--teal-dark);
-            background: var(--teal-light);
-
-            box-shadow:
-                inset 3px 0 0 var(--teal),
-                0 4px 12px rgba(0, 184, 200, 0.08);
-        }
-
-
-        .nav-icon {
-            width: 27px;
-
-            margin-right: 9px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 18px;
-        }
-
-
-        .sidebar-bottom {
-            padding: 16px 13px;
-
-            border-top: 1px solid var(--border);
-        }
-
-
-        .logout-item:hover {
-            color: var(--red);
-            background: var(--red-light);
-        }
-
-
-        /* =====================================================
-           MOBILE SIDEBAR
-        ===================================================== */
-
-        .sidebar-overlay {
-            display: none;
-
-            position: fixed;
-            inset: 0;
-
-            background: rgba(15, 30, 45, 0.35);
-
-            z-index: 900;
-        }
-
-
-        /* =====================================================
-           MAIN
-        ===================================================== */
+        /* MAIN */
 
         .main {
-            margin-left: 255px;
-            min-height: 100vh;
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 30px 25px 55px;
         }
-
-
-        /* =====================================================
-           TOPBAR
-        ===================================================== */
-
-        .topbar {
-            height: 76px;
-
-            background: var(--white);
-
-            border-bottom: 1px solid var(--border);
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 30px;
-
-            position: sticky;
-            top: 0;
-
-            z-index: 100;
-        }
-
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
-
-            gap: 15px;
-        }
-
-
-        .menu-btn {
-            display: none;
-
-            width: 40px;
-            height: 40px;
-
-            border: 1px solid var(--border);
-
-            background: white;
-
-            border-radius: 8px;
-
-            color: var(--teal-dark);
-
-            font-size: 21px;
-
-            cursor: pointer;
-        }
-
-
-        .page-heading h1 {
-            font-size: 22px;
-            font-weight: 800;
-
-            letter-spacing: -0.4px;
-        }
-
-
-        .page-heading p {
-            margin-top: 4px;
-
-            color: var(--muted);
-
-            font-size: 12px;
-        }
-
-
-        .admin-profile {
-            display: flex;
-            align-items: center;
-
-            gap: 10px;
-        }
-
-
-        .admin-avatar {
-            width: 38px;
-            height: 38px;
-
-            border-radius: 50%;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background: var(--teal-light);
-
-            color: var(--teal-dark);
-
-            font-size: 15px;
-            font-weight: 800;
-        }
-
-
-        .admin-info {
-            line-height: 1.2;
-        }
-
-
-        .admin-info strong {
-            display: block;
-
-            font-size: 13px;
-        }
-
-
-        .admin-info span {
-            display: block;
-
-            margin-top: 3px;
-
-            font-size: 10px;
-
-            color: var(--teal-dark);
-
-            font-weight: 800;
-
-            letter-spacing: 0.5px;
-        }
-
-
-        /* =====================================================
-           CONTENT
-        ===================================================== */
-
-        .content {
-            padding: 30px;
-        }
-
-
-        /* =====================================================
-           BREADCRUMB / ACTION BAR
-        ===================================================== */
-
-        .action-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 15px;
-
-            margin-bottom: 22px;
-        }
-
 
         .back-link {
             display: inline-flex;
             align-items: center;
-
-            gap: 7px;
-
-            color: var(--muted);
-
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-
-        .back-link:hover {
-            color: var(--teal-dark);
-        }
-
-
-        .actions {
-            display: flex;
-            align-items: center;
-
-            gap: 8px;
-        }
-
-
-        .action-btn {
-            height: 38px;
-
-            padding: 0 14px;
-
-            border-radius: 8px;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 11px;
-            font-weight: 800;
-
-            transition: all 0.2s ease;
-        }
-
-
-        .edit-btn {
-            background: var(--teal);
-
-            color: white;
-
-            box-shadow:
-                0 5px 14px rgba(0, 184, 200, 0.17);
-        }
-
-
-        .edit-btn:hover {
-            background: var(--teal-deep);
-            transform: translateY(-1px);
-        }
-
-
-        .delete-btn {
-            background: var(--red-light);
-
-            border: 1px solid #FFD5D5;
-
-            color: var(--red);
-        }
-
-
-        .delete-btn:hover {
-            background: #FFE3E3;
-        }
-
-
-        /* =====================================================
-           PROFILE CARD
-        ===================================================== */
-
-        .profile-card {
-            background: var(--white);
-
-            border: 1px solid var(--border);
-
-            border-radius: 13px;
-
-            box-shadow: var(--shadow);
-
-            padding: 25px;
-
+            gap: 6px;
+            text-decoration: none;
+            color: #087f8c;
+            font-size: 13px;
+            font-weight: 600;
             margin-bottom: 22px;
         }
 
-
-        .profile-main {
-            display: flex;
-            align-items: center;
-
-            gap: 18px;
+        .back-link:hover {
+            color: #05636d;
         }
 
+        /* COMMON CARDS */
 
-        .profile-avatar {
-            width: 76px;
-            height: 76px;
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 13px;
+            padding: 23px;
+            margin-bottom: 22px;
+        }
 
+        .section-title {
+            margin: 0 0 18px;
+            font-size: 17px;
+            color: #172033;
+        }
+
+        /* PATIENT HEADER */
+
+        .patient-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+        }
+
+        .patient-photo {
+            width: 82px;
+            height: 82px;
             border-radius: 50%;
-
-            background: var(--teal-light);
-
-            color: var(--teal-dark);
-
+            background: #e0f2fe;
+            color: #0369a1;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            font-size: 23px;
-            font-weight: 800;
-
+            font-size: 27px;
+            font-weight: 700;
             overflow: hidden;
-
             flex-shrink: 0;
-
-            border: 3px solid white;
-
-            box-shadow:
-                0 0 0 1px var(--border);
         }
 
-
-        .profile-avatar img {
+        .patient-photo img {
             width: 100%;
             height: 100%;
-
             object-fit: cover;
         }
 
-
-        .profile-name {
-            font-size: 21px;
-            font-weight: 800;
-
-            letter-spacing: -0.4px;
+        .patient-header h1 {
+            margin: 0 0 7px;
+            font-size: 25px;
         }
 
-
-        .profile-username {
-            margin-top: 5px;
-
-            color: var(--muted);
-
-            font-size: 12px;
+        .patient-meta {
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.8;
         }
 
-
-        .profile-status {
-            margin-top: 9px;
-        }
-
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-
-            gap: 5px;
-
-            padding: 6px 9px;
-
+        .patient-id {
+            display: inline-block;
+            background: #e6f5f5;
+            color: #087f8c;
             border-radius: 6px;
-
-            font-size: 10px;
-            font-weight: 800;
-        }
-
-
-        .status-badge::before {
-            content: "";
-
-            width: 6px;
-            height: 6px;
-
-            border-radius: 50%;
-        }
-
-
-        .status-active {
-            background: var(--green-light);
-            color: var(--green);
-        }
-
-
-        .status-active::before {
-            background: var(--green);
-        }
-
-
-        .status-inactive {
-            background: var(--red-light);
-            color: var(--red);
-        }
-
-
-        .status-inactive::before {
-            background: var(--red);
-        }
-
-
-        /* =====================================================
-           INFO GRID
-        ===================================================== */
-
-        .info-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 12px;
-
-            margin-top: 25px;
-        }
-
-
-        .info-item {
-            padding: 13px;
-
-            background: #FBFEFF;
-
-            border: 1px solid var(--border);
-
-            border-radius: 8px;
-        }
-
-
-        .info-label {
-            color: var(--muted);
-
-            font-size: 9px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 0.6px;
-
-            font-weight: 800;
-        }
-
-
-        .info-value {
-            margin-top: 6px;
-
-            font-size: 12px;
-
+            padding: 5px 9px;
             font-weight: 700;
-
-            word-break: break-word;
+            margin-right: 5px;
         }
 
-
-        /* =====================================================
-           STATISTICS
-        ===================================================== */
+        /* STATISTICS */
 
         .stats-grid {
             display: grid;
-
-            grid-template-columns:
-                repeat(5, 1fr);
-
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-
             margin-bottom: 22px;
         }
 
-
         .stat-card {
-            background: white;
-
-            border: 1px solid var(--border);
-
-            border-radius: 11px;
-
-            padding: 17px;
-
-            box-shadow: var(--shadow);
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
         }
-
 
         .stat-label {
-            color: var(--muted);
-
-            font-size: 10px;
-
-            font-weight: 800;
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 8px;
         }
-
 
         .stat-value {
-            margin-top: 9px;
-
-            font-size: 23px;
-
-            font-weight: 800;
+            font-size: 25px;
+            font-weight: 700;
+            color: #087f8c;
         }
 
+        /* PATIENT INFORMATION */
 
-        .stat-subtitle {
-            margin-top: 4px;
-
-            color: var(--muted);
-
-            font-size: 9px;
-        }
-
-
-        /* =====================================================
-           TWO COLUMN LAYOUT
-        ===================================================== */
-
-        .two-column {
+        .info-grid {
             display: grid;
-
-            grid-template-columns:
-                minmax(0, 1.55fr)
-                minmax(280px, 0.8fr);
-
-            gap: 22px;
-
-            align-items: start;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
         }
 
+        .info-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 13px;
+        }
 
-        .panel {
-            background: white;
+        .info-label {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
 
-            border: 1px solid var(--border);
+        .info-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #172033;
+            word-break: break-word;
+            line-height: 1.5;
+        }
 
-            border-radius: 13px;
+        .full-width {
+            grid-column: 1 / -1;
+        }
 
-            box-shadow: var(--shadow);
+        /* APPOINTMENT HISTORY */
 
+        .appointment-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 11px;
             overflow: hidden;
+            margin-bottom: 18px;
         }
 
+        .appointment-card:last-child {
+            margin-bottom: 0;
+        }
 
-        .panel-header {
-            padding: 18px 20px;
-
-            border-bottom: 1px solid var(--border);
-
+        .appointment-heading {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-        }
-
-
-        .panel-title {
-            font-size: 14px;
-            font-weight: 800;
-        }
-
-
-        .panel-subtitle {
-            margin-top: 4px;
-
-            color: var(--muted);
-
-            font-size: 10px;
-        }
-
-
-        .panel-count {
-            padding: 6px 9px;
-
-            border-radius: 6px;
-
-            background: var(--teal-soft);
-
-            color: var(--teal-dark);
-
-            font-size: 10px;
-
-            font-weight: 800;
-        }
-
-
-        /* =====================================================
-           APPOINTMENTS
-        ===================================================== */
-
-        .appointment-list {
-            padding: 0;
-        }
-
-
-        .appointment-item {
-            padding: 16px 20px;
-
-            border-bottom: 1px solid #EDF5F6;
-
-            display: flex;
             align-items: center;
-            justify-content: space-between;
-
             gap: 15px;
+            padding: 16px 19px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e5e7eb;
         }
 
-
-        .appointment-item:last-child {
-            border-bottom: none;
-        }
-
-
-        .appointment-doctor {
-            display: flex;
-            align-items: center;
-
-            gap: 11px;
-
-            min-width: 0;
-        }
-
-
-        .doctor-avatar {
-            width: 38px;
-            height: 38px;
-
-            border-radius: 9px;
-
-            background: var(--teal-light);
-
-            color: var(--teal-dark);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
+        .appointment-number {
             font-size: 14px;
-            font-weight: 800;
-
-            flex-shrink: 0;
+            font-weight: 700;
+            color: #172033;
         }
-
-
-        .doctor-name {
-            font-size: 12px;
-            font-weight: 800;
-        }
-
-
-        .doctor-specialization {
-            margin-top: 3px;
-
-            color: var(--muted);
-
-            font-size: 10px;
-        }
-
 
         .appointment-date {
-            text-align: right;
-
-            white-space: nowrap;
-        }
-
-
-        .appointment-date strong {
-            display: block;
-
-            font-size: 11px;
-        }
-
-
-        .appointment-date span {
-            display: block;
-
-            margin-top: 3px;
-
-            color: var(--muted);
-
-            font-size: 10px;
-        }
-
-
-        .appointment-status {
+            font-size: 12px;
+            color: #64748b;
             margin-top: 5px;
-
-            display: inline-block;
-
-            padding: 4px 7px;
-
-            border-radius: 5px;
-
-            font-size: 9px;
-
-            font-weight: 800;
         }
 
+        .appointment-body {
+            padding: 19px;
+        }
+
+        .appointment-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .detail-label {
+            color: #6b7280;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .status {
+            display: inline-flex;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
 
         .status-pending {
-            background: var(--orange-light);
-            color: var(--orange);
+            background: #fff7ed;
+            color: #c2410c;
         }
-
 
         .status-confirmed {
-            background: var(--teal-light);
-            color: var(--teal-dark);
+            background: #eff6ff;
+            color: #1d4ed8;
         }
-
 
         .status-completed {
-            background: var(--green-light);
-            color: var(--green);
+            background: #ecfdf5;
+            color: #047857;
         }
-
 
         .status-cancelled {
-            background: var(--red-light);
-            color: var(--red);
+            background: #fef2f2;
+            color: #b91c1c;
         }
 
-
-        /* =====================================================
-           UPCOMING
-        ===================================================== */
-
-        .upcoming-list {
-            padding: 0;
+        .reason-box {
+            background: #f8fafc;
+            padding: 13px;
+            border-radius: 8px;
+            margin-bottom: 18px;
         }
 
-
-        .upcoming-item {
-            padding: 15px 18px;
-
-            border-bottom: 1px solid #EDF5F6;
-        }
-
-
-        .upcoming-item:last-child {
-            border-bottom: none;
-        }
-
-
-        .upcoming-date {
-            color: var(--teal-dark);
-
-            font-size: 10px;
-
-            font-weight: 800;
-
-            text-transform: uppercase;
-
-            letter-spacing: 0.4px;
-        }
-
-
-        .upcoming-doctor {
+        .reason-text {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
             margin-top: 6px;
-
-            font-size: 12px;
-
-            font-weight: 800;
         }
 
+        /* PRESCRIPTION */
 
-        .upcoming-time {
-            margin-top: 3px;
-
-            color: var(--muted);
-
-            font-size: 10px;
+        .prescription {
+            border: 1px solid #cce8e9;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 5px;
         }
 
-
-        /* =====================================================
-           PAYMENTS
-        ===================================================== */
-
-        .payment-list {
-            padding: 0;
-        }
-
-
-        .payment-item {
-            padding: 15px 20px;
-
-            border-bottom: 1px solid #EDF5F6;
-
+        .prescription-header {
+            background: #eaf7f7;
+            padding: 14px 16px;
             display: flex;
-
-            align-items: center;
             justify-content: space-between;
-
+            align-items: center;
             gap: 12px;
         }
 
-
-        .payment-item:last-child {
-            border-bottom: none;
+        .prescription-title {
+            color: #087f8c;
+            font-size: 14px;
+            font-weight: 700;
         }
 
-
-        .payment-id {
+        .prescription-date {
+            color: #64748b;
             font-size: 11px;
-            font-weight: 800;
-        }
-
-
-        .payment-meta {
             margin-top: 4px;
-
-            color: var(--muted);
-
-            font-size: 9px;
         }
 
+        .prescription-body {
+            padding: 17px;
+        }
 
-        .payment-amount {
-            text-align: right;
+        .prescription-section {
+            margin-bottom: 19px;
+        }
 
+        .prescription-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .prescription-section h4 {
             font-size: 12px;
-            font-weight: 800;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin: 0 0 10px;
         }
 
-
-        .payment-status {
-            margin-top: 4px;
-
-            font-size: 9px;
-
-            font-weight: 800;
+        .diagnosis-box,
+        .notes-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 13px;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #334155;
+            white-space: pre-line;
         }
 
-
-        .payment-success {
-            color: var(--green);
+        .medicine-list {
+            display: grid;
+            gap: 10px;
         }
 
-
-        .payment-declined {
-            color: var(--red);
+        .medicine-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 13px;
         }
 
-
-        /* =====================================================
-           EMPTY STATE
-        ===================================================== */
-
-        .empty-state {
-            padding: 35px 20px;
-
-            text-align: center;
+        .medicine-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #172033;
+            margin-bottom: 10px;
         }
 
+        .medicine-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
 
-        .empty-icon {
-            width: 45px;
-            height: 45px;
+        .medicine-instructions {
+            margin-top: 12px;
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #475569;
+        }
 
-            margin: 0 auto 10px;
-
-            border-radius: 50%;
-
-            background: var(--teal-light);
-
-            color: var(--teal-dark);
-
+        .prescription-actions {
             display: flex;
+            justify-content: flex-end;
+            margin-top: 17px;
+        }
+
+        .btn {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-
-            font-size: 18px;
-        }
-
-
-        .empty-state h3 {
+            padding: 10px 15px;
+            border-radius: 7px;
             font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
         }
 
-
-        .empty-state p {
-            margin-top: 5px;
-
-            color: var(--muted);
-
-            font-size: 10px;
+        .btn-primary {
+            background: #087f8c;
+            color: #ffffff;
         }
 
-
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
-
-        @media (max-width: 1200px) {
-
-            .stats-grid {
-                grid-template-columns:
-                    repeat(3, 1fr);
-            }
-
-            .info-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
+        .btn-primary:hover {
+            background: #05636d;
         }
 
+        .no-prescription {
+            background: #fffaf0;
+            border: 1px solid #f5dfae;
+            color: #946200;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
 
-        @media (max-width: 950px) {
+        .empty-history {
+            padding: 35px 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+        }
 
-            .sidebar {
-                transform: translateX(-100%);
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+            .info-grid,
+            .appointment-info {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .sidebar.open {
-                transform: translateX(0);
+            .navbar {
+                padding: 0 20px;
             }
+        }
 
-            .sidebar-overlay.open {
-                display: block;
-            }
-
+        @media (max-width: 550px) {
             .main {
-                margin-left: 0;
+                padding: 25px 15px 45px;
             }
 
-            .menu-btn {
-                display: flex;
-
-                align-items: center;
-                justify-content: center;
+            .navbar {
+                padding: 0 15px;
             }
 
-            .two-column {
-                grid-template-columns: 1fr;
-            }
-
-            .admin-info {
+            .doctor-text {
                 display: none;
             }
 
-        }
-
-
-        @media (max-width: 650px) {
-
-            .content {
-                padding: 17px;
-            }
-
-            .topbar {
-                height: 68px;
-
-                padding: 0 17px;
-            }
-
-            .page-heading h1 {
-                font-size: 18px;
-            }
-
-            .page-heading p {
-                font-size: 10px;
-            }
-
-            .stats-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-            .profile-card {
-                padding: 18px;
-            }
-
-            .profile-main {
-                align-items: flex-start;
-            }
-
-            .profile-avatar {
-                width: 62px;
-                height: 62px;
-            }
-
-            .profile-name {
-                font-size: 18px;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .action-bar {
+            .patient-header {
                 align-items: flex-start;
                 flex-direction: column;
             }
 
-            .actions {
+            .info-grid,
+            .appointment-info,
+            .medicine-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .appointment-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .prescription-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .prescription-actions {
+                justify-content: stretch;
+            }
+
+            .prescription-actions .btn {
                 width: 100%;
             }
-
-            .action-btn {
-                flex: 1;
-            }
-
         }
-
-
-        @media (max-width: 450px) {
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .appointment-item {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .appointment-date {
-                text-align: left;
-            }
-
-        }
-
     </style>
-
 </head>
-
 
 <body>
 
+    <!-- NAVBAR -->
 
-<!-- =========================================================
-     SIDEBAR
-========================================================= -->
+    <nav class="navbar">
 
-<aside class="sidebar" id="sidebar">
-
-
-    <div class="brand">
-
-        <div class="brand-icon">
-            +
+        <div class="brand">
+            Care<span>Plus</span>
         </div>
 
-        <div class="brand-text">
+        <div class="doctor-info">
 
-            <h2>
-                CarePlus
-            </h2>
+            <div class="doctor-text">
+                <div class="doctor-name">
+                    Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}
+                </div>
 
-            <span>
-                Hospital Management
-            </span>
+                <div class="doctor-specialization">
+                    {{ doctor.get_specialization_display }}
+                </div>
+            </div>
+
+            <div class="doctor-avatar">
+                {% if doctor.profile_pic %}
+                    <img src="{{ doctor.profile_pic.url }}" alt="Doctor">
+                {% else %}
+                    {{ doctor.user.first_name|first|upper }}
+                {% endif %}
+            </div>
 
         </div>
-
-    </div>
-
-
-    <nav class="nav-section">
-
-        <div class="nav-label">
-            Management
-        </div>
-
-
-        <a
-            href="{% url 'admin_panel:dashboard' %}"
-            class="nav-item">
-
-            <span class="nav-icon">
-                ⌂
-            </span>
-
-            <span>
-                Dashboard
-            </span>
-
-        </a>
-
-
-        <a
-            href="{% url 'admin_panel:users' %}"
-            class="nav-item">
-
-            <span class="nav-icon">
-                ♙
-            </span>
-
-            <span>
-                Users
-            </span>
-
-        </a>
-
-
-        <a
-            href="{% url 'admin_panel:doctors' %}"
-            class="nav-item">
-
-            <span class="nav-icon">
-                ⚕
-            </span>
-
-            <span>
-                Doctors
-            </span>
-
-        </a>
-
-
-        <a
-            href="{% url 'admin_panel:patients' %}"
-            class="nav-item active">
-
-            <span class="nav-icon">
-                ♟
-            </span>
-
-            <span>
-                Patients
-            </span>
-
-        </a>
-
-
-        <a
-            href="#"
-            class="nav-item">
-
-            <span class="nav-icon">
-                ▣
-            </span>
-
-            <span>
-                Appointments
-            </span>
-
-        </a>
-
-
-        <a
-            href="#"
-            class="nav-item">
-
-            <span class="nav-icon">
-                ₹
-            </span>
-
-            <span>
-                Payments
-            </span>
-
-        </a>
-
-
-        <a
-            href="#"
-            class="nav-item">
-
-            <span class="nav-icon">
-                ▥
-            </span>
-
-            <span>
-                Reports
-            </span>
-
-        </a>
 
     </nav>
 
 
-    <div class="sidebar-bottom">
+    <main class="main">
 
-        <a
-            href="{% url 'logout' %}"
-            class="nav-item logout-item">
-
-            <span class="nav-icon">
-                ↪
-            </span>
-
-            <span>
-                Logout
-            </span>
-
+        <a href="{% url 'doctor_patients' %}" class="back-link">
+            ← Back to My Patients
         </a>
 
-    </div>
 
+        <!-- PATIENT HEADER -->
 
-</aside>
+        <section class="card patient-header">
 
+            <div class="patient-photo">
+                {% if patient.profile_pic %}
+                    <img src="{{ patient.profile_pic.url }}" alt="Patient">
+                {% else %}
+                    {{ patient.user.first_name|first|upper }}
+                {% endif %}
+            </div>
 
-<div
-    class="sidebar-overlay"
-    id="sidebarOverlay"
-    onclick="closeSidebar()">
-</div>
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-<main class="main">
-
-
-    <!-- TOPBAR -->
-
-    <header class="topbar">
-
-
-        <div class="topbar-left">
-
-
-            <button
-                class="menu-btn"
-                onclick="toggleSidebar()"
-                aria-label="Open menu">
-
-                ☰
-
-            </button>
-
-
-            <div class="page-heading">
-
+            <div>
                 <h1>
-                    Patient Profile
+                    {{ patient.user.get_full_name|default:patient.user.username }}
                 </h1>
 
-                <p>
-                    Patient information and healthcare activity
-                </p>
-
+                <div class="patient-meta">
+                    <span class="patient-id">
+                        Patient ID: #{{ patient.id }}
+                    </span>
+                    <br>
+                    Username: {{ patient.user.username }}
+                </div>
             </div>
 
+        </section>
 
-        </div>
 
-
-        <div class="admin-profile">
-
-            <div class="admin-avatar">
-                A
-            </div>
-
-            <div class="admin-info">
-
-                <strong>
-                    Administrator
-                </strong>
-
-                <span>
-                    ADMIN
-                </span>
-
-            </div>
-
-        </div>
-
-
-    </header>
-
-
-    <!-- =====================================================
-         CONTENT
-    ====================================================== -->
-
-    <section class="content">
-
-
-        <!-- ACTION BAR -->
-
-        <div class="action-bar">
-
-
-            <a
-                href="{% url 'admin_panel:patients' %}"
-                class="back-link">
-
-                ←
-                Back to Patients
-
-            </a>
-
-
-            <div class="actions">
-
-
-                <a
-                    href="{% url 'admin_panel:patient_edit' patient.id %}"
-                    class="action-btn edit-btn">
-
-                    Edit Patient
-
-                </a>
-
-
-                <a
-                    href="{% url 'admin_panel:patient_delete' patient.id %}"
-                    class="action-btn delete-btn">
-
-                    Delete
-
-                </a>
-
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             PROFILE
-        ================================================== -->
-
-        <div class="profile-card">
-
-
-            <div class="profile-main">
-
-
-                <div class="profile-avatar">
-
-
-                    {% if patient.profile_pic %}
-
-                        <img
-                            src="{{ patient.profile_pic.url }}"
-                            alt="{{ patient.user.get_full_name|default:patient.user.username }}">
-
-                    {% else %}
-
-                        {% if patient.user.first_name %}
-
-                            {{ patient.user.first_name|first|upper }}{{ patient.user.last_name|first|upper }}
-
-                        {% else %}
-
-                            {{ patient.user.username|first|upper }}
-
-                        {% endif %}
-
-                    {% endif %}
-
-
-                </div>
-
-
-                <div>
-
-
-                    <div class="profile-name">
-
-                        {% if patient.user.get_full_name %}
-
-                            {{ patient.user.get_full_name }}
-
-                        {% else %}
-
-                            {{ patient.user.username }}
-
-                        {% endif %}
-
-                    </div>
-
-
-                    <div class="profile-username">
-
-                        @{{ patient.user.username }}
-
-                    </div>
-
-
-                    <div class="profile-status">
-
-                        {% if patient.user.is_active %}
-
-                            <span class="status-badge status-active">
-                                Active Patient
-                            </span>
-
-                        {% else %}
-
-                            <span class="status-badge status-inactive">
-                                Inactive Patient
-                            </span>
-
-                        {% endif %}
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-            <!-- PATIENT INFORMATION -->
-
-            <div class="info-grid">
-
-
-                <div class="info-item">
-
-                    <div class="info-label">
-                        Email
-                    </div>
-
-                    <div class="info-value">
-
-                        {% if patient.user.email %}
-
-                            {{ patient.user.email }}
-
-                        {% else %}
-
-                            Not provided
-
-                        {% endif %}
-
-                    </div>
-
-                </div>
-
-
-                <div class="info-item">
-
-                    <div class="info-label">
-                        Phone
-                    </div>
-
-                    <div class="info-value">
-
-                        {% if patient.user.phone %}
-
-                            {{ patient.user.phone }}
-
-                        {% else %}
-
-                            Not provided
-
-                        {% endif %}
-
-                    </div>
-
-                </div>
-
-
-                <div class="info-item">
-
-                    <div class="info-label">
-                        Date of Birth
-                    </div>
-
-                    <div class="info-value">
-
-                        {{ patient.date_of_birth|date:"d M Y" }}
-
-                    </div>
-
-                </div>
-
-
-                <div class="info-item">
-
-                    <div class="info-label">
-                        Blood Group
-                    </div>
-
-                    <div class="info-value">
-
-                        {% if patient.blood_group %}
-
-                            {{ patient.blood_group }}
-
-                        {% else %}
-
-                            Not provided
-
-                        {% endif %}
-
-                    </div>
-
-                </div>
-
-
-                <div class="info-item">
-
-                    <div class="info-label">
-                        Allergies
-                    </div>
-
-                    <div class="info-value">
-
-                        {% if patient.allergies %}
-
-                            {{ patient.allergies }}
-
-                        {% else %}
-
-                            None recorded
-
-                        {% endif %}
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="info-item"
-                    style="grid-column: span 3;">
-
-                    <div class="info-label">
-                        Address
-                    </div>
-
-                    <div class="info-value">
-
-                        {% if patient.address %}
-
-                            {{ patient.address }}
-
-                        {% else %}
-
-                            Not provided
-
-                        {% endif %}
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             STATISTICS
-        ================================================== -->
+        <!-- STATISTICS -->
 
         <div class="stats-grid">
 
-
             <div class="stat-card">
-
                 <div class="stat-label">
                     Total Appointments
                 </div>
@@ -1786,704 +613,376 @@
                 <div class="stat-value">
                     {{ total_appointments }}
                 </div>
-
-                <div class="stat-subtitle">
-                    Complete appointment history
-                </div>
-
             </div>
 
-
             <div class="stat-card">
-
                 <div class="stat-label">
-                    Completed
+                    Completed Appointments
                 </div>
 
                 <div class="stat-value">
                     {{ completed_appointments }}
                 </div>
-
-                <div class="stat-subtitle">
-                    Completed visits
-                </div>
-
             </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-label">
-                    Pending
-                </div>
-
-                <div class="stat-value">
-                    {{ pending_appointments }}
-                </div>
-
-                <div class="stat-subtitle">
-                    Awaiting appointment
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-label">
-                    Confirmed
-                </div>
-
-                <div class="stat-value">
-                    {{ confirmed_appointments }}
-                </div>
-
-                <div class="stat-subtitle">
-                    Upcoming confirmed
-                </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-label">
-                    Total Paid
-                </div>
-
-                <div class="stat-value">
-                    ₹{{ total_paid|floatformat:2 }}
-                </div>
-
-                <div class="stat-subtitle">
-                    Successful payments
-                </div>
-
-            </div>
-
 
         </div>
 
 
-        <!-- =================================================
-             TWO COLUMN
-        ================================================== -->
+        <!-- PATIENT INFORMATION -->
 
-        <div class="two-column">
+        <section class="card">
 
+            <h2 class="section-title">
+                Patient Information
+            </h2>
 
-            <!-- =================================================
-                 LEFT
-            ================================================== -->
+            <div class="info-grid">
 
-            <div>
-
-
-                <!-- APPOINTMENT HISTORY -->
-
-                <div class="panel">
-
-
-                    <div class="panel-header">
-
-
-                        <div>
-
-                            <div class="panel-title">
-                                Appointment History
-                            </div>
-
-                            <div class="panel-subtitle">
-                                Recent and previous appointments
-                            </div>
-
-                        </div>
-
-
-                        <div class="panel-count">
-
-                            {{ total_appointments }}
-
-                        </div>
-
-
+                <div class="info-item">
+                    <div class="info-label">Full Name</div>
+                    <div class="info-value">
+                        {{ patient.user.get_full_name|default:patient.user.username }}
                     </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Patient ID</div>
+                    <div class="info-value">#{{ patient.id }}</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Username</div>
+                    <div class="info-value">{{ patient.user.username }}</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Phone</div>
+                    <div class="info-value">
+                        {{ patient.user.phone|default:"Not provided" }}
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">
+                        {{ patient.user.email|default:"Not provided" }}
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Date of Birth</div>
+                    <div class="info-value">
+                        {% if patient.date_of_birth %}
+                            {{ patient.date_of_birth|date:"d M Y" }}
+                        {% else %}
+                            Not provided
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Age</div>
+                    <div class="info-value">
+                        {% if age != None %}
+                            {{ age }} years
+                        {% else %}
+                            Not available
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Blood Group</div>
+                    <div class="info-value">
+                        {{ patient.blood_group|default:"Not provided" }}
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Allergies</div>
+                    <div class="info-value">
+                        {{ patient.allergies|default:"None reported" }}
+                    </div>
+                </div>
+
+                <div class="info-item full-width">
+                    <div class="info-label">Address</div>
+                    <div class="info-value">
+                        {{ patient.address|default:"Not provided" }}
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
 
 
-                    <div class="appointment-list">
+        <!-- APPOINTMENT HISTORY -->
+
+        <section class="card">
+
+            <h2 class="section-title">
+                Appointment & Prescription History
+            </h2>
+
+            {% if appointments %}
+
+                {% for appointment in appointments %}
+
+                    <div class="appointment-card">
+
+                        <!-- APPOINTMENT HEADER -->
+
+                        <div class="appointment-heading">
+
+                            <div>
+                                <div class="appointment-number">
+                                    Appointment #{{ appointment.id }}
+                                </div>
+
+                                <div class="appointment-date">
+                                    {{ appointment.appointment_date|date:"d M Y" }}
+                                    &nbsp;•&nbsp;
+                                    {{ appointment.appointment_time|time:"h:i A" }}
+                                </div>
+                            </div>
+
+                            <div>
+                                {% if appointment.status == 'PENDING' %}
+                                    <span class="status status-pending">Pending</span>
+                                {% elif appointment.status == 'CONFIRMED' %}
+                                    <span class="status status-confirmed">Confirmed</span>
+                                {% elif appointment.status == 'COMPLETED' %}
+                                    <span class="status status-completed">Completed</span>
+                                {% elif appointment.status == 'CANCELLED' %}
+                                    <span class="status status-cancelled">Cancelled</span>
+                                {% else %}
+                                    <span class="status">{{ appointment.get_status_display }}</span>
+                                {% endif %}
+                            </div>
+
+                        </div>
 
 
-                        {% if appointments %}
+                        <div class="appointment-body">
+
+                            <!-- APPOINTMENT DETAILS -->
+
+                            <div class="appointment-info">
+
+                                <div>
+                                    <div class="detail-label">Appointment ID</div>
+                                    <div class="detail-value">#{{ appointment.id }}</div>
+                                </div>
+
+                                <div>
+                                    <div class="detail-label">Consultation Fee</div>
+                                    <div class="detail-value">
+                                        ₹{{ appointment.consultation_fee }}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="detail-label">Status</div>
+                                    <div class="detail-value">
+                                        {{ appointment.get_status_display }}
+                                    </div>
+                                </div>
+
+                            </div>
 
 
-                            {% for appointment in appointments %}
+                            <div class="reason-box">
+                                <div class="detail-label">Reason for Visit</div>
+
+                                <div class="reason-text">
+                                    {% if appointment.reason %}
+                                        {{ appointment.reason|linebreaksbr }}
+                                    {% else %}
+                                        No reason provided.
+                                    {% endif %}
+                                </div>
+                            </div>
 
 
-                                <div class="appointment-item">
+                            <!-- PRESCRIPTION DETAILS -->
+
+                            {% if appointment.prescription %}
+
+                                <div class="prescription">
+
+                                    <div class="prescription-header">
+
+                                        <div>
+                                            <div class="prescription-title">
+                                                ✓ Prescription Available
+                                            </div>
+
+                                            <div class="prescription-date">
+                                                Issued:
+                                                {{ appointment.prescription.created_at|date:"d M Y, h:i A" }}
+                                            </div>
+                                        </div>
+
+                                        <span class="patient-id">
+                                            RX-{{ appointment.prescription.id|stringformat:"05d" }}
+                                        </span>
+
+                                    </div>
 
 
-                                    <div class="appointment-doctor">
+                                    <div class="prescription-body">
 
+                                        <!-- DIAGNOSIS -->
 
-                                        <div class="doctor-avatar">
+                                        <div class="prescription-section">
 
-                                            {% if appointment.doctor.user.first_name %}
+                                            <h4>Diagnosis</h4>
 
-                                                {{ appointment.doctor.user.first_name|first|upper }}
-
-                                            {% else %}
-
-                                                D
-
-                                            {% endif %}
+                                            <div class="diagnosis-box">
+                                                {% if appointment.prescription.diagnosis %}
+                                                    {{ appointment.prescription.diagnosis|linebreaksbr }}
+                                                {% else %}
+                                                    No diagnosis provided.
+                                                {% endif %}
+                                            </div>
 
                                         </div>
 
 
-                                        <div>
+                                        <!-- MEDICINES -->
 
+                                        <div class="prescription-section">
 
-                                            <div class="doctor-name">
+                                            <h4>Prescribed Medicines</h4>
 
-                                                Dr.
+                                            {% with medicines=appointment.prescription.medicines.all %}
 
-                                                {% if appointment.doctor.user.get_full_name %}
+                                                {% if medicines %}
 
-                                                    {{ appointment.doctor.user.get_full_name }}
+                                                    <div class="medicine-list">
+
+                                                        {% for medicine in medicines %}
+
+                                                            <div class="medicine-card">
+
+                                                                <div class="medicine-name">
+                                                                    {{ forloop.counter }}. {{ medicine.medicine_name }}
+                                                                </div>
+
+                                                                <div class="medicine-grid">
+
+                                                                    <div>
+                                                                        <div class="detail-label">Dosage</div>
+                                                                        <div class="detail-value">
+                                                                            {{ medicine.dosage|default:"—" }}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <div class="detail-label">Frequency</div>
+                                                                        <div class="detail-value">
+                                                                            {{ medicine.frequency|default:"—" }}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <div class="detail-label">Duration</div>
+                                                                        <div class="detail-value">
+                                                                            {{ medicine.duration|default:"—" }}
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                {% if medicine.instructions %}
+                                                                    <div class="medicine-instructions">
+                                                                        <strong>Instructions:</strong>
+                                                                        {{ medicine.instructions|linebreaksbr }}
+                                                                    </div>
+                                                                {% endif %}
+
+                                                            </div>
+
+                                                        {% endfor %}
+
+                                                    </div>
 
                                                 {% else %}
 
-                                                    {{ appointment.doctor.user.username }}
+                                                    <div class="diagnosis-box">
+                                                        No medicines were prescribed.
+                                                    </div>
 
                                                 {% endif %}
 
-                                            </div>
-
-
-                                            <div class="doctor-specialization">
-
-                                                {{ appointment.doctor.get_specialization_display }}
-
-                                            </div>
-
+                                            {% endwith %}
 
                                         </div>
 
 
-                                    </div>
-
-
-                                    <div class="appointment-date">
-
-
-                                        <strong>
-
-                                            {{ appointment.appointment_date|date:"d M Y" }}
-
-                                        </strong>
-
-
-                                        <span>
-
-                                            {{ appointment.appointment_time|time:"g:i A" }}
-
-                                        </span>
-
-
-                                        {% if appointment.status == "PENDING" %}
-
-                                            <span class="appointment-status status-pending">
-                                                Pending
-                                            </span>
-
-                                        {% elif appointment.status == "CONFIRMED" %}
-
-                                            <span class="appointment-status status-confirmed">
-                                                Confirmed
-                                            </span>
-
-                                        {% elif appointment.status == "COMPLETED" %}
-
-                                            <span class="appointment-status status-completed">
-                                                Completed
-                                            </span>
-
-                                        {% elif appointment.status == "CANCELLED" %}
-
-                                            <span class="appointment-status status-cancelled">
-                                                Cancelled
-                                            </span>
-
-                                        {% endif %}
-
-
-                                    </div>
-
-
-                                </div>
-
-
-                            {% endfor %}
-
-
-                        {% else %}
-
-
-                            <div class="empty-state">
-
-
-                                <div class="empty-icon">
-                                    ◷
-                                </div>
-
-
-                                <h3>
-                                    No appointments
-                                </h3>
-
-
-                                <p>
-                                    This patient has no appointment history.
-                                </p>
-
-
-                            </div>
-
-
-                        {% endif %}
-
-
-                    </div>
-
-
-                </div>
-
-
-                <!-- PAYMENTS -->
-
-                <div
-                    class="panel"
-                    style="margin-top:22px;">
-
-
-                    <div class="panel-header">
-
-
-                        <div>
-
-                            <div class="panel-title">
-                                Payment History
-                            </div>
-
-                            <div class="panel-subtitle">
-                                Patient payment transactions
-                            </div>
-
-                        </div>
-
-
-                        <div class="panel-count">
-
-                            {{ payments|length }}
-
-                        </div>
-
-
-                    </div>
-
-
-                    <div class="payment-list">
-
-
-                        {% if payments %}
-
-
-                            {% for payment in payments %}
-
-
-                                <div class="payment-item">
-
-
-                                    <div>
-
-
-                                        <div class="payment-id">
-
-                                            {{ payment.transaction_id }}
+                                        <!-- DOCTOR'S NOTES -->
+
+                                        <div class="prescription-section">
+
+                                            <h4>Doctor's Instructions</h4>
+
+                                            <div class="notes-box">
+                                                {% if appointment.prescription.notes %}
+                                                    {{ appointment.prescription.notes|linebreaksbr }}
+                                                {% else %}
+                                                    No additional instructions provided.
+                                                {% endif %}
+                                            </div>
 
                                         </div>
 
 
-                                        <div class="payment-meta">
+                                        <!-- PDF DOWNLOAD -->
 
-                                            {{ payment.created_at|date:"d M Y, g:i A" }}
+                                        <div class="prescription-actions">
 
-                                            ·
-
-                                            {{ payment.get_payment_method_display }}
+                                            <a
+                                                href="{% url 'download_prescription_pdf' appointment.prescription.id %}"
+                                                class="btn btn-primary"
+                                                target="_blank"
+                                            >
+                                                View / Download Prescription PDF
+                                            </a>
 
                                         </div>
 
-
                                     </div>
-
-
-                                    <div class="payment-amount">
-
-
-                                        ₹{{ payment.amount|floatformat:2 }}
-
-
-                                        {% if payment.status == "SUCCESS" %}
-
-                                            <div class="payment-status payment-success">
-                                                Successful
-                                            </div>
-
-                                        {% else %}
-
-                                            <div class="payment-status payment-declined">
-                                                Declined
-                                            </div>
-
-                                        {% endif %}
-
-
-                                    </div>
-
 
                                 </div>
 
+                            {% else %}
 
-                            {% endfor %}
-
-
-                        {% else %}
-
-
-                            <div class="empty-state">
-
-
-                                <div class="empty-icon">
-                                    ₹
+                                <div class="no-prescription">
+                                    <strong>No prescription issued.</strong>
+                                    <br>
+                                    A prescription has not been recorded for this appointment.
                                 </div>
 
+                            {% endif %}
 
-                                <h3>
-                                    No payments
-                                </h3>
-
-
-                                <p>
-                                    No payment transactions found.
-                                </p>
-
-
-                            </div>
-
-
-                        {% endif %}
-
+                        </div>
 
                     </div>
 
+                {% endfor %}
 
+            {% else %}
+
+                <div class="empty-history">
+                    No appointment history found for this patient.
                 </div>
 
+            {% endif %}
 
-            </div>
+        </section>
 
-
-            <!-- =================================================
-                 RIGHT
-            ================================================== -->
-
-            <div>
-
-
-                <!-- UPCOMING APPOINTMENTS -->
-
-                <div class="panel">
-
-
-                    <div class="panel-header">
-
-
-                        <div>
-
-                            <div class="panel-title">
-                                Upcoming
-                            </div>
-
-                            <div class="panel-subtitle">
-                                Scheduled patient visits
-                            </div>
-
-                        </div>
-
-
-                        <div class="panel-count">
-
-                            {{ upcoming_appointments|length }}
-
-                        </div>
-
-
-                    </div>
-
-
-                    <div class="upcoming-list">
-
-
-                        {% if upcoming_appointments %}
-
-
-                            {% for appointment in upcoming_appointments %}
-
-
-                                <div class="upcoming-item">
-
-
-                                    <div class="upcoming-date">
-
-                                        {{ appointment.appointment_date|date:"D, d M Y" }}
-
-                                    </div>
-
-
-                                    <div class="upcoming-doctor">
-
-                                        Dr.
-
-                                        {% if appointment.doctor.user.get_full_name %}
-
-                                            {{ appointment.doctor.user.get_full_name }}
-
-                                        {% else %}
-
-                                            {{ appointment.doctor.user.username }}
-
-                                        {% endif %}
-
-                                    </div>
-
-
-                                    <div class="upcoming-time">
-
-                                        {{ appointment.appointment_time|time:"g:i A" }}
-
-                                        ·
-
-                                        {{ appointment.doctor.get_specialization_display }}
-
-                                    </div>
-
-
-                                </div>
-
-
-                            {% endfor %}
-
-
-                        {% else %}
-
-
-                            <div class="empty-state">
-
-
-                                <div class="empty-icon">
-                                    ✓
-                                </div>
-
-
-                                <h3>
-                                    No upcoming appointments
-                                </h3>
-
-
-                                <p>
-                                    No pending or confirmed visits.
-                                </p>
-
-
-                            </div>
-
-
-                        {% endif %}
-
-
-                    </div>
-
-
-                </div>
-
-
-                <!-- LAST VISIT -->
-
-                <div
-                    class="panel"
-                    style="margin-top:22px;">
-
-
-                    <div class="panel-header">
-
-
-                        <div>
-
-                            <div class="panel-title">
-                                Last Visit
-                            </div>
-
-                            <div class="panel-subtitle">
-                                Most recent completed appointment
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-
-                    {% if last_visit %}
-
-
-                        <div style="padding:20px;">
-
-
-                            <div
-                                style="
-                                    color:var(--teal-dark);
-                                    font-size:11px;
-                                    font-weight:800;
-                                ">
-
-                                {{ last_visit.appointment_date|date:"d M Y" }}
-
-                            </div>
-
-
-                            <div
-                                style="
-                                    margin-top:8px;
-                                    font-size:14px;
-                                    font-weight:800;
-                                ">
-
-                                Dr.
-
-                                {% if last_visit.doctor.user.get_full_name %}
-
-                                    {{ last_visit.doctor.user.get_full_name }}
-
-                                {% else %}
-
-                                    {{ last_visit.doctor.user.username }}
-
-                                {% endif %}
-
-                            </div>
-
-
-                            <div
-                                style="
-                                    margin-top:4px;
-                                    color:var(--muted);
-                                    font-size:10px;
-                                ">
-
-                                {{ last_visit.doctor.get_specialization_display }}
-
-                            </div>
-
-
-                        </div>
-
-
-                    {% else %}
-
-
-                        <div class="empty-state">
-
-
-                            <div class="empty-icon">
-                                +
-                            </div>
-
-
-                            <h3>
-                                No completed visits
-                            </h3>
-
-
-                            <p>
-                                No completed appointment is recorded.
-                            </p>
-
-
-                        </div>
-
-
-                    {% endif %}
-
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-    </section>
-
-
-</main>
-
-
-<script>
-
-    const sidebar =
-        document.getElementById("sidebar");
-
-    const sidebarOverlay =
-        document.getElementById("sidebarOverlay");
-
-
-    function toggleSidebar() {
-
-        sidebar.classList.toggle("open");
-
-        sidebarOverlay.classList.toggle("open");
-
-    }
-
-
-    function closeSidebar() {
-
-        sidebar.classList.remove("open");
-
-        sidebarOverlay.classList.remove("open");
-
-    }
-
-
-    window.addEventListener(
-        "resize",
-        function () {
-
-            if (window.innerWidth > 950) {
-
-                closeSidebar();
-
-            }
-
-        }
-    );
-
-</script>
-
+    </main>
 
 </body>
-
 </html>

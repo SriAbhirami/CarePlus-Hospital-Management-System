@@ -1,11 +1,12 @@
 from datetime import datetime
 from io import BytesIO
-
+from django.utils import timezone
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
 from doctors.models import Doctor
+from patients.models import Patient
 
 from appointments.models import (
     Appointment,
@@ -110,7 +111,6 @@ def doctor_dashboard(request):
         }
     )
 
-
 # ============================================================
 # DOCTOR APPOINTMENTS
 # ============================================================
@@ -124,69 +124,366 @@ def doctor_appointments(request):
         'ALL'
     )
 
-    appointments = Appointment.objects.filter(
-        doctor=doctor
-    ).order_by(
+    # All appointments belonging to the logged-in doctor
+    all_doctor_appointments = (
+        Appointment.objects
+        .filter(doctor=doctor)
+        .select_related(
+            'patient__user',
+            'doctor__user'
+        )
+    )
+
+    # Apply status filter only to the table
+    appointments = all_doctor_appointments.order_by(
         '-appointment_date',
         '-appointment_time'
     )
 
     if status_filter != 'ALL':
-
         appointments = appointments.filter(
             status=status_filter
         )
 
+    today = timezone.localdate()
+
+    context = {
+        'doctor': doctor,
+        'appointments': appointments,
+        'status_filter': status_filter,
+
+        # Statistics
+        'total_appointments': all_doctor_appointments.count(),
+
+        'pending_appointments': (
+            all_doctor_appointments
+            .filter(status='PENDING')
+            .count()
+        ),
+
+        'confirmed_appointments': (
+            all_doctor_appointments
+            .filter(status='CONFIRMED')
+            .count()
+        ),
+
+        'completed_appointments': (
+            all_doctor_appointments
+            .filter(status='COMPLETED')
+            .count()
+        ),
+
+        'cancelled_appointments': (
+            all_doctor_appointments
+            .filter(status='CANCELLED')
+            .count()
+        ),
+
+        'today_appointments': (
+            all_doctor_appointments
+            .filter(appointment_date=today)
+            .count()
+        ),
+    }
+
     return render(
         request,
         'doctor/appointments.html',
+        context
+    )
+
+# ============================================================
+# DOCTOR - MY PATIENTS
+# ============================================================
+
+def doctor_patients(request):
+
+    doctor = request.user.doctor_profile
+
+    # --------------------------------------------------------
+    # GET ALL PATIENT IDS WHO HAVE APPOINTMENTS WITH THIS DOCTOR
+    # --------------------------------------------------------
+
+    patient_ids = (
+        Appointment.objects
+        .filter(
+            doctor=doctor
+        )
+        .values_list(
+            'patient_id',
+            flat=True
+        )
+        .distinct()
+    )
+
+    # --------------------------------------------------------
+    # GET UNIQUE PATIENTS
+    # --------------------------------------------------------
+
+    patients = (
+        Patient.objects
+        .filter(
+            id__in=patient_ids
+        )
+        .select_related(
+            'user'
+        )
+        .order_by(
+            'user__first_name',
+            'user__last_name'
+        )
+    )
+
+    # --------------------------------------------------------
+    # PREPARE PATIENT INFORMATION
+    # --------------------------------------------------------
+
+    patient_data = []
+
+    for patient in patients:
+
+        patient_appointments = (
+            Appointment.objects
+            .filter(
+                doctor=doctor,
+                patient=patient
+            )
+            .order_by(
+                '-appointment_date',
+                '-appointment_time'
+            )
+        )
+
+        last_appointment = (
+            patient_appointments.first()
+        )
+
+        patient_data.append({
+            'patient': patient,
+            'appointment_count': patient_appointments.count(),
+            'last_appointment': last_appointment,
+        })
+
+    # --------------------------------------------------------
+    # RENDER
+    # --------------------------------------------------------
+
+    return render(
+        request,
+        'doctor/patients.html',
         {
             'doctor': doctor,
-            'appointments': appointments,
-            'status_filter': status_filter,
+            'patients': patient_data,
         }
     )
 
+
+
+# ============================================================
+# DOCTOR - PATIENT DETAIL / COMPLETE MEDICAL RECORD
+# ============================================================
+
+def doctor_patient_detail(request, patient_id):
+
+    doctor = request.user.doctor_profile
+
+    # --------------------------------------------------------
+    # GET UNIQUE PATIENT
+    #
+    # Security:
+    # The doctor can only access a patient who has
+    # an appointment with this doctor.
+    # --------------------------------------------------------
+
+    patient = get_object_or_404(
+        Patient.objects
+        .select_related('user')
+        .filter(
+            id=patient_id,
+            appointments__doctor=doctor
+        )
+        .distinct()
+    )
+
+    # --------------------------------------------------------
+    # GET COMPLETE APPOINTMENT HISTORY
+    #
+    # Each appointment includes:
+    # - Prescription
+    # - Medicines
+    # - Payment transactions
+    # --------------------------------------------------------
+
+    appointments = (
+        Appointment.objects
+        .filter(
+            doctor=doctor,
+            patient=patient
+        )
+        .select_related(
+            'prescription'
+        )
+        .prefetch_related(
+            'prescription__medicines',
+            'payment_transactions'
+        )
+        .order_by(
+            '-appointment_date',
+            '-appointment_time'
+        )
+    )
+
+    # --------------------------------------------------------
+    # CALCULATE PATIENT AGE
+    # --------------------------------------------------------
+
+    age = None
+
+    if patient.date_of_birth:
+
+        today = datetime.today().date()
+
+        age = (
+            today.year
+            - patient.date_of_birth.year
+            - (
+                (
+                    today.month,
+                    today.day
+                )
+                <
+                (
+                    patient.date_of_birth.month,
+                    patient.date_of_birth.day
+                )
+            )
+        )
+
+    # --------------------------------------------------------
+    # APPOINTMENT STATISTICS
+    # --------------------------------------------------------
+
+    total_appointments = appointments.count()
+
+    completed_appointments = appointments.filter(
+        status='COMPLETED'
+    ).count()
+
+    pending_appointments = appointments.filter(
+        status='PENDING'
+    ).count()
+
+    confirmed_appointments = appointments.filter(
+        status='CONFIRMED'
+    ).count()
+
+    cancelled_appointments = appointments.filter(
+        status='CANCELLED'
+    ).count()
+
+    # --------------------------------------------------------
+    # PRESCRIPTION STATISTICS
+    # --------------------------------------------------------
+
+    total_prescriptions = (
+        appointments
+        .filter(
+            prescription__isnull=False
+        )
+        .count()
+    )
+
+    # --------------------------------------------------------
+    # LAST APPOINTMENT
+    # --------------------------------------------------------
+
+    last_appointment = appointments.first()
+
+    # --------------------------------------------------------
+    # PAYMENT STATISTICS
+    # --------------------------------------------------------
+
+    total_paid = 0
+
+    for appointment in appointments:
+
+        for payment in appointment.payment_transactions.all():
+
+            if payment.status == 'SUCCESS':
+
+                total_paid += payment.amount
+
+    # --------------------------------------------------------
+    # RENDER
+    # --------------------------------------------------------
+
+    return render(
+        request,
+        'doctor/patient_detail.html',
+        {
+            'doctor': doctor,
+            'patient': patient,
+
+            # Appointment history
+            'appointments': appointments,
+
+            # Age
+            'age': age,
+
+            # Appointment statistics
+            'total_appointments': total_appointments,
+            'completed_appointments': completed_appointments,
+            'pending_appointments': pending_appointments,
+            'confirmed_appointments': confirmed_appointments,
+            'cancelled_appointments': cancelled_appointments,
+
+            # Prescription statistics
+            'total_prescriptions': total_prescriptions,
+
+            # Latest visit
+            'last_appointment': last_appointment,
+
+            # Payment
+            'total_paid': total_paid,
+        }
+    )
 
 # ============================================================
 # CREATE PRESCRIPTION
 # ============================================================
 
-def create_prescription(
-    request,
-    appointment_id
-):
+def create_prescription(request, appointment_id):
 
     doctor = request.user.doctor_profile
 
     # --------------------------------------------------------
-    # GET APPOINTMENT
+    # GET THE APPOINTMENT
+    #
+    # A doctor can create a prescription only for
+    # their own appointment.
     # --------------------------------------------------------
 
     appointment = get_object_or_404(
-        Appointment,
+        Appointment.objects
+        .select_related(
+            'patient__user',
+            'doctor__user'
+        ),
         id=appointment_id,
         doctor=doctor
     )
 
     # --------------------------------------------------------
-    # CHECK EXISTING PRESCRIPTION
+    # CHECK WHETHER A PRESCRIPTION ALREADY EXISTS
     # --------------------------------------------------------
 
-    if hasattr(
-        appointment,
-        'prescription'
-    ):
-
-        messages.info(
-            request,
-            'A prescription already exists for this appointment.'
+    existing_prescription = (
+        Prescription.objects
+        .filter(
+            appointment=appointment
         )
-
-        return redirect(
-            'doctor_prescription_detail',
-            prescription_id=appointment.prescription.id
-        )
+        .first()
+    )
 
     # --------------------------------------------------------
     # HANDLE FORM SUBMISSION
@@ -205,75 +502,106 @@ def create_prescription(
         ).strip()
 
         # ----------------------------------------------------
-        # CREATE PRESCRIPTION
+        # CREATE OR UPDATE PRESCRIPTION
         # ----------------------------------------------------
 
-        prescription = Prescription.objects.create(
-            appointment=appointment,
-            diagnosis=diagnosis,
-            notes=notes
-        )
+        if existing_prescription:
+
+            prescription = existing_prescription
+
+            prescription.diagnosis = diagnosis
+            prescription.notes = notes
+
+            prescription.save()
+
+            # Remove old medicines before adding
+            # the updated medicines.
+            prescription.medicines.all().delete()
+
+            messages.success(
+                request,
+                'Prescription updated successfully.'
+            )
+
+        else:
+
+            prescription = Prescription.objects.create(
+                appointment=appointment,
+                diagnosis=diagnosis,
+                notes=notes
+            )
+
+            messages.success(
+                request,
+                'Prescription created successfully.'
+            )
 
         # ----------------------------------------------------
         # GET MEDICINE DATA
+        #
+        # The form should use these names:
+        #
+        # medicine_name[]
+        # dosage[]
+        # frequency[]
+        # duration[]
+        # instructions[]
         # ----------------------------------------------------
 
         medicine_names = request.POST.getlist(
-            'medicine_name'
+            'medicine_name[]'
         )
 
         dosages = request.POST.getlist(
-            'dosage'
+            'dosage[]'
         )
 
         frequencies = request.POST.getlist(
-            'frequency'
+            'frequency[]'
         )
 
         durations = request.POST.getlist(
-            'duration'
+            'duration[]'
         )
 
         instructions = request.POST.getlist(
-            'medicine_instructions'
+            'instructions[]'
         )
 
         # ----------------------------------------------------
-        # CREATE MEDICINES
+        # SAVE MEDICINES
         # ----------------------------------------------------
 
-        for i in range(
-            len(medicine_names)
+        for index, medicine_name in enumerate(
+            medicine_names
         ):
 
-            medicine_name = (
-                medicine_names[i].strip()
-            )
+            medicine_name = medicine_name.strip()
 
             if not medicine_name:
                 continue
 
             dosage = (
-                dosages[i].strip()
-                if i < len(dosages)
+                dosages[index].strip()
+                if index < len(dosages)
                 else ''
             )
 
             frequency = (
-                frequencies[i].strip()
-                if i < len(frequencies)
+                frequencies[index].strip()
+                if index < len(frequencies)
                 else ''
             )
 
             duration = (
-                durations[i].strip()
-                if i < len(durations)
+                durations[index].strip()
+                if index < len(durations)
                 else ''
             )
 
-            medicine_instruction = (
-                instructions[i].strip()
-                if i < len(instructions)
+            instruction = (
+                instructions[index].strip()
+                if index < len(instructions)
                 else ''
             )
 
@@ -283,17 +611,12 @@ def create_prescription(
                 dosage=dosage,
                 frequency=frequency,
                 duration=duration,
-                instructions=medicine_instruction
+                instructions=instruction
             )
 
         # ----------------------------------------------------
-        # SUCCESS
+        # REDIRECT TO PRESCRIPTION DETAIL
         # ----------------------------------------------------
-
-        messages.success(
-            request,
-            'Prescription created successfully.'
-        )
 
         return redirect(
             'doctor_prescription_detail',
@@ -301,7 +624,7 @@ def create_prescription(
         )
 
     # --------------------------------------------------------
-    # DISPLAY PAGE
+    # DISPLAY FORM
     # --------------------------------------------------------
 
     return render(
@@ -310,9 +633,9 @@ def create_prescription(
         {
             'doctor': doctor,
             'appointment': appointment,
+            'prescription': existing_prescription,
         }
     )
-
 
 # ============================================================
 # DOCTOR PRESCRIPTIONS

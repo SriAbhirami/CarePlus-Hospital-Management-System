@@ -40,6 +40,8 @@ from patients.views import (
 from doctors.views import (
     doctor_dashboard,
     doctor_appointments,
+    doctor_patients,
+    doctor_patient_detail,
     create_prescription,
     doctor_prescriptions,
     doctor_prescription_detail,
@@ -55,6 +57,7 @@ from doctors.views import (
 from appointments.views import (
     book_appointment,
     pay_bills,
+    payment_details,
     process_payment,
     payment_success,
     payment_declined,
@@ -144,6 +147,12 @@ urlpatterns = [
     ),
 
     path(
+    'patient/payment-details/',
+    payment_details,
+    name='payment_details'
+),
+
+    path(
         'patient/process-payment/',
         process_payment,
         name='process_payment'
@@ -201,6 +210,18 @@ urlpatterns = [
         doctor_appointments,
         name='doctor_appointments'
     ),
+
+    path(
+    'doctor/patients/',
+    doctor_patients,
+    name='doctor_patients'
+),
+
+path(
+    'doctor/patients/<int:patient_id>/',
+    doctor_patient_detail,
+    name='doctor_patient_detail'
+),
 
     path(
         'doctor/prescriptions/create/<int:appointment_id>/',

@@ -1,0 +1,2658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Patient Medical Record | CarePlus</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fa;
+            color: #172033;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+            height: 68px;
+            background: #ffffff;
+            border-bottom: 1px solid #e4e8ed;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 34px;
+
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 700;
+            color: #172554;
+            letter-spacing: -0.3px;
+        }
+
+        .brand span {
+            color: #087f8c;
+        }
+
+        .doctor-info {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .doctor-text {
+            text-align: right;
+        }
+
+        .doctor-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .doctor-specialization {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 3px;
+        }
+
+        .doctor-avatar {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: #e6f5f5;
+            color: #087f8c;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            overflow: hidden;
+        }
+
+        .doctor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            width: min(1400px, calc(100% - 48px));
+            margin: 0 auto;
+
+            padding: 22px 0 45px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            color: #087f8c;
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            margin-bottom: 15px;
+        }
+
+        .back-link:hover {
+            color: #05636d;
+        }
+
+        /* =====================================================
+           COMMON CARD
+        ===================================================== */
+
+        .card {
+            background: #ffffff;
+
+            border: 1px solid #e2e7ec;
+            border-radius: 11px;
+
+            padding: 19px;
+
+            margin-bottom: 16px;
+
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
+        }
+
+        .section-title {
+            margin: 0;
+
+            font-size: 20px;
+            font-weight: 700;
+
+            color: #172033;
+        }
+
+        .section-subtitle {
+            margin: 6px 0 15px;
+
+            color: #718096;
+
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        /* =====================================================
+           PATIENT HEADER
+        ===================================================== */
+
+        .patient-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 19px 21px;
+
+            min-height: 116px;
+        }
+
+        .patient-main {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            min-width: 0;
+        }
+
+        .patient-photo {
+            width: 78px;
+            height: 78px;
+
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            background: #e6f5f5;
+            color: #087f8c;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+            font-weight: 700;
+
+            overflow: hidden;
+        }
+
+        .patient-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .patient-header h1 {
+            margin: 0 0 7px;
+
+            font-size: 25px;
+            line-height: 1.2;
+
+            color: #172033;
+        }
+
+        .patient-meta {
+            color: #64748b;
+
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .patient-id {
+            display: inline-flex;
+            align-items: center;
+
+            background: #e7f6f6;
+            color: #087f8c;
+
+            border-radius: 5px;
+
+            padding: 5px 9px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .record-side {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .record-label {
+            background: #f0fdfa;
+            border: 1px solid #c9eeea;
+
+            color: #0f766e;
+
+            padding: 10px 13px;
+
+            border-radius: 6px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* =====================================================
+           QUICK CONTACT
+        ===================================================== */
+
+        .quick-contact {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+        }
+
+        .quick-contact strong {
+            color: #334155;
+            font-weight: 600;
+        }
+
+        /* =====================================================
+           STATISTICS
+        ===================================================== */
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(6, 1fr);
+
+            gap: 11px;
+
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+
+            border: 1px solid #e2e7ec;
+            border-radius: 10px;
+
+            padding: 15px 16px;
+
+            min-height: 90px;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 3px;
+
+            background: #087f8c;
+        }
+
+        .stat-label {
+            color: #64748b;
+
+            font-size: 12px;
+
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+
+            font-weight: 700;
+
+            color: #172033;
+
+            line-height: 1;
+        }
+
+        .stat-note {
+            margin-top: 7px;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+        /* =====================================================
+           INFORMATION LAYOUT
+        ===================================================== */
+
+        .information-layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.7fr)
+                minmax(290px, 0.8fr);
+
+            gap: 16px;
+
+            align-items: stretch;
+        }
+
+        /* =====================================================
+           PATIENT INFORMATION
+        ===================================================== */
+
+        .info-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 9px;
+        }
+
+        .info-item {
+            background: #f7f9fb;
+
+            border: 1px solid #edf0f3;
+
+            border-radius: 7px;
+
+            padding: 11px 12px;
+
+            min-height: 57px;
+        }
+
+        .info-label {
+            font-size: 11px;
+
+            color: #718096;
+
+            margin-bottom: 5px;
+
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .info-value {
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #172033;
+
+            word-break: break-word;
+
+            line-height: 1.45;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* =====================================================
+           CLINICAL SUMMARY
+        ===================================================== */
+
+        .summary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .summary-item {
+            border: 1px solid #e7ebef;
+
+            border-radius: 8px;
+
+            padding: 13px;
+
+            background: #fafbfc;
+        }
+
+        .summary-item.warning {
+            background: #fffaf0;
+            border-color: #f3dfb5;
+        }
+
+        .summary-item-title {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            color: #475569;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+
+            margin-bottom: 7px;
+        }
+
+        .summary-item.warning .summary-item-title {
+            color: #946200;
+        }
+
+        .summary-value {
+            color: #172033;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            white-space: pre-line;
+        }
+
+        .summary-muted {
+            color: #94a3b8;
+        }
+
+        .last-visit-main {
+            font-size: 15px;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .last-visit-sub {
+            margin-top: 4px;
+
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .summary-divider {
+            height: 1px;
+            background: #e9edf1;
+            margin: 10px 0;
+        }
+
+        .financial-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .financial-label {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .financial-value {
+            color: #172033;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           APPOINTMENT HISTORY
+        ===================================================== */
+
+        .history-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 14px;
+        }
+
+        .history-count {
+            color: #64748b;
+
+            font-size: 12px;
+
+            background: #f1f5f9;
+
+            border-radius: 20px;
+
+            padding: 6px 10px;
+
+            white-space: nowrap;
+        }
+
+        .timeline {
+            position: relative;
+        }
+
+        .appointment-card {
+            border: 1px solid #dfe5ea;
+
+            border-radius: 9px;
+
+            overflow: hidden;
+
+            margin-bottom: 10px;
+
+            background: #ffffff;
+        }
+
+        .appointment-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .appointment-details summary {
+            list-style: none;
+        }
+
+        .appointment-details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .appointment-heading {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 14px 15px;
+
+            background: #fafbfc;
+
+            cursor: pointer;
+
+            transition: background 0.2s;
+        }
+
+        .appointment-heading:hover {
+            background: #f4f7f9;
+        }
+
+        .appointment-details[open] .appointment-heading {
+            background: #f3f8f8;
+            border-bottom: 1px solid #dfe5ea;
+        }
+
+        .appointment-left {
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            min-width: 0;
+        }
+
+        .appointment-icon {
+            width: 37px;
+            height: 37px;
+
+            flex-shrink: 0;
+
+            border-radius: 7px;
+
+            background: #e6f5f5;
+            color: #087f8c;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+        .appointment-number {
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #172033;
+        }
+
+        .appointment-date {
+            font-size: 12px;
+
+            color: #64748b;
+
+            margin-top: 4px;
+        }
+
+        .appointment-right {
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            flex-shrink: 0;
+        }
+
+        .expand-text {
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+        .appointment-details[open] .expand-text {
+            color: #087f8c;
+        }
+
+        .status {
+            display: inline-flex;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+        .status-pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status-confirmed {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .status-completed {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .status-cancelled {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        /* =====================================================
+           APPOINTMENT BODY
+        ===================================================== */
+
+        .appointment-body {
+            padding: 16px;
+        }
+
+        .appointment-info {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 8px;
+
+            margin-bottom: 12px;
+        }
+
+        .detail-item {
+            background: #f7f9fb;
+
+            border: 1px solid #edf0f3;
+
+            padding: 10px 11px;
+
+            border-radius: 7px;
+
+            min-height: 54px;
+        }
+
+        .detail-label {
+            color: #718096;
+
+            font-size: 11px;
+
+            margin-bottom: 4px;
+
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .detail-value {
+            font-size: 13px;
+
+            font-weight: 600;
+
+            line-height: 1.45;
+
+            word-break: break-word;
+
+            color: #172033;
+        }
+
+        /* =====================================================
+           REASON
+        ===================================================== */
+
+        .reason-box {
+            background: #f8fafc;
+
+            border: 1px solid #edf0f3;
+
+            padding: 11px 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 12px;
+        }
+
+        .reason-text {
+            font-size: 13px;
+
+            color: #475569;
+
+            line-height: 1.65;
+
+            margin-top: 5px;
+        }
+
+        /* =====================================================
+           PAYMENT
+        ===================================================== */
+
+        .payment-box {
+            border: 1px solid #e4e9ed;
+
+            border-radius: 8px;
+
+            padding: 12px;
+
+            margin-bottom: 12px;
+
+            background: #ffffff;
+        }
+
+        .payment-title {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #475569;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.04em;
+
+            margin-bottom: 10px;
+        }
+
+        .payment-title::before {
+            content: "₹";
+
+            width: 21px;
+            height: 21px;
+
+            border-radius: 5px;
+
+            background: #eef8f8;
+            color: #087f8c;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .payment-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 10px;
+        }
+
+        .payment-status-success {
+            color: #047857;
+            font-weight: 700;
+        }
+
+        .payment-status-declined {
+            color: #b91c1c;
+            font-weight: 700;
+        }
+
+        .no-payment {
+            color: #94a3b8;
+
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           PRESCRIPTION
+        ===================================================== */
+
+        .prescription {
+            border: 1px solid #cde7e8;
+
+            border-radius: 9px;
+
+            overflow: hidden;
+
+            background: #ffffff;
+        }
+
+        .prescription-header {
+            background: #edf8f8;
+
+            padding: 12px 13px;
+
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .prescription-title {
+            color: #087f8c;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+        .prescription-date {
+            color: #64748b;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+        }
+
+        .prescription-body {
+            padding: 14px;
+        }
+
+        .prescription-section {
+            margin-bottom: 14px;
+        }
+
+        .prescription-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .prescription-section h4 {
+            font-size: 11px;
+
+            color: #64748b;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.04em;
+
+            margin: 0 0 7px;
+        }
+
+        .diagnosis-box,
+        .notes-box {
+            background: #f8fafc;
+
+            border: 1px solid #edf0f3;
+
+            border-radius: 7px;
+
+            padding: 11px 12px;
+
+            font-size: 13px;
+
+            line-height: 1.65;
+
+            color: #334155;
+
+            white-space: pre-line;
+        }
+
+        /* =====================================================
+           MEDICINES
+        ===================================================== */
+
+        .medicine-list {
+            display: grid;
+
+            gap: 7px;
+        }
+
+        .medicine-card {
+            border: 1px solid #e4e9ed;
+
+            border-radius: 7px;
+
+            padding: 11px 12px;
+
+            background: #ffffff;
+        }
+
+        .medicine-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 8px;
+        }
+
+        .medicine-name {
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #172033;
+        }
+
+        .medicine-number {
+            display: inline-flex;
+
+            width: 22px;
+            height: 22px;
+
+            align-items: center;
+            justify-content: center;
+
+            margin-right: 5px;
+
+            background: #eaf7f7;
+
+            color: #087f8c;
+
+            border-radius: 5px;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .medicine-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 7px;
+        }
+
+        .medicine-detail {
+            background: #f8fafc;
+
+            border-radius: 5px;
+
+            padding: 8px 9px;
+        }
+
+        .medicine-instructions {
+            margin-top: 7px;
+
+            background: #f8fafc;
+
+            border-left: 3px solid #cde7e8;
+
+            padding: 8px 10px;
+
+            border-radius: 4px;
+
+            font-size: 12px;
+
+            line-height: 1.55;
+
+            color: #475569;
+        }
+
+        /* =====================================================
+           PRESCRIPTION BUTTON
+        ===================================================== */
+
+        .prescription-footer {
+            display: flex;
+
+            justify-content: flex-end;
+
+            align-items: center;
+
+            margin-top: 13px;
+        }
+
+        .btn {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 10px 14px;
+
+            border-radius: 6px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: #087f8c;
+
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #05636d;
+        }
+
+        /* =====================================================
+           NO PRESCRIPTION
+        ===================================================== */
+
+        .no-prescription {
+            background: #fffaf0;
+
+            border: 1px solid #f1dfb7;
+
+            color: #946200;
+
+            border-radius: 7px;
+
+            padding: 12px;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           EMPTY HISTORY
+        ===================================================== */
+
+        .empty-history {
+            padding: 30px 20px;
+
+            text-align: center;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            background: #f8fafc;
+
+            border: 1px dashed #d7dee5;
+
+            border-radius: 8px;
+        }
+
+        /* =====================================================
+           FOOTER NOTE
+        ===================================================== */
+
+        .record-footer {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            padding: 4px 2px 0;
+        }
+
+        .record-footer strong {
+            color: #64748b;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1180px) {
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .information-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .appointment-info {
+                grid-template-columns:
+                    repeat(4, 1fr);
+            }
+
+        }
+
+        @media (max-width: 900px) {
+
+            .main {
+                width: min(100% - 30px, 1400px);
+            }
+
+            .info-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .appointment-info {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .payment-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 0 15px;
+            }
+
+            .main {
+                width: calc(100% - 20px);
+                padding-top: 17px;
+            }
+
+            .doctor-text {
+                display: none;
+            }
+
+            .patient-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                padding: 17px;
+            }
+
+            .record-side {
+                width: 100%;
+
+                justify-content: space-between;
+            }
+
+            .patient-main {
+                width: 100%;
+
+                align-items: flex-start;
+            }
+
+            .patient-header h1 {
+                font-size: 21px;
+            }
+
+            .patient-meta {
+                font-size: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .info-grid,
+            .appointment-info,
+            .payment-grid,
+            .medicine-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .appointment-heading {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .appointment-right {
+                width: 100%;
+
+                justify-content: space-between;
+            }
+
+            .prescription-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .prescription-footer {
+                justify-content: stretch;
+            }
+
+            .prescription-footer .btn {
+                width: 100%;
+            }
+
+            .record-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+        @media (max-width: 400px) {
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-photo {
+                width: 65px;
+                height: 65px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar">
+
+    <div class="brand">
+        Care<span>Plus</span>
+    </div>
+
+
+    <div class="doctor-info">
+
+        <div class="doctor-text">
+
+            <div class="doctor-name">
+                Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}
+            </div>
+
+            <div class="doctor-specialization">
+                {{ doctor.get_specialization_display }}
+            </div>
+
+        </div>
+
+
+        <div class="doctor-avatar">
+
+            {% if doctor.profile_pic %}
+
+                <img
+                    src="{{ doctor.profile_pic.url }}"
+                    alt="Doctor"
+                >
+
+            {% else %}
+
+                {{ doctor.user.first_name|first|upper }}
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<main class="main">
+
+
+<!-- =========================================================
+     BACK
+========================================================= -->
+
+<a
+    href="{% url 'doctor_patients' %}"
+    class="back-link"
+>
+    ← Back to My Patients
+</a>
+
+
+
+<!-- =========================================================
+     PATIENT HEADER
+========================================================= -->
+
+<section class="card patient-header">
+
+
+    <div class="patient-main">
+
+        <div class="patient-photo">
+
+            {% if patient.profile_pic %}
+
+                <img
+                    src="{{ patient.profile_pic.url }}"
+                    alt="Patient"
+                >
+
+            {% else %}
+
+                {{ patient.user.first_name|first|upper }}
+
+            {% endif %}
+
+        </div>
+
+
+        <div>
+
+            <h1>
+                {{ patient.user.get_full_name|default:patient.user.username }}
+            </h1>
+
+
+            <div class="patient-meta">
+
+                <span class="patient-id">
+                    Patient ID #{{ patient.id }}
+                </span>
+
+                &nbsp;
+
+                <span>
+                    Username: {{ patient.user.username }}
+                </span>
+
+                &nbsp;•&nbsp;
+
+                <span>
+                    Patient since {{ patient.created_at|date:"d M Y" }}
+                </span>
+
+            </div>
+
+
+            <div class="quick-contact">
+
+                {% if patient.user.phone %}
+
+                    <strong>☎ {{ patient.user.phone }}</strong>
+
+                {% endif %}
+
+                {% if patient.user.phone and patient.user.email %}
+                    <span>•</span>
+                {% endif %}
+
+                {% if patient.user.email %}
+
+                    <strong>{{ patient.user.email }}</strong>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="record-side">
+
+        <div class="record-label">
+            Patient Medical Record
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     STATISTICS
+========================================================= -->
+
+<div class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Total Visits
+        </div>
+
+        <div class="stat-value">
+            {{ total_appointments }}
+        </div>
+
+        <div class="stat-note">
+            All appointments
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Completed
+        </div>
+
+        <div class="stat-value">
+            {{ completed_appointments }}
+        </div>
+
+        <div class="stat-note">
+            Completed consultations
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Confirmed
+        </div>
+
+        <div class="stat-value">
+            {{ confirmed_appointments }}
+        </div>
+
+        <div class="stat-note">
+            Confirmed appointments
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Pending
+        </div>
+
+        <div class="stat-value">
+            {{ pending_appointments }}
+        </div>
+
+        <div class="stat-note">
+            Pending appointments
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Cancelled
+        </div>
+
+        <div class="stat-value">
+            {{ cancelled_appointments }}
+        </div>
+
+        <div class="stat-note">
+            Cancelled visits
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-label">
+            Prescriptions
+        </div>
+
+        <div class="stat-value">
+            {{ total_prescriptions }}
+        </div>
+
+        <div class="stat-note">
+            Recorded prescriptions
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     INFORMATION + CLINICAL SUMMARY
+========================================================= -->
+
+<div class="information-layout">
+
+
+    <!-- =====================================================
+         PATIENT INFORMATION
+    ====================================================== -->
+
+    <section class="card">
+
+        <h2 class="section-title">
+            Patient Information
+        </h2>
+
+        <p class="section-subtitle">
+            Personal and contact information available in the patient record.
+        </p>
+
+
+        <div class="info-grid">
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Full Name
+                </div>
+
+                <div class="info-value">
+                    {{ patient.user.get_full_name|default:patient.user.username }}
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Patient ID
+                </div>
+
+                <div class="info-value">
+                    #{{ patient.id }}
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Username
+                </div>
+
+                <div class="info-value">
+                    {{ patient.user.username }}
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Phone
+                </div>
+
+                <div class="info-value">
+                    {{ patient.user.phone|default:"Not provided" }}
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Email
+                </div>
+
+                <div class="info-value">
+                    {{ patient.user.email|default:"Not provided" }}
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Date of Birth
+                </div>
+
+                <div class="info-value">
+
+                    {% if patient.date_of_birth %}
+
+                        {{ patient.date_of_birth|date:"d M Y" }}
+
+                    {% else %}
+
+                        Not provided
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Age
+                </div>
+
+                <div class="info-value">
+
+                    {% if age != None %}
+
+                        {{ age }} years
+
+                    {% else %}
+
+                        Not available
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Blood Group
+                </div>
+
+                <div class="info-value">
+                    {{ patient.blood_group|default:"Not provided" }}
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Registered On
+                </div>
+
+                <div class="info-value">
+                    {{ patient.created_at|date:"d M Y" }}
+                </div>
+
+            </div>
+
+
+            <div class="info-item full-width">
+
+                <div class="info-label">
+                    Address
+                </div>
+
+                <div class="info-value">
+                    {{ patient.address|default:"Not provided" }}
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CLINICAL SUMMARY
+    ====================================================== -->
+
+    <section class="card">
+
+        <h2 class="section-title">
+            Clinical Summary
+        </h2>
+
+        <p class="section-subtitle">
+            Key medical and visit information currently available.
+        </p>
+
+
+        <div class="summary-list">
+
+
+            <!-- ALLERGIES -->
+
+            <div class="summary-item warning">
+
+                <div class="summary-item-title">
+                    ⚠ Known Allergies
+                </div>
+
+                <div class="summary-value">
+
+                    {% if patient.allergies %}
+
+                        {{ patient.allergies }}
+
+                    {% else %}
+
+                        <span class="summary-muted">
+                            No allergies reported.
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <!-- LAST VISIT -->
+
+            <div class="summary-item">
+
+                <div class="summary-item-title">
+                    Last Visit
+                </div>
+
+
+                {% if last_appointment %}
+
+                    <div class="last-visit-main">
+
+                        {{ last_appointment.appointment_date|date:"d M Y" }}
+
+                    </div>
+
+                    <div class="last-visit-sub">
+
+                        {{ last_appointment.appointment_time|time:"h:i A" }}
+
+                        &nbsp;•&nbsp;
+
+                        {{ last_appointment.get_status_display }}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="summary-value summary-muted">
+                        No visits recorded.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- TOTAL BILLING -->
+
+            <div class="summary-item">
+
+                <div class="summary-item-title">
+                    Billing Summary
+                </div>
+
+
+                <div class="financial-row">
+
+                    <span class="financial-label">
+                        Successful payments
+                    </span>
+
+                    <span class="financial-value">
+                        ₹{{ total_paid|default:"0" }}
+                    </span>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="financial-row">
+
+                    <span class="financial-label">
+                        Appointments
+                    </span>
+
+                    <span class="financial-value">
+                        {{ total_appointments }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RECORD STATUS -->
+
+            <div class="summary-item">
+
+                <div class="summary-item-title">
+                    Record Status
+                </div>
+
+                <div class="summary-value">
+
+                    {% if total_appointments > 0 %}
+
+                        Active patient record with
+                        {{ total_appointments }}
+                        recorded appointment{{ total_appointments|pluralize }}.
+
+                    {% else %}
+
+                        No appointment history available.
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     COMPLETE APPOINTMENT HISTORY
+========================================================= -->
+
+<section class="card">
+
+
+    <div class="history-header">
+
+        <div>
+
+            <h2 class="section-title">
+                Appointment & Prescription History
+            </h2>
+
+            <p class="section-subtitle">
+                Each consultation contains its appointment details, billing,
+                diagnosis, medicines and doctor's notes.
+            </p>
+
+        </div>
+
+
+        <div class="history-count">
+
+            {{ total_appointments }}
+            appointment{{ total_appointments|pluralize }}
+
+        </div>
+
+    </div>
+
+
+
+    {% if appointments %}
+
+
+        <div class="timeline">
+
+
+            {% for appointment in appointments %}
+
+
+                <div class="appointment-card">
+
+
+                    <details
+                        class="appointment-details"
+                        {% if forloop.first %}open{% endif %}
+                    >
+
+
+                        <!-- =================================================
+                             APPOINTMENT HEADER
+                        ================================================= -->
+
+                        <summary class="appointment-heading">
+
+
+                            <div class="appointment-left">
+
+                                <div class="appointment-icon">
+                                    {{ forloop.counter }}
+                                </div>
+
+
+                                <div>
+
+                                    <div class="appointment-number">
+
+                                        Appointment #{{ appointment.id }}
+
+                                    </div>
+
+
+                                    <div class="appointment-date">
+
+                                        {{ appointment.appointment_date|date:"d M Y" }}
+
+                                        &nbsp;•&nbsp;
+
+                                        {{ appointment.appointment_time|time:"h:i A" }}
+
+                                        &nbsp;•&nbsp;
+
+                                        Dr.
+                                        {{ appointment.doctor.user.get_full_name|default:appointment.doctor.user.username }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="appointment-right">
+
+
+                                <span class="expand-text">
+
+                                    Click to expand
+
+                                </span>
+
+
+                                {% if appointment.status == 'PENDING' %}
+
+                                    <span class="status status-pending">
+                                        Pending
+                                    </span>
+
+                                {% elif appointment.status == 'CONFIRMED' %}
+
+                                    <span class="status status-confirmed">
+                                        Confirmed
+                                    </span>
+
+                                {% elif appointment.status == 'COMPLETED' %}
+
+                                    <span class="status status-completed">
+                                        Completed
+                                    </span>
+
+                                {% elif appointment.status == 'CANCELLED' %}
+
+                                    <span class="status status-cancelled">
+                                        Cancelled
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status">
+                                        {{ appointment.get_status_display }}
+                                    </span>
+
+                                {% endif %}
+
+
+                            </div>
+
+
+                        </summary>
+
+
+
+                        <!-- =================================================
+                             APPOINTMENT BODY
+                        ================================================= -->
+
+                        <div class="appointment-body">
+
+
+                            <!-- APPOINTMENT INFORMATION -->
+
+                            <div class="appointment-info">
+
+
+                                <div class="detail-item">
+
+                                    <div class="detail-label">
+                                        Appointment ID
+                                    </div>
+
+                                    <div class="detail-value">
+                                        #{{ appointment.id }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-item">
+
+                                    <div class="detail-label">
+                                        Date
+                                    </div>
+
+                                    <div class="detail-value">
+                                        {{ appointment.appointment_date|date:"d M Y" }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-item">
+
+                                    <div class="detail-label">
+                                        Time
+                                    </div>
+
+                                    <div class="detail-value">
+                                        {{ appointment.appointment_time|time:"h:i A" }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-item">
+
+                                    <div class="detail-label">
+                                        Status
+                                    </div>
+
+                                    <div class="detail-value">
+                                        {{ appointment.get_status_display }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-item">
+
+                                    <div class="detail-label">
+                                        Consultation Fee
+                                    </div>
+
+                                    <div class="detail-value">
+                                        ₹{{ appointment.consultation_fee }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-item">
+
+                                    <div class="detail-label">
+                                        Booked On
+                                    </div>
+
+                                    <div class="detail-value">
+                                        {{ appointment.created_at|date:"d M Y, h:i A" }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-item">
+
+                                    <div class="detail-label">
+                                        Last Updated
+                                    </div>
+
+                                    <div class="detail-value">
+                                        {{ appointment.updated_at|date:"d M Y, h:i A" }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="detail-item">
+
+                                    <div class="detail-label">
+                                        Doctor
+                                    </div>
+
+                                    <div class="detail-value">
+
+                                        Dr.
+                                        {{ appointment.doctor.user.get_full_name|default:appointment.doctor.user.username }}
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 REASON FOR VISIT
+                            ================================================= -->
+
+                            <div class="reason-box">
+
+                                <div class="detail-label">
+                                    Reason for Visit
+                                </div>
+
+
+                                <div class="reason-text">
+
+                                    {% if appointment.reason %}
+
+                                        {{ appointment.reason|linebreaksbr }}
+
+                                    {% else %}
+
+                                        No reason provided.
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 PAYMENT
+                            ================================================= -->
+
+                            <div class="payment-box">
+
+                                <div class="payment-title">
+                                    Billing & Payment
+                                </div>
+
+
+                                {% with payments=appointment.payment_transactions.all %}
+
+
+                                    {% if payments %}
+
+
+                                        {% for payment in payments %}
+
+
+                                            <div class="payment-grid">
+
+
+                                                <div>
+
+                                                    <div class="detail-label">
+                                                        Amount
+                                                    </div>
+
+                                                    <div class="detail-value">
+                                                        ₹{{ payment.amount }}
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <div class="detail-label">
+                                                        Method
+                                                    </div>
+
+                                                    <div class="detail-value">
+                                                        {{ payment.get_payment_method_display }}
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <div class="detail-label">
+                                                        Status
+                                                    </div>
+
+                                                    <div class="detail-value">
+
+                                                        {% if payment.status == 'SUCCESS' %}
+
+                                                            <span class="payment-status-success">
+                                                                ✓ Successful
+                                                            </span>
+
+                                                        {% else %}
+
+                                                            <span class="payment-status-declined">
+                                                                ✕ Declined
+                                                            </span>
+
+                                                        {% endif %}
+
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <div class="detail-label">
+                                                        Transaction ID
+                                                    </div>
+
+                                                    <div class="detail-value">
+                                                        {{ payment.transaction_id }}
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+
+
+                                        {% endfor %}
+
+
+                                    {% else %}
+
+                                        <div class="no-payment">
+                                            No payment transaction recorded for this appointment.
+                                        </div>
+
+                                    {% endif %}
+
+
+                                {% endwith %}
+
+                            </div>
+
+
+
+                            <!-- =================================================
+                                 PRESCRIPTION
+                            ================================================= -->
+
+                            {% if appointment.prescription %}
+
+
+                                <div class="prescription">
+
+
+                                    <!-- PRESCRIPTION HEADER -->
+
+                                    <div class="prescription-header">
+
+
+                                        <div>
+
+                                            <div class="prescription-title">
+                                                ✓ Prescription Available
+                                            </div>
+
+                                            <div class="prescription-date">
+
+                                                Issued:
+
+                                                {{ appointment.prescription.created_at|date:"d M Y, h:i A" }}
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <span class="patient-id">
+
+                                            RX-{{ appointment.prescription.id|stringformat:"05d" }}
+
+                                        </span>
+
+
+                                    </div>
+
+
+
+                                    <div class="prescription-body">
+
+
+                                        <!-- DIAGNOSIS -->
+
+                                        <div class="prescription-section">
+
+                                            <h4>
+                                                Diagnosis
+                                            </h4>
+
+
+                                            <div class="diagnosis-box">
+
+                                                {% if appointment.prescription.diagnosis %}
+
+                                                    {{ appointment.prescription.diagnosis|linebreaksbr }}
+
+                                                {% else %}
+
+                                                    No diagnosis provided.
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <!-- MEDICINES -->
+
+                                        <div class="prescription-section">
+
+                                            <h4>
+                                                Prescribed Medicines
+                                            </h4>
+
+
+                                            {% with medicines=appointment.prescription.medicines.all %}
+
+
+                                                {% if medicines %}
+
+
+                                                    <div class="medicine-list">
+
+
+                                                        {% for medicine in medicines %}
+
+
+                                                            <div class="medicine-card">
+
+
+                                                                <div class="medicine-top">
+
+                                                                    <div class="medicine-name">
+
+                                                                        <span class="medicine-number">
+                                                                            {{ forloop.counter }}
+                                                                        </span>
+
+                                                                        {{ medicine.medicine_name }}
+
+                                                                    </div>
+
+                                                                </div>
+
+
+                                                                <div class="medicine-grid">
+
+
+                                                                    <div class="medicine-detail">
+
+                                                                        <div class="detail-label">
+                                                                            Dosage
+                                                                        </div>
+
+                                                                        <div class="detail-value">
+                                                                            {{ medicine.dosage|default:"—" }}
+                                                                        </div>
+
+                                                                    </div>
+
+
+                                                                    <div class="medicine-detail">
+
+                                                                        <div class="detail-label">
+                                                                            Frequency
+                                                                        </div>
+
+                                                                        <div class="detail-value">
+                                                                            {{ medicine.frequency|default:"—" }}
+                                                                        </div>
+
+                                                                    </div>
+
+
+                                                                    <div class="medicine-detail">
+
+                                                                        <div class="detail-label">
+                                                                            Duration
+                                                                        </div>
+
+                                                                        <div class="detail-value">
+                                                                            {{ medicine.duration|default:"—" }}
+                                                                        </div>
+
+                                                                    </div>
+
+
+                                                                </div>
+
+
+                                                                {% if medicine.instructions %}
+
+
+                                                                    <div class="medicine-instructions">
+
+                                                                        <strong>
+                                                                            Instructions:
+                                                                        </strong>
+
+                                                                        {{ medicine.instructions|linebreaksbr }}
+
+                                                                    </div>
+
+
+                                                                {% endif %}
+
+
+                                                            </div>
+
+
+                                                        {% endfor %}
+
+
+                                                    </div>
+
+
+                                                {% else %}
+
+
+                                                    <div class="diagnosis-box">
+
+                                                        No medicines were prescribed.
+
+                                                    </div>
+
+
+                                                {% endif %}
+
+
+                                            {% endwith %}
+
+                                        </div>
+
+
+
+                                        <!-- DOCTOR NOTES -->
+
+                                        <div class="prescription-section">
+
+                                            <h4>
+                                                Doctor's Notes & Instructions
+                                            </h4>
+
+
+                                            <div class="notes-box">
+
+                                                {% if appointment.prescription.notes %}
+
+                                                    {{ appointment.prescription.notes|linebreaksbr }}
+
+                                                {% else %}
+
+                                                    No additional instructions provided.
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <!-- PDF -->
+
+                                        <div class="prescription-footer">
+
+                                            <a
+                                                href="{% url 'download_prescription_pdf' appointment.prescription.id %}"
+                                                class="btn btn-primary"
+                                                target="_blank"
+                                            >
+                                                View / Download Prescription PDF
+                                            </a>
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            {% else %}
+
+
+                                <div class="no-prescription">
+
+                                    <strong>
+                                        No prescription issued.
+                                    </strong>
+
+                                    &nbsp;
+
+                                    A prescription has not been recorded
+                                    for this appointment.
+
+                                </div>
+
+
+                            {% endif %}
+
+
+                        </div>
+
+
+                    </details>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="empty-history">
+
+            No appointment history found for this patient.
+
+        </div>
+
+
+    {% endif %}
+
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER INFORMATION
+========================================================= -->
+
+<div class="record-footer">
+
+    <div>
+        <strong>CarePlus Hospital</strong>
+        &nbsp;•&nbsp;
+        Patient Medical Record
+    </div>
+
+    <div>
+        Confidential clinical information
+    </div>
+
+</div>
+
+
+</main>
+
+</body>
+
+</html>

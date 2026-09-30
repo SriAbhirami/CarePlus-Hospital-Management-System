@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Payment Details | CarePlus Hospital</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+            height: 72px;
+            background: #0f172a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 50px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+        }
+
+        .logo span {
+            color: #22c55e;
+        }
+
+        .secure {
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .container {
+            max-width: 1100px;
+            margin: 45px auto;
+            padding: 0 25px;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 30px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        /* =====================================================
+           LAYOUT
+        ===================================================== */
+
+        .payment-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        /* =====================================================
+           PAYMENT FORM
+        ===================================================== */
+
+        .payment-card {
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           METHOD BADGE
+        ===================================================== */
+
+        .method-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+
+            padding: 9px 13px;
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            margin-bottom: 25px;
+        }
+
+        .method-icon {
+            font-size: 18px;
+        }
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            height: 46px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+
+            padding: 0 13px;
+
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+
+            color: #1f2937;
+            background: white;
+
+            outline: none;
+
+            transition: 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.10);
+        }
+
+        .form-input::placeholder {
+            color: #94a3b8;
+        }
+
+        /* =====================================================
+           CARD NUMBER
+        ===================================================== */
+
+        .card-number-wrapper {
+            position: relative;
+        }
+
+        .card-number-wrapper .form-input {
+            padding-right: 55px;
+        }
+
+        .card-symbol {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 20px;
+        }
+
+        /* =====================================================
+           TWO COLUMN INPUTS
+        ===================================================== */
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* =====================================================
+           SECURITY NOTE
+        ===================================================== */
+
+        .security-note {
+            display: flex;
+            gap: 10px;
+
+            background: #f8fafc;
+            border-radius: 9px;
+
+            padding: 13px;
+
+            color: #64748b;
+
+            font-size: 12px;
+            line-height: 1.5;
+
+            margin-top: 5px;
+            margin-bottom: 22px;
+        }
+
+        .security-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        /* =====================================================
+           ERROR
+        ===================================================== */
+
+        .error-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+
+            color: #b91c1c;
+
+            padding: 14px 16px;
+
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .continue-button {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #16a34a;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+        .continue-button:hover {
+            background: #15803d;
+        }
+
+        .back-link {
+            display: inline-block;
+
+            margin-top: 18px;
+
+            text-decoration: none;
+
+            color: #475569;
+
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: #16a34a;
+        }
+
+        /* =====================================================
+           SUMMARY
+        ===================================================== */
+
+        .summary-card {
+            padding: 28px;
+        }
+
+        .summary-title {
+            font-size: 20px;
+            font-weight: bold;
+
+            color: #0f172a;
+
+            margin-bottom: 22px;
+        }
+
+        .doctor-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            padding-bottom: 20px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            margin-bottom: 20px;
+        }
+
+        .doctor-avatar {
+            width: 58px;
+            height: 58px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            background: #e2e8f0;
+        }
+
+        .doctor-placeholder {
+            width: 58px;
+            height: 58px;
+
+            border-radius: 50%;
+
+            background: #dcfce7;
+            color: #15803d;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .doctor-name {
+            font-size: 17px;
+            font-weight: bold;
+
+            color: #0f172a;
+        }
+
+        .doctor-specialization {
+            margin-top: 5px;
+
+            font-size: 13px;
+
+            color: #64748b;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+
+            padding: 12px 0;
+
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #64748b;
+        }
+
+        .detail-value {
+            color: #0f172a;
+
+            font-weight: 600;
+
+            text-align: right;
+        }
+
+        .total-row {
+            border-top: 1px solid #e2e8f0;
+
+            margin-top: 10px;
+
+            padding-top: 20px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            font-size: 16px;
+            font-weight: bold;
+
+            color: #0f172a;
+        }
+
+        .total-value {
+            font-size: 25px;
+            font-weight: bold;
+
+            color: #16a34a;
+        }
+
+        .secure-note {
+            margin-top: 22px;
+
+            background: #f8fafc;
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+            font-size: 12px;
+
+            color: #64748b;
+
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .payment-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 0 25px;
+            }
+
+            .secure {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .container {
+                margin: 25px auto;
+                padding: 0 15px;
+            }
+
+            .payment-card,
+            .summary-card {
+                padding: 20px;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="header">
+
+        <div class="logo">
+            Care<span>Plus</span>
+        </div>
+
+        <div class="secure">
+            🔒 Secure Payment
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="container">
+
+
+        <div class="page-title">
+
+            <h1>
+                Payment Details
+            </h1>
+
+            <p>
+                Enter the details required for your selected payment method.
+            </p>
+
+        </div>
+
+
+        <div class="payment-layout">
+
+
+            <!-- =================================================
+                 PAYMENT DETAILS FORM
+            ================================================== -->
+
+            <div class="card payment-card">
+
+
+                <div class="section-title">
+                    Complete Payment Details
+                </div>
+
+                <div class="section-description">
+                    Your information is used only for this simulated
+                    CarePlus payment transaction.
+                </div>
+
+
+                <!-- =================================================
+                     ERROR
+                ================================================== -->
+
+                {% if error %}
+
+                    <div class="error-box">
+                        {{ error }}
+                    </div>
+
+                {% endif %}
+
+
+                <!-- =================================================
+                     UPI
+                ================================================== -->
+
+                {% if payment_method == 'UPI' %}
+
+                    <div class="method-badge">
+
+                        <span class="method-icon">
+                            📱
+                        </span>
+
+                        UPI Payment
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+
+                                UPI ID
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="upi_id"
+                                class="form-input"
+                                placeholder="example@upi"
+                                autocomplete="off"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="security-note">
+
+                            <span class="security-icon">
+                                🔒
+                            </span>
+
+                            <span>
+                                Enter your UPI ID only.
+                                Never enter your UPI PIN or OTP
+                                on this demonstration page.
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="continue-button"
+                        >
+                            Continue to Payment
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+
+                <!-- =================================================
+                     CARD
+                ================================================== -->
+
+                {% if payment_method == 'CARD' %}
+
+                    <div class="method-badge">
+
+                        <span class="method-icon">
+                            💳
+                        </span>
+
+                        Credit / Debit Card
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <!-- CARD NUMBER -->
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+
+                                Card Number
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <div class="card-number-wrapper">
+
+                                <input
+                                    type="text"
+                                    name="card_number"
+                                    class="form-input"
+                                    placeholder="1234 5678 9012 3456"
+                                    inputmode="numeric"
+                                    maxlength="19"
+                                    autocomplete="off"
+                                    required
+                                >
+
+                                <span class="card-symbol">
+                                    💳
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CARD HOLDER -->
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+
+                                Card Holder Name
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="card_holder_name"
+                                class="form-input"
+                                placeholder="Name as shown on card"
+                                autocomplete="off"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- EXPIRY + CVV -->
+
+                        <div class="form-row">
+
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+
+                                    Expiry Month
+                                    <span class="required">*</span>
+
+                                </label>
+
+                                <select
+                                    name="expiry_month"
+                                    class="form-select"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Month
+                                    </option>
+
+                                    <option value="1">01</option>
+                                    <option value="2">02</option>
+                                    <option value="3">03</option>
+                                    <option value="4">04</option>
+                                    <option value="5">05</option>
+                                    <option value="6">06</option>
+                                    <option value="7">07</option>
+                                    <option value="8">08</option>
+                                    <option value="9">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label class="form-label">
+
+                                    Expiry Year
+                                    <span class="required">*</span>
+
+                                </label>
+
+                                <select
+                                    name="expiry_year"
+                                    class="form-select"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Year
+                                    </option>
+
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                    <option value="2031">2031</option>
+                                    <option value="2032">2032</option>
+                                    <option value="2033">2033</option>
+                                    <option value="2034">2034</option>
+                                    <option value="2035">2035</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+
+                                CVV
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="password"
+                                name="cvv"
+                                class="form-input"
+                                placeholder="3 or 4 digit CVV"
+                                inputmode="numeric"
+                                maxlength="4"
+                                autocomplete="off"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="security-note">
+
+                            <span class="security-icon">
+                                🔒
+                            </span>
+
+                            <span>
+                                This is a simulated payment environment.
+                                Your full card number and CVV are never
+                                stored by CarePlus.
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="continue-button"
+                        >
+                            Continue to Payment
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+
+                <!-- =================================================
+                     NET BANKING
+                ================================================== -->
+
+                {% if payment_method == 'NET_BANKING' %}
+
+                    <div class="method-badge">
+
+                        <span class="method-icon">
+                            🏦
+                        </span>
+
+                        Net Banking
+
+                    </div>
+
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <!-- BANK -->
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+
+                                Select Bank
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <select
+                                name="bank_name"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select your bank
+                                </option>
+
+                                <option value="State Bank of India">
+                                    State Bank of India
+                                </option>
+
+                                <option value="HDFC Bank">
+                                    HDFC Bank
+                                </option>
+
+                                <option value="ICICI Bank">
+                                    ICICI Bank
+                                </option>
+
+                                <option value="Axis Bank">
+                                    Axis Bank
+                                </option>
+
+                                <option value="Kotak Mahindra Bank">
+                                    Kotak Mahindra Bank
+                                </option>
+
+                                <option value="Canara Bank">
+                                    Canara Bank
+                                </option>
+
+                                <option value="Bank of Baroda">
+                                    Bank of Baroda
+                                </option>
+
+                                <option value="Punjab National Bank">
+                                    Punjab National Bank
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- CUSTOMER ID -->
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+
+                                Customer ID
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="bank_customer_id"
+                                class="form-input"
+                                placeholder="Enter demo customer ID"
+                                autocomplete="off"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="security-note">
+
+                            <span class="security-icon">
+                                🔒
+                            </span>
+
+                            <span>
+                                For this demonstration, never enter your
+                                actual banking password, PIN, or OTP.
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="continue-button"
+                        >
+                            Continue to Payment
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+
+                <!-- =================================================
+                     BACK
+                ================================================== -->
+
+                <a
+                    href="{% url 'pay_bills' %}"
+                    class="back-link"
+                >
+                    ← Change payment method
+                </a>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 APPOINTMENT SUMMARY
+            ================================================== -->
+
+            <div class="card summary-card">
+
+
+                <div class="summary-title">
+                    Appointment Summary
+                </div>
+
+
+                <!-- DOCTOR -->
+
+                <div class="doctor-box">
+
+                    {% if doctor.profile_pic %}
+
+                        <img
+                            src="{{ doctor.profile_pic.url }}"
+                            class="doctor-avatar"
+                            alt="Doctor"
+                        >
+
+                    {% else %}
+
+                        <div class="doctor-placeholder">
+                            Dr
+                        </div>
+
+                    {% endif %}
+
+
+                    <div>
+
+                        <div class="doctor-name">
+
+                            Dr.
+                            {{ doctor.user.get_full_name|default:doctor.user.username }}
+
+                        </div>
+
+                        <div class="doctor-specialization">
+
+                            {{ doctor.get_specialization_display }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Appointment Date
+                    </span>
+
+                    <span class="detail-value">
+                        {{ pending_booking.appointment_date }}
+                    </span>
+
+                </div>
+
+
+                <!-- TIME -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Appointment Time
+                    </span>
+
+                    <span class="detail-value">
+                        {{ pending_booking.appointment_time }}
+                    </span>
+
+                </div>
+
+
+                <!-- SPECIALIZATION -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Specialization
+                    </span>
+
+                    <span class="detail-value">
+                        {{ doctor.get_specialization_display }}
+                    </span>
+
+                </div>
+
+
+                <!-- PAYMENT METHOD -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Payment Method
+                    </span>
+
+                    <span class="detail-value">
+                        {% if payment_method == 'UPI' %}
+                            UPI
+                        {% elif payment_method == 'CARD' %}
+                            Card
+                        {% elif payment_method == 'NET_BANKING' %}
+                            Net Banking
+                        {% endif %}
+                    </span>
+
+                </div>
+
+
+                <!-- FEE -->
+
+                <div class="detail-row">
+
+                    <span class="detail-label">
+                        Consultation Fee
+                    </span>
+
+                    <span class="detail-value">
+                        ₹{{ pending_booking.consultation_fee }}
+                    </span>
+
+                </div>
+
+
+                <!-- TOTAL -->
+
+                <div class="total-row">
+
+                    <span class="total-label">
+                        Total Amount
+                    </span>
+
+                    <span class="total-value">
+                        ₹{{ pending_booking.consultation_fee }}
+                    </span>
+
+                </div>
+
+
+                <div class="secure-note">
+
+                    🔒 Your payment information is securely
+                    processed through the CarePlus payment gateway.
+
+                    <br><br>
+
+                    This is a simulated payment environment
+                    for demonstration purposes.
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

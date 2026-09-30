@@ -10,6 +10,26 @@
     <title>Users | CarePlus Hospital</title>
 
     <style>
+        :root {
+    --sidebar-width: 255px;
+
+    --teal: #00B8C8;
+    --teal-bright: #00D1D9;
+    --teal-deep: #0097A7;
+    --teal-dark: #007F8C;
+
+    --teal-light: #E3FBFD;
+    --teal-soft: #EFFDFE;
+
+    --bg: #F5FAFC;
+    --text: #172033;
+    --muted: #607086;
+
+    --border: #CDECEF;
+    --border-bright: #9DDEE5;
+
+    --white: #FFFFFF;
+}
 
         * {
             box-sizing: border-box;
@@ -35,90 +55,169 @@
 
 
         /* =====================================================
-           SIDEBAR
-        ===================================================== */
+   SIDEBAR
+===================================================== */
 
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 255px;
-            height: 100vh;
-            background: #ffffff;
-            border-right: 1px solid #CDECEF;
-            padding: 26px 16px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-        }
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 255px;
+    height: 100vh;
+    background: #FFFFFF;
+    border-right: 1px solid #CDECEF;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease;
+}
 
-        .brand {
-            padding: 0 14px 28px;
-            border-bottom: 1px solid #E5F3F5;
-            margin-bottom: 22px;
-        }
+.sidebar-brand {
+    height: 78px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px;
+    border-bottom: 1px solid #CDECEF;
+    flex-shrink: 0;
+}
 
-        .brand h1 {
-            font-size: 22px;
-            color: #00B8C8;
-            font-weight: 800;
-            letter-spacing: -0.4px;
-        }
+.brand-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: linear-gradient(
+        135deg,
+        #00B8C8,
+        #00D1D9
+    );
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    box-shadow: 0 6px 16px rgba(0, 184, 200, 0.22);
+    flex-shrink: 0;
+}
 
-        .brand span {
-            display: block;
-            margin-top: 5px;
-            font-size: 12px;
-            color: #607086;
-        }
+.brand-text {
+    line-height: 1.1;
+}
 
+.brand-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #172033;
+}
 
-        .menu-title {
-            font-size: 10px;
-            font-weight: 700;
-            color: #8A98AA;
-            letter-spacing: 1px;
-            padding: 0 14px 10px;
-            text-transform: uppercase;
-        }
+.brand-subtitle {
+    margin-top: 4px;
+    font-size: 10px;
+    color: #607086;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
 
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-            padding: 12px 14px;
-            margin-bottom: 5px;
-            border-radius: 7px;
-            color: #607086;
-            font-size: 14px;
-            font-weight: 600;
-            transition: 0.2s ease;
-        }
+.sidebar-nav {
+    padding: 20px 13px;
+    flex: 1;
+    overflow-y: auto;
+}
 
-        .nav-item:hover {
-            background: #EFFDFE;
-            color: #00A8B7;
-        }
+.nav-section-title {
+    padding: 0 13px 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 800;
+    color: #91A0B2;
+}
 
-        .nav-item.active {
-            background: #E3FBFD;
-            color: #0097A7;
-            box-shadow:
-                inset 3px 0 0 #00B8C8,
-                0 0 15px rgba(0, 184, 200, 0.13);
-        }
+.nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 46px;
+    margin-bottom: 5px;
+    padding: 0 13px;
+    border-radius: 10px;
+    color: #58687C;
+    font-size: 14px;
+    font-weight: 700;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
 
-        .nav-icon {
-            width: 20px;
-            text-align: center;
-            font-size: 17px;
-        }
+.nav-item:hover {
+    background: #EFFDFE;
+    color: #007F8C;
+    transform: translateX(2px);
+}
 
-        .sidebar-bottom {
-            margin-top: auto;
-        }
+.nav-item.active {
+    background: #E3FBFD;
+    color: #007F8C;
+    box-shadow: inset 3px 0 0 #00B8C8;
+}
 
+.nav-icon {
+    width: 23px;
+    min-width: 23px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.sidebar-footer {
+    padding: 15px 13px 18px;
+    border-top: 1px solid #CDECEF;
+    flex-shrink: 0;
+}
+
+.admin-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px;
+    background: #EFFDFE;
+    border: 1px solid #CDECEF;
+    border-radius: 12px;
+}
+
+.admin-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #00B8C8;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.admin-info {
+    min-width: 0;
+}
+
+.admin-name {
+    font-size: 12px;
+    font-weight: 800;
+    color: #172033;
+}
+
+.admin-role {
+    margin-top: 3px;
+    font-size: 10px;
+    color: #607086;
+}
 
         /* =====================================================
            MAIN
@@ -541,9 +640,9 @@
             display: none;
         }
 
-        .overlay {
-            display: none;
-        }
+        .sidebar-overlay {
+    display: none;
+}
 
 
         /* =====================================================
@@ -561,95 +660,97 @@
 
         @media (max-width: 760px) {
 
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.25s ease;
-                box-shadow: 5px 0 25px rgba(0,0,0,0.10);
-            }
+    .sidebar {
+        width: 260px;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        box-shadow: 8px 0 32px rgba(0, 184, 200, 0.16);
+    }
 
-            .sidebar.open {
-                transform: translateX(0);
-            }
+    .sidebar.open {
+        transform: translateX(0);
+    }
 
-            .overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(15, 41, 51, 0.35);
-                z-index: 900;
-            }
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 41, 51, 0.35);
+        z-index: 900;
+    }
 
-            .overlay.show {
-                display: block;
-            }
+    .sidebar-overlay.show {
+        display: block;
+    }
 
-            .main {
-                margin-left: 0;
-                padding: 18px 16px 30px;
-            }
+    .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 18px 16px 30px;
+    }
 
-            .mobile-topbar {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-bottom: 22px;
-            }
+    .mobile-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 22px;
+    }
 
-            .mobile-brand {
-                color: #00B8C8;
-                font-weight: 800;
-                font-size: 20px;
-            }
+    .mobile-brand {
+        color: #00B8C8;
+        font-weight: 800;
+        font-size: 20px;
+    }
 
-            .menu-toggle {
-                width: 40px;
-                height: 40px;
-                border: 1px solid #CDECEF;
-                border-radius: 7px;
-                background: white;
-                color: #00A8B7;
-                font-size: 20px;
-                cursor: pointer;
-            }
+    .menu-toggle {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #CDECEF;
+        border-radius: 7px;
+        background: #FFFFFF;
+        color: #00A8B7;
+        font-size: 20px;
+        cursor: pointer;
+    }
 
-            .topbar {
-                margin-bottom: 22px;
-            }
+    .topbar {
+        margin-bottom: 22px;
+    }
 
-            .page-heading h2 {
-                font-size: 23px;
-            }
+    .page-heading h2 {
+        font-size: 23px;
+    }
 
-            .admin-badge {
-                display: none;
-            }
+    .admin-badge {
+        display: none;
+    }
 
-            .toolbar {
-                align-items: stretch;
-            }
+    .toolbar {
+        align-items: stretch;
+    }
 
-            .filters {
-                width: 100%;
-            }
+    .filters {
+        width: 100%;
+    }
 
-            .search-box {
-                min-width: 100%;
-            }
+    .search-box {
+        min-width: 100%;
+    }
 
-            .filter-select {
-                flex: 1;
-            }
+    .filter-select {
+        flex: 1;
+    }
 
-            .filter-btn,
-            .clear-btn {
-                flex: 1;
-            }
+    .filter-btn,
+    .clear-btn {
+        flex: 1;
+    }
 
-            .add-user-btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-        }
+    .add-user-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
 
 
         @media (max-width: 480px) {
@@ -688,64 +789,100 @@
      SIDEBAR
 ========================================================= -->
 
+<!-- =========================================================
+     SIDEBAR
+========================================================== -->
+
 <aside class="sidebar" id="sidebar">
 
-    <div class="brand">
-        <h1>CarePlus</h1>
-        <span>Hospital Administration</span>
+    <div class="sidebar-brand">
+        <div class="brand-icon">✚</div>
+
+        <div class="brand-text">
+            <div class="brand-title">CarePlus</div>
+            <div class="brand-subtitle">Hospital Admin</div>
+        </div>
     </div>
 
-    <div class="menu-title">
-        Administration
-    </div>
+    <nav class="sidebar-nav">
 
-    <a href="{% url 'admin_panel:dashboard' %}" class="nav-item">
+        <div class="nav-section-title">
+            Administration
+        </div>
 
-        <span class="nav-icon">▦</span>
+        <a
+            href="{% url 'admin_panel:dashboard' %}"
+            class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+        >
+            <span class="nav-icon">⌂</span>
+            <span>Dashboard</span>
+        </a>
 
-        <span>Dashboard</span>
+        <a
+            href="{% url 'admin_panel:users' %}"
+            class="nav-item {% if request.resolver_match.url_name == 'users' or request.resolver_match.url_name == 'user_add' or request.resolver_match.url_name == 'user_detail' or request.resolver_match.url_name == 'user_edit' or request.resolver_match.url_name == 'user_toggle_status' %}active{% endif %}"
+        >
+            <span class="nav-icon">♙</span>
+            <span>Users</span>
+        </a>
 
-    </a>
+        <a
+            href="{% url 'admin_panel:doctors' %}"
+            class="nav-item {% if request.resolver_match.url_name == 'doctors' or request.resolver_match.url_name == 'doctor_add' or request.resolver_match.url_name == 'doctor_toggle_availability' %}active{% endif %}"
+        >
+            <span class="nav-icon">✚</span>
+            <span>Doctors</span>
+        </a>
 
-    <a href="{% url 'admin_panel:users' %}" class="nav-item active">
+        <a
+            href="{% url 'admin_panel:patients' %}"
+            class="nav-item {% if request.resolver_match.url_name == 'patients' or request.resolver_match.url_name == 'patient_add' or request.resolver_match.url_name == 'patient_detail' or request.resolver_match.url_name == 'patient_edit' or request.resolver_match.url_name == 'patient_delete' %}active{% endif %}"
+        >
+            <span class="nav-icon">♙</span>
+            <span>Patients</span>
+        </a>
 
-        <span class="nav-icon">♙</span>
+        <a
+            href="{% url 'admin_panel:appointments' %}"
+            class="nav-item {% if request.resolver_match.url_name == 'appointments' %}active{% endif %}"
+        >
+            <span class="nav-icon">▣</span>
+            <span>Appointments</span>
+        </a>
 
-        <span>Users</span>
+        <a
+            href="{% url 'admin_panel:payments' %}"
+            class="nav-item {% if request.resolver_match.url_name == 'payments' %}active{% endif %}"
+        >
+            <span class="nav-icon">₹</span>
+            <span>Payments</span>
+        </a>
 
-    </a>
+    </nav>
 
-    <a href="{% url 'admin_panel:doctors' %}" class="nav-item">
-    <span class="nav-icon">⚕</span>
-    <span>Doctors</span>
-</a>
+    <div class="sidebar-footer">
 
-    <a href="{% url 'admin_panel:patients' %}" class="nav-item">
-    <span class="nav-icon">♟</span>
-    <span>Patients</span>
-</a>
+        <div class="admin-card">
+            <div class="admin-avatar">
+                A
+            </div>
 
-    <a href="{% url 'admin_panel:appointments' %}" class="nav-item">
-    <span class="nav-icon">▣</span>
-    <span>Appointments</span>
-</a>
+            <div class="admin-info">
+                <div class="admin-name">
+                    Administrator
+                </div>
 
-    <a
-    href="{% url 'admin_panel:payments' %}"
-    class="nav-item"
->
-    <span class="nav-icon">₹</span>
-    <span>Payments</span>
-</a>
+                <div class="admin-role">
+                    System Administrator
+                </div>
+            </div>
+        </div>
 
-    <a href="#" class="nav-item">
-        <span class="nav-icon">▤</span>
-        <span>Reports</span>
-    </a>
-
-    <div class="sidebar-bottom">
-
-        <a href="{% url 'logout' %}" class="nav-item">
+        <a
+            href="{% url 'logout' %}"
+            class="nav-item"
+            style="margin-top: 10px; margin-bottom: 0;"
+        >
             <span class="nav-icon">↪</span>
             <span>Logout</span>
         </a>
@@ -754,9 +891,10 @@
 
 </aside>
 
-
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+></div>
 
 <!-- =========================================================
      MAIN
@@ -1310,9 +1448,11 @@
             .add("open");
 
         document
-            .getElementById("overlay")
+            .getElementById("sidebarOverlay")
             .classList
             .add("show");
+
+        document.body.style.overflow = "hidden";
     }
 
 
@@ -1324,13 +1464,28 @@
             .remove("open");
 
         document
-            .getElementById("overlay")
+            .getElementById("sidebarOverlay")
             .classList
             .remove("show");
+
+        document.body.style.overflow = "";
     }
 
-</script>
 
+    document
+        .getElementById("sidebarOverlay")
+        .addEventListener("click", closeSidebar);
+
+
+    window.addEventListener("resize", function () {
+
+        if (window.innerWidth > 760) {
+            closeSidebar();
+        }
+
+    });
+
+</script>
 
 </body>
 </html>
